@@ -1,10 +1,13 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/functions/control_functions.dart';
+import 'package:beatfusion/screens/search.dart';
 import 'package:beatfusion/widgets/list_ofsongs.dart';
-import 'package:beatfusion/widgets/playing.dart';
+import 'package:beatfusion/screens/playing.dart';
+// import 'package:beatfusion/widgets/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
@@ -87,8 +90,8 @@ bool isHome = true;
 bool isSearch = false;
 
 final AudioPlayer _player = AudioPlayer();
-  
 
+bool _isRefreshing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -107,13 +110,8 @@ final AudioPlayer _player = AudioPlayer();
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onPressed: (){
-                  defaultSongs(context);
-                  setState(() {
-                    isHome = false;
-                    // isQueue = false;
-                    isSearch = true;
-                  });
-                }, 
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenSearch(),));
+                 }, 
                 icon: SvgPicture.asset('assets/pics/search.svg')),
               IconButton(
                 splashColor: Colors.transparent,
@@ -121,7 +119,8 @@ final AudioPlayer _player = AudioPlayer();
                 onPressed: (){
 
                 }, 
-                icon: SvgPicture.asset('assets/pics/settings.svg'))
+                icon: Icon(Icons.settings_rounded,
+                color: MyTheme().iconColor,))
             
           
         ],
@@ -160,13 +159,17 @@ final AudioPlayer _player = AudioPlayer();
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Playlists",
+                          "Library",
                           style: FontStyles.button,),
                       ),
                     ),
                   ),
                 ]),
       ),
+      // drawer: Drawer(
+      //   backgroundColor: MyTheme().tertiaryColor,
+        
+      // ),
       body:Container(
         padding: const EdgeInsets.all(10),
 
@@ -201,11 +204,15 @@ final AudioPlayer _player = AudioPlayer();
                       children: [
                         GestureDetector(
                             onTap: () {
-                              setState(() {
-                                isMusicPlayerTapped = !isMusicPlayerTapped;
-                                Navigator.push
+                               Navigator.push
                                 (context, MaterialPageRoute(
                                   builder: (context) => const PlayingScreen(),));
+                              setState(() {
+                                isMusicPlayerTapped = !isMusicPlayerTapped;
+                                SystemChannels.textInput
+                                  .invokeMethod('TextInput.hide');
+                               
+                                  
                               });
                               
                             },
@@ -270,10 +277,7 @@ final AudioPlayer _player = AudioPlayer();
                                               });
                                               await _player.pause();
                                             },
-                                            icon: Icon(
-                                              Icons.pause,
-                                              color: MyTheme().iconColor,
-                                            ),
+                                            icon: SvgPicture.asset('assets/pics/pause.svg'),
                                           )
                                         : IconButton(
                                             onPressed: () async {
@@ -282,16 +286,12 @@ final AudioPlayer _player = AudioPlayer();
                                               });
                                               await _player.play();
                                             },
-                                            icon: Icon(
-                                              Icons.play_arrow,
-                                              color: MyTheme().iconColor,
-                                            )),
+                                            icon: SvgPicture.asset('assets/pics/play.svg')),
                                     IconButton(
                                       onPressed: () async {
                                         await _player.seekToNext();
                                       },
-                                      icon: const Icon(Icons.skip_next,
-                                            color: Color.fromRGBO(180, 197, 228, 1),)),
+                                      icon:SvgPicture.asset('assets/pics/next2.svg')),
                                   ],
                                 ),
                               ),
@@ -299,7 +299,17 @@ final AudioPlayer _player = AudioPlayer();
                           ),
                       ],
                     )
-                    :null
+                    :WillPopScope(
+                       onWillPop: () async {
+                         await Navigator.pushAndRemoveUntil(
+                           context,
+                           MaterialPageRoute(builder: (context) => ScreenHome()),
+                           (route) => false,
+                         );
+                         return false;
+                       },
+                       child: Container(),
+                    )
 
             ),
           )

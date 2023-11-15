@@ -4,6 +4,7 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,6 +26,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
           _player.durationStream,
           (position, duration) => DurationState(
               position: position, total: duration ?? Duration.zero));
+
+
   
   @override
   Widget build(BuildContext context) {
@@ -38,65 +41,11 @@ class _PlayingScreenState extends State<PlayingScreen> {
                 setState(() {
                   isMusicPlayerTapped =
                       !isMusicPlayerTapped;
-                 Navigator.pushReplacement(
-                  context, MaterialPageRoute(
-                    builder: (context) => const ScreenHome(),));
+                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => ScreenHome(),), (route) => false);
                 });
               },
-              icon: Icon(
-                Icons.expand_more_outlined,
-                size: 30,
-                color: MyTheme().iconColor,
-              ),),
-        actions: [
-          IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          onPressed: () async {
-            setState(() {
-              isShuffle = !isShuffle;
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(
-                SnackBar(
-                  content: Text(
-                    isShuffle
-                        ? 'Shuffle On'
-                        : 'Shuffle Off',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 14.0),
-                  ),
-                  behavior:
-                      SnackBarBehavior.floating,
-                  margin: const EdgeInsets.only(
-                      bottom: 80,
-                      left: 30,
-                      right: 30),
-                  duration: const Duration(
-                      milliseconds: 600),
-                  backgroundColor:
-                      const Color.fromARGB(
-                          131, 64, 66, 88),
-                  elevation: 0,
-                  shape:
-                      const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(
-                                  Radius.circular(
-                                      20.0))),
-                ),
-              );
-            });
-            await _player
-                .setShuffleModeEnabled(isShuffle);
-          },
-          icon: Icon(
-            Icons.shuffle_rounded,
-            color: isShuffle
-                ? const Color.fromRGBO(48, 102, 190, 1)
-                : const Color.fromARGB(255, 255, 255, 255)
-          ))
-        ],
+              icon: SvgPicture.asset('assets/pics/back.svg'),),
+        
       ),
 
       body: Container(
@@ -211,45 +160,46 @@ class _PlayingScreenState extends State<PlayingScreen> {
                             },
                           ),
                           ),
+                          SizedBox(height: 10,),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               IconButton(
                                   onPressed: () async {
                                     await _player.seekToPrevious();
                                   },
-                                  icon: const Icon(Icons.skip_previous,
-                                      size: 40, color: Colors.white)),
+                                  icon: SvgPicture.asset('assets/pics/prev.svg')),
                               const SizedBox(
                                 width: 30,
                               ),
-                              isPlaying
-                                  ? IconButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          isPlaying = !isPlaying;
-                                        });
-                                        await _player.pause();
-                                      },
-                                      icon: Icon(
-                                        Icons.pause,
-                                        color: MyTheme().iconColor,
-                                        size: 40,
-                                      ),
-                                    )
-                                  : IconButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          isPlaying = !isPlaying;
-                                        });
-                                        await _player.play();
-                                      },
-                                      icon: Icon(
-                                        Icons.play_arrow,
-                                        color: MyTheme().iconColor,
-                                        size: 40,
-                                      )),
+                              Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: MyTheme().tertiaryColor
+                                ),
+                                child: isPlaying
+                                    ? IconButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            isPlaying = !isPlaying;
+                                          });
+                                          await _player.pause();
+                                        },
+                                        icon: SvgPicture.asset('assets/pics/pauseblack.svg'),
+                                      )
+                                    : IconButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            isPlaying = !isPlaying;
+                                          });
+                                          await _player.play();
+                                        },
+                                        icon: SvgPicture.asset('assets/pics/playblack.svg')),
+                              ),
                               const SizedBox(
                                 width: 30,
                               ),
@@ -257,10 +207,72 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                   onPressed: () async {
                                     await _player.seekToNext();
                                   },
-                                  icon: const Icon(Icons.skip_next,
-                                      size: 40, color: Colors.white)),
+                                  icon: SvgPicture.asset('assets/pics/next.svg')),
                                 ],
                               ),
+                              SizedBox(height: 15,),
+                              Container(
+                                height: 50,
+                                width: double.infinity,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    IconButton(
+                                      onPressed: (){}, 
+                                      icon: SvgPicture.asset('assets/pics/Fav.svg')),
+                                    IconButton(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                    onPressed: () async {
+                                      setState(() {
+                                        isShuffle = !isShuffle;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            
+                                            content: Text(
+                                              isShuffle
+                                                  ? 'Shuffle On'
+                                                  : 'Shuffle Off',
+                                              textAlign: TextAlign.center,
+                                              style: FontStyles.artist2,
+                                            ),
+                                            behavior:
+                                                SnackBarBehavior.floating,
+                                            margin: const EdgeInsets.only(
+                                                bottom:300,
+                                                left: 70,
+                                                right: 70),
+                                            duration: const Duration(
+                                                milliseconds: 600),
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    131, 64, 66, 88),
+                                            elevation: 0,
+                                            shape:
+                                                const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20.0))),
+                                          ),
+                                        );
+                                      });
+                                      await _player
+                                          .setShuffleModeEnabled(isShuffle);
+                                    },
+                                    icon:isShuffle
+                                        ? SvgPicture.asset('assets/pics/suffleon.svg')
+                                        : SvgPicture.asset('assets/pics/suffleoff.svg')),
+                                    IconButton(
+                                      onPressed: (){}, 
+                                      icon: SvgPicture.asset('assets/pics/add list.svg')),
+                                    IconButton(
+                                      onPressed: (){}, 
+                                      icon: SvgPicture.asset('assets/pics/share.svg',),)
+                                  ],
+                                ),
+                              )
                       ],
                   ),
                   // color: Colors.green,
@@ -268,7 +280,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
             ],
           )),
 
-      ),);
+      ),
+      );
       
     
   }

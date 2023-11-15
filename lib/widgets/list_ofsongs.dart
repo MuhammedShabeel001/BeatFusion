@@ -264,7 +264,7 @@ changeOrder() {
                           icon: SvgPicture.asset('assets/pics/order.svg'),),
                       IconButton(
                           onPressed: () => sortSongs(),
-                          icon: SvgPicture.asset('assets/pics/Property 1.svg'),),
+                          icon: SvgPicture.asset('assets/pics/sort.svg'),),
                     ],
                   ),
                   item.data!.isNotEmpty
