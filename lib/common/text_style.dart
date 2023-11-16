@@ -58,6 +58,13 @@ class FontStyles{
     fontWeight: FontWeight.w600
   );
 
+  static TextStyle tile = TextStyle(
+    fontFamily: 'Nunito',
+    color: Colors.white,
+    fontSize: 24,
+    fontWeight: FontWeight.w600
+  );
+
   static TextStyle text = TextStyle(
     fontFamily: 'Nunito',
     color: MyTheme().primaryColor,

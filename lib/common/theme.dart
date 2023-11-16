@@ -17,6 +17,6 @@ class MyTheme {
   
   final selectedTile = const Color.fromRGBO(48, 102, 190, 1);
   final iconColor = const Color.fromRGBO(180, 197, 228, 1);
-  
+  final tileColor = const Color.fromRGBO(180, 197, 228, 0.5);
   
 }

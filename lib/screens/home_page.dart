@@ -1,6 +1,7 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/functions/control_functions.dart';
+import 'package:beatfusion/screens/library.dart';
 import 'package:beatfusion/screens/search.dart';
 import 'package:beatfusion/widgets/list_ofsongs.dart';
 import 'package:beatfusion/screens/playing.dart';
@@ -189,9 +190,9 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
           child: TabBarView(
             
             controller: _tabController,
-            children: const [
+            children:  [
             ListOfSongs(),
-            Center(child: Text('2',style: TextStyle(color: Colors.white )),)
+            LibraryScreen()
           ],),
         ),
       ),
