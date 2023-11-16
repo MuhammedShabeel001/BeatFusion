@@ -250,6 +250,7 @@ changeOrder() {
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    automaticallyImplyLeading: false,
                     backgroundColor: MyTheme().secondaryColor ,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)

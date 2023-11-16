@@ -4,6 +4,7 @@ import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/search.dart';
 import 'package:beatfusion/widgets/list_ofsongs.dart';
 import 'package:beatfusion/screens/playing.dart';
+import 'package:beatfusion/widgets/settings.dart';
 // import 'package:beatfusion/widgets/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -93,11 +94,16 @@ final AudioPlayer _player = AudioPlayer();
 
 bool _isRefreshing = false;
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: MyTheme().primaryColor,
+      drawer: SettingsScreen(),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: MyTheme().appBarColor,
         title: Text(
           '${getTimeOfDay()},',
@@ -117,7 +123,7 @@ bool _isRefreshing = false;
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onPressed: (){
-
+                  _scaffoldKey.currentState?.openDrawer();
                 }, 
                 icon: Icon(Icons.settings_rounded,
                 color: MyTheme().iconColor,))

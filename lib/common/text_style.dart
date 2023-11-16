@@ -71,4 +71,18 @@ class FontStyles{
     fontSize: 18,
     fontWeight: FontWeight.w500
   );
+
+  static TextStyle settings= TextStyle(
+    fontFamily: 'Nunito',
+    color: Colors.white,
+    fontSize: 20,
+    fontWeight: FontWeight.w500
+  );
+
+  static TextStyle settingsSub= TextStyle(
+    fontFamily: 'Nunito',
+    color: Colors.white,
+    fontSize: 13,
+    fontWeight: FontWeight.w100
+  );
 }
