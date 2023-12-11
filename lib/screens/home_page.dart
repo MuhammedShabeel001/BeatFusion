@@ -3,7 +3,8 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/library.dart';
 import 'package:beatfusion/screens/search.dart';
-import 'package:beatfusion/widgets/list_ofsongs.dart';
+import 'package:beatfusion/widgets/list_of_songs.dart';
+// import 'package:beatfusion/widgets/list_ofsongs.dart';
 import 'package:beatfusion/screens/playing.dart';
 import 'package:beatfusion/widgets/settings.dart';
 // import 'package:beatfusion/widgets/settings.dart';
@@ -93,7 +94,7 @@ bool isSearch = false;
 
 final AudioPlayer _player = AudioPlayer();
 
-bool _isRefreshing = false;
+
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -191,7 +192,8 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
             
             controller: _tabController,
             children:  [
-            ListOfSongs(),
+            // ListOfSongs(),
+            SongsList(),
             LibraryScreen()
           ],),
         ),
@@ -210,19 +212,19 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                       
                       children: [
                         GestureDetector(
-                            onTap: () {
-                               Navigator.push
-                                (context, MaterialPageRoute(
-                                  builder: (context) => const PlayingScreen(),));
-                              setState(() {
-                                isMusicPlayerTapped = !isMusicPlayerTapped;
-                                SystemChannels.textInput
-                                  .invokeMethod('TextInput.hide');
+                            // onTap: () {
+                            //    Navigator.push
+                            //     (context, MaterialPageRoute(
+                            //       builder: (context) => const MusicPlaySong(),));
+                            //   setState(() {
+                            //     isMusicPlayerTapped = !isMusicPlayerTapped;
+                            //     SystemChannels.textInput
+                            //       .invokeMethod('TextInput.hide');
                                
                                   
-                              });
+                            //   });
                               
-                            },
+                            // },
                             child: Container(
                               decoration: BoxDecoration(
                                 color: MyTheme().secondaryColor,
@@ -281,6 +283,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                             onPressed: () async {
                                               setState(() {
                                                 isPlaying = !isPlaying;
+                                                ScreenHome();
                                               });
                                               await _player.pause();
                                             },
@@ -290,6 +293,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                             onPressed: () async {
                                               setState(() {
                                                 isPlaying = !isPlaying;
+                                                ScreenHome();
                                               });
                                               await _player.play();
                                             },
@@ -297,6 +301,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                     IconButton(
                                       onPressed: () async {
                                         await _player.seekToNext();
+                                        ScreenHome();
                                       },
                                       icon:SvgPicture.asset('assets/pics/next2.svg')),
                                   ],
@@ -306,17 +311,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                           ),
                       ],
                     )
-                    :WillPopScope(
-                       onWillPop: () async {
-                         await Navigator.pushAndRemoveUntil(
-                           context,
-                           MaterialPageRoute(builder: (context) => ScreenHome()),
-                           (route) => false,
-                         );
-                         return false;
-                       },
-                       child: Container(),
-                    )
+                    :null
 
             ),
           )

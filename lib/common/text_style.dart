@@ -79,6 +79,14 @@ class FontStyles{
     fontWeight: FontWeight.w500
   );
 
+  static TextStyle landing= TextStyle(
+    fontFamily: 'Nunito',
+    color: MyTheme().tertiaryColor,
+    fontSize: 32,
+    // height: 117/32,
+    fontWeight: FontWeight.w600
+  );
+
   static TextStyle settings= TextStyle(
     fontFamily: 'Nunito',
     color: Colors.white,

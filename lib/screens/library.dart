@@ -11,7 +11,7 @@ class LibraryScreen extends StatelessWidget {
   final List<String> itemNames = ['Favorite', 'Playlists', 'History'];
 
   void onTapFavorite(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => favoriteScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()));
     // Add your logic for the 'Favorite' grid item here
   }
 

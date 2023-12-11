@@ -1,6 +1,6 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class RecentScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class RecentScreen extends StatelessWidget {
         title: Text('Recent'),
       ),
       body: Center(
-        child: Text('Recent screen',style: FontStyles.greeting,),
+        child: Text('Recently played screen',style: FontStyles.greeting,),
       ),
     );
   }

@@ -1,3 +1,4 @@
+// import 'package:beatfusion/common/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -72,3 +73,4 @@ String getTimeOfDay() {
     return 'Good evening';
   }
 }
+
