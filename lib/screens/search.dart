@@ -1,11 +1,20 @@
+import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
+import 'package:beatfusion/functions/control_functions.dart';
+import 'package:beatfusion/functions/control_functions.dart';
+import 'package:beatfusion/screens/Playlist.dart';
+import 'package:beatfusion/screens/favourite/favorite.dart';
+import 'package:beatfusion/screens/playing.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenSearch extends StatefulWidget {
-  const ScreenSearch({super.key});
+  // final Song songs;
 
+  ScreenSearch({super.key});
   @override
   State<ScreenSearch> createState() => _ScreenSearchState();
 }
@@ -14,6 +23,89 @@ class _ScreenSearchState extends State<ScreenSearch> {
   TextEditingController _searchController = TextEditingController();
   late Box<Song> songBox;
   List<Song> searchResults = [];
+
+  final AudioPlayer player = AudioPlayer();
+
+  addList() {
+  showModalBottomSheet(
+    backgroundColor: Colors.transparent,
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        height: MediaQuery.of(context).size.height * 0.23,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+          color: MyTheme().primaryColor,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 20.0, top: 10.0),
+                child: Icon(
+                  Icons.maximize_rounded,
+                  size: 50.0,
+                  color: MyTheme().secondaryColor,
+                ),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ListTile(
+                  onTap: () {
+                    // Handle Add to Playlist action
+                    addToPlaylistFunction();
+                    Navigator.pop(context);
+                  },
+                  title: Text(
+                    'Add to Playlist',
+                    style: FontStyles.order,
+                  ),
+                  leading: Icon(
+                    Icons.playlist_add,
+                    color: MyTheme().selectedTile,
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    // Handle Add to Favorite action
+                    addToFavoriteFunction();
+                    Navigator.pop(context);
+                  },
+                  title: Text(
+                    'Add to Favorite',
+                    style: FontStyles.order,
+                  ),
+                  leading: Icon(
+                    Icons.favorite,
+                    color: MyTheme().selectedTile,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void addToPlaylistFunction() {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => playlistScreen(),));
+  // Add your logic for adding to playlist here
+  print('Added to Playlist');
+}
+
+// Function to handle Add to Favorite action
+void addToFavoriteFunction() {
+  // Add your logic for adding to favorite here
+  // Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenFav(),));
+  print('Added to Favorite');
+}
 
   @override
   void initState() {
@@ -101,20 +193,39 @@ class _ScreenSearchState extends State<ScreenSearch> {
                               final Song song = searchResults[index];
                               return ListTile(
                                 leading: Container(
-                                  width: 40,
-                                  height: 40,
-                                  color: MyTheme().primaryColor,
-                                ),
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(9),
+              color: MyTheme().primaryColor
+            ),
+            child: Icon(Icons.music_note_rounded,
+            color: Colors.white,),
+          ),
                                 title: Text(
                                   song.name,
-                                  style: TextStyle(color: Colors.white),
+                                  style: FontStyles.name,
+                                  maxLines: 1,
                                 ),
                                 subtitle: Text(
                                   song.artist,
-                                  style: TextStyle(color: Colors.white),
+                                  style: FontStyles.artist,
+                                  maxLines: 1,
                                 ),
+                                trailing: IconButton(
+                                  onPressed: () => addList(), 
+                                  icon: Icon(Icons.more_vert,
+                                  color: Colors.white,),
+                              ),
+                              onTap: ()async {
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(
+            //   song: widget.songs, 
+            //   audioPlayer: player
+            //   )));
+            
+          },
                               );
-                            },
+
+                            }
                           )
                         : Center(
                             child: Text(

@@ -6,27 +6,36 @@ part of 'favorite.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class favoriteAdapter extends TypeAdapter<favorite> {
+class SongFavoriteAdapter extends TypeAdapter<SongFavorite> {
   @override
-  final int typeId = 3;
+  final int typeId = 2;
 
   @override
-  favorite read(BinaryReader reader) {
+  SongFavorite read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return favorite(
-      song: (fields[0] as List).cast<Song>(),
+    return SongFavorite(
+      key: fields[0] as int,
+      filePath: fields[1] as String,
+      name: fields[2] as String,
+      artist: fields[3] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, favorite obj) {
+  void write(BinaryWriter writer, SongFavorite obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.song);
+      ..write(obj.key)
+      ..writeByte(1)
+      ..write(obj.filePath)
+      ..writeByte(2)
+      ..write(obj.name)
+      ..writeByte(3)
+      ..write(obj.artist);
   }
 
   @override
@@ -35,7 +44,7 @@ class favoriteAdapter extends TypeAdapter<favorite> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is favoriteAdapter &&
+      other is SongFavoriteAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

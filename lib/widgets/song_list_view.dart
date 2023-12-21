@@ -3,7 +3,8 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/Playlist.dart';
-import 'package:beatfusion/screens/favorite.dart';
+import 'package:beatfusion/screens/favourite/fav_list.dart';
+// import 'package:beatfusion/screens/favorite.dart';
 import 'package:beatfusion/screens/playing.dart';
 import 'package:beatfusion/screens/test.dart';
 // import 'package:beatfusion/functions/control_functions.dart';
@@ -26,8 +27,18 @@ class SongListView extends StatefulWidget {
 class _SongListViewState extends State<SongListView> {
   // bool isPlaying = false;
     int currentSongID = 0;
+    Box<Song>? boxsong;
 
     final AudioPlayer player = AudioPlayer();
+  @override
+ void initState(){
+  super.initState();
+  openSongs();
+
+
+
+}
+  
     
 
 addList() {
@@ -108,8 +119,13 @@ void addToPlaylistFunction() {
 // Function to handle Add to Favorite action
 void addToFavoriteFunction() {
   // Add your logic for adding to favorite here
-  Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen(),));
+  Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()  ,));
   print('Added to Favorite');
+}
+
+void openSongs(){
+boxsong!=Hive.openBox<Song>('songbox');
+  print('..................................${boxsong}');
 }
 
 
@@ -135,32 +151,38 @@ void addToFavoriteFunction() {
   @override
   Widget build(BuildContext context) {
     final songBox = Hive.box<Song>('songs');
+    print(songBox.length);
 
     for (var song in widget.songs) {
       songBox.add(Song(
-        key: song.data,
+        key: song.id,
         name: song.title,
         artist: song.artist ?? 'Unknown',
         duration: song.duration ?? 0,
-        artWorkUrl: '',
+        // artWorkUrl: '',
         filePath: song.data
       ));
     }
 
     return ListView.builder(
-      itemCount: widget.songs.length,
+      itemCount: songBox.length,
       itemBuilder: (context, index) {
+        final song=songBox.getAt(index);
         return ListTile(
           contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 10),
 
           title: SizedBox(
             height: 18,
-            child: Text((widget.songs[index].title).replaceAll('_', ' '),
+            child: Text(
+              song!.name,
+              
+              //(widget.songs[index].title).replaceAll('_', ' '),
             style: FontStyles.name,
             maxLines: 1,),
           ),
 
-          subtitle: Text(widget.songs[index].artist ?? 'Unknown',
+          subtitle: Text( song!.artist,
+            //widget.songs[index].artist ?? 'Unknown',
           style: FontStyles.artist,
           maxLines: 1,),
 
@@ -181,7 +203,7 @@ void addToFavoriteFunction() {
 
           onTap: ()async {
             Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(
-              song: widget.songs[index], 
+              songdata: song.filePath, 
               audioPlayer: player
               )));
             

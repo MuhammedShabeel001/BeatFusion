@@ -41,7 +41,7 @@ class _ScreenHomeState extends State<ScreenHome> with SingleTickerProviderStateM
           child: CircularProgressIndicator(),
         );
       });
-
+  
       if(!permissionStatus){
         setState(() {
           permissionResult = Column(

@@ -1,6 +1,7 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,10 +10,11 @@ import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlayingScreen extends StatefulWidget {
-  final SongModel song;
+  final String  songdata;
+
   final AudioPlayer audioPlayer;
 
-  const PlayingScreen({Key? key, required this.song, required this.audioPlayer})
+  const PlayingScreen({Key? key, required this.songdata, required this.audioPlayer})
       : super(key: key);
 
   @override
@@ -30,7 +32,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
     _audioPlayer = widget.audioPlayer;
 
     try{
-      _audioPlayer.setUrl(widget.song.data);
+      _audioPlayer.setUrl(widget.songdata);
       _audioPlayer.play();
       setState(() {
         isPlaying=true;
@@ -197,7 +199,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                   child: Column(
                       children: [
                         Text(
-                          widget.song.title,
+                          widget.songdata,
                           style: FontStyles.name2,
                           maxLines: 1,
                           textAlign: TextAlign.center,
@@ -207,12 +209,37 @@ class _PlayingScreenState extends State<PlayingScreen> {
                           height: 5,
                         ),
                         Text(
-                          widget.song.artist ?? 'unknown',
+                          widget.songdata,
                           style: FontStyles.artist2,
                           maxLines: 1,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         ),
+//                         StreamBuilder<Duration>(
+//   stream: AudioPlayer.positionStream,
+//   builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
+//     if (snapshot.hasData) {
+//       _currentSliderValue = snapshot.data?.inMilliseconds.toDouble();
+//     }
+
+//     return Slider(
+//       value: _currentSliderValue,
+//       min: 0.0,
+//       max: _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
+//       onChanged: (double value) {
+//         setState(() {
+//           _currentSliderValue = value;
+//         });
+//       },
+//       onChangeEnd: (double value) {
+//         _audioPlayer.seek(Duration(milliseconds: value.toInt()));
+//       },
+//       activeColor: Colors.red,
+//       inactiveColor: Colors.grey.shade500,
+//     );
+//   },
+// ),
+
 //                         StreamBuilder<Duration>(
 //   stream: _audioPlayer.positionStream,
 //   builder: (context, snapshot) {
@@ -237,23 +264,23 @@ class _PlayingScreenState extends State<PlayingScreen> {
 //       inactiveColor: Colors.grey.shade500,
 //     );
 //   },
-// ),
-                  //       Slider(
-                  //   value: _currentSliderValue,
-                  //   min: 0.0,
-                  //   max:
-                  //       _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
-                  //   onChanged: (double value) {
-                  //     setState(() {
-                  //       _currentSliderValue = value;
-                  //     });
-                  //   },
-                  //   onChangeEnd: (double value) {
-                  //     _audioPlayer.seek(Duration(milliseconds: value.toInt()));
-                  //   },
-                  //   activeColor: const Color.fromARGB(255, 54, 136, 244),
-                  //   inactiveColor: Colors.grey.shade500,
-                  // ),
+//  ),
+                        Slider(
+                    value: _currentSliderValue,
+                    min: 0.0,
+                    max:
+                        _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
+                    onChanged: (double value) {
+                      setState(() {
+                        _currentSliderValue = value;
+                      });
+                    },
+                    onChangeEnd: (double value) {
+                      _audioPlayer.seek(Duration(milliseconds: value.toInt()));
+                    },
+                    activeColor: const Color.fromARGB(255, 54, 136, 244),
+                    inactiveColor: Colors.grey.shade500,
+                  ),
                     
                           SizedBox(height: 5,),
                           Row(

@@ -1,11 +1,14 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/Landing/screen1.dart';
 import 'package:beatfusion/screens/Landing/screen3.dart';
 import 'package:beatfusion/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 class LandingTwo extends StatelessWidget {
+  // Song song;
+  // LandingTwo({required this.song});
   const LandingTwo({super.key});
 
   @override

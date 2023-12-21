@@ -1,5 +1,8 @@
 // import 'package:beatfusion/common/text_style.dart';
+import 'package:beatfusion/database/favorite.dart';
+import 'package:beatfusion/database/song.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -22,6 +25,7 @@ int currrentSongID = 0;
 bool isPlayerViewVisible = false;
 
 bool isShuffle = false;
+bool isFavorite = false;
 
 bool isPlaying = false;
 
@@ -74,3 +78,15 @@ String getTimeOfDay() {
   }
 }
 
+// void openFavorite(Box<favorite> songsBox, int index) async {
+//     final boxFavoriteSongs =
+//         await Hive.openBox<favorite>('favoritesongsBox');
+
+//     final song = songsBox.getAt(index);
+//     if (song != null) {
+//       final songFavorite = favorite(favoriteSong: '' );
+//       await boxFavoriteSongs
+//           .add(songFavorite); // Use await to ensure the addition is completed
+//       print('Added to favorites: ${songFavorite.favoriteSong}');
+// }
+// }

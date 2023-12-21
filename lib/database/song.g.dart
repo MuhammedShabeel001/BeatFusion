@@ -17,11 +17,10 @@ class SongAdapter extends TypeAdapter<Song> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Song(
-      key: fields[0] as String,
+      key: fields[0] as int,
       name: fields[1] as String,
       artist: fields[2] as String,
       duration: fields[3] as int,
-      artWorkUrl: fields[4] as String,
       filePath: fields[5] as String,
     );
   }
@@ -29,7 +28,7 @@ class SongAdapter extends TypeAdapter<Song> {
   @override
   void write(BinaryWriter writer, Song obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.key)
       ..writeByte(1)
@@ -38,8 +37,6 @@ class SongAdapter extends TypeAdapter<Song> {
       ..write(obj.artist)
       ..writeByte(3)
       ..write(obj.duration)
-      ..writeByte(4)
-      ..write(obj.artWorkUrl)
       ..writeByte(5)
       ..write(obj.filePath);
   }

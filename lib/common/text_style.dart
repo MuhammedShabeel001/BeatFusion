@@ -11,7 +11,7 @@ class FontStyles{
 
   static TextStyle button = TextStyle(
     fontFamily: 'Nunito',
-    // color: MyTheme().tertiaryColor,
+    color: MyTheme().tertiaryColor,
     fontSize: 20,
     fontWeight: FontWeight.w600
   );

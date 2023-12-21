@@ -3,12 +3,12 @@ import 'package:hive/hive.dart';
 part 'history.g.dart';
 
 @HiveType(typeId: 4)
-class history {
+class SongHistory {
 
   @HiveField(0)
-  final List<Song> song;
+  String RecentSong;
 
-  history({
-    required this.song
+  SongHistory({
+    required this.RecentSong
   });
 }

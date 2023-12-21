@@ -1,11 +1,13 @@
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/Landing/screen1.dart';
-import 'package:beatfusion/screens/favorite.dart';
+import 'package:beatfusion/screens/favourite/favorite.dart';
 import 'package:beatfusion/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  // Song song;
+  SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

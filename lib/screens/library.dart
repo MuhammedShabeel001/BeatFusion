@@ -1,7 +1,8 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/screens/Playlist.dart';
-import 'package:beatfusion/screens/favorite.dart';
+import 'package:beatfusion/screens/favourite/fav_list.dart';
+import 'package:beatfusion/screens/favourite/favorite.dart';
 import 'package:beatfusion/screens/recent.dart';
 import 'package:flutter/material.dart';
 

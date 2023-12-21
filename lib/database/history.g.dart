@@ -6,27 +6,27 @@ part of 'history.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class historyAdapter extends TypeAdapter<history> {
+class SongHistoryAdapter extends TypeAdapter<SongHistory> {
   @override
   final int typeId = 4;
 
   @override
-  history read(BinaryReader reader) {
+  SongHistory read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return history(
-      song: (fields[0] as List).cast<Song>(),
+    return SongHistory(
+      RecentSong: fields[0] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, history obj) {
+  void write(BinaryWriter writer, SongHistory obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.song);
+      ..write(obj.RecentSong);
   }
 
   @override
@@ -35,7 +35,7 @@ class historyAdapter extends TypeAdapter<history> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is historyAdapter &&
+      other is SongHistoryAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

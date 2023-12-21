@@ -1,12 +1,18 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/song.dart';
+import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/Landing/screen2.dart';
 // import 'package:beatfusion/screens/Landing/screen2.dart';
 import 'package:beatfusion/screens/home_page.dart';
+import 'package:beatfusion/widgets/list_of_songs.dart';
 import 'package:flutter/material.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class LandingOne extends StatelessWidget {
   const LandingOne({super.key});
+  // List<SongModel> songs;
+  // LandingOne({required this.songs});
 
   @override
   Widget build(BuildContext context) {

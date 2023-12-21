@@ -1,4 +1,5 @@
 import 'package:beatfusion/common/text_style.dart';
+import 'package:beatfusion/widgets/rate_us.dart';
 import 'package:flutter/material.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -69,6 +70,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ListTile(
                           contentPadding: EdgeInsets.only(left: 15),
                           title: Text('Rate us',style: FontStyles.settings,),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> RateUsScreen()));
+                          },
                         ),
                         ListTile(
                           contentPadding: EdgeInsets.only(left: 15),
