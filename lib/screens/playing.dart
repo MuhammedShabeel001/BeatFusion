@@ -10,7 +10,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlayingScreen extends StatefulWidget {
-  final String  songdata;
+  final Song songdata;
 
   final AudioPlayer audioPlayer;
 
@@ -26,13 +26,21 @@ class _PlayingScreenState extends State<PlayingScreen> {
   bool isPlaying = false;
   double _currentSliderValue = 0.0;
 
+  String formatDuration(Duration duration) {
+  String twoDigits(int n) => n.toString().padLeft(2, "0");
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+  return "$twoDigitMinutes:$twoDigitSeconds";
+}
+
+
   @override
   void initState(){
     super.initState();
     _audioPlayer = widget.audioPlayer;
 
     try{
-      _audioPlayer.setUrl(widget.songdata);
+      _audioPlayer.setUrl(widget.songdata.filePath);
       _audioPlayer.play();
       setState(() {
         isPlaying=true;
@@ -185,7 +193,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                 const SizedBox(height: 10,),
 
               Flexible(
-                flex: 4,
+                flex: 5,
 
                 //controls
                 child: Container(padding: const EdgeInsets.all(10),
@@ -199,7 +207,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                   child: Column(
                       children: [
                         Text(
-                          widget.songdata,
+                          widget.songdata.name,
                           style: FontStyles.name2,
                           maxLines: 1,
                           textAlign: TextAlign.center,
@@ -209,78 +217,43 @@ class _PlayingScreenState extends State<PlayingScreen> {
                           height: 5,
                         ),
                         Text(
-                          widget.songdata,
+                          widget.songdata.artist,
                           style: FontStyles.artist2,
                           maxLines: 1,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         ),
-//                         StreamBuilder<Duration>(
-//   stream: AudioPlayer.positionStream,
-//   builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
-//     if (snapshot.hasData) {
-//       _currentSliderValue = snapshot.data?.inMilliseconds.toDouble();
-//     }
-
-//     return Slider(
-//       value: _currentSliderValue,
-//       min: 0.0,
-//       max: _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
-//       onChanged: (double value) {
-//         setState(() {
-//           _currentSliderValue = value;
-//         });
-//       },
-//       onChangeEnd: (double value) {
-//         _audioPlayer.seek(Duration(milliseconds: value.toInt()));
-//       },
-//       activeColor: Colors.red,
-//       inactiveColor: Colors.grey.shade500,
-//     );
-//   },
-// ),
-
-//                         StreamBuilder<Duration>(
-//   stream: _audioPlayer.positionStream,
-//   builder: (context, snapshot) {
-//     if (snapshot.hasData) {
-//       Duration? duration = snapshot.data;
-//       _currentSliderValue = duration?.inMilliseconds.toDouble() ?? 0;
-//     }
-
-//     return Slider(
-//       value: _currentSliderValue,
-//       min: 0.0,
-//       max: _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
-//       onChanged: (double value) {
-//         setState(() {
-//           _currentSliderValue = value;
-//         });
-//       },
-//       onChangeEnd: (double value) {
-//         _audioPlayer.seek(Duration(milliseconds: value.toInt()));
-//       },
-//       activeColor: const Color.fromARGB(255, 54, 136, 244),
-//       inactiveColor: Colors.grey.shade500,
-//     );
-//   },
-//  ),
                         Slider(
-                    value: _currentSliderValue,
-                    min: 0.0,
-                    max:
-                        _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
-                    onChangeEnd: (double value) {
-                      _audioPlayer.seek(Duration(milliseconds: value.toInt()));
-                    },
-                    activeColor: const Color.fromARGB(255, 54, 136, 244),
-                    inactiveColor: Colors.grey.shade500,
-                  ),
+  value: _currentSliderValue.clamp(0.0, _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0),
+  min: 0.0,
+  max: _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
+  onChanged: (double value) {
+    setState(() {
+      _currentSliderValue = value;
+    });
+  },
+  onChangeEnd: (double value) {
+    _audioPlayer.seek(
+      Duration(milliseconds: value.toInt()),
+    );
+  },
+  activeColor: const Color.fromARGB(255, 54, 136, 244),
+  inactiveColor: Colors.grey.shade500,
+),
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Text(
+      "${formatDuration(Duration(milliseconds: _currentSliderValue.toInt()) ?? Duration.zero)}",
+      style: TextStyle(color: Colors.grey.shade500),
+    ),
+    Text(
+      "${formatDuration(_audioPlayer.duration ?? Duration.zero)}",
+      style: TextStyle(color: Colors.grey.shade500),
+    ),
+  ],
+),
+
                     
                           SizedBox(height: 5,),
                           Row(
@@ -290,7 +263,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                             children: [
                               IconButton(
                                   onPressed: () async {
-                                    // await _audioPlayer.previousIndex;
+                                    await _audioPlayer.previousIndex;
                                     int newPosition =
                                 (_audioPlayer.position.inSeconds - 10).toInt();
                             if (newPosition <
@@ -299,6 +272,11 @@ class _PlayingScreenState extends State<PlayingScreen> {
                               setState(() {
                                 _currentSliderValue = newPosition.toDouble();
                               });}
+
+                          //  await _audioPlayer.previousIndex();
+                          //  setState(() {
+                             
+                          //  });
                                   },
                                   icon: SvgPicture.asset('assets/pics/prev.svg')),
                               const SizedBox(

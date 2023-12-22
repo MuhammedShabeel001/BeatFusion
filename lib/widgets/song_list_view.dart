@@ -154,14 +154,23 @@ boxsong!=Hive.openBox<Song>('songbox');
     print(songBox.length);
 
     for (var song in widget.songs) {
-      songBox.add(Song(
-        key: song.id,
-        name: song.title,
-        artist: song.artist ?? 'Unknown',
-        duration: song.duration ?? 0,
-        // artWorkUrl: '',
-        filePath: song.data
-      ));
+      if (songBox.get(song.id) == null) {
+        songBox.put(song.id, Song(
+          key: song.id, 
+          name: song.title, 
+          artist: song.artist ?? 'unknown', 
+          duration: song.duration ?? 0, 
+          filePath: song.data));
+      }
+
+      // songBox.add(Song(
+      //   key: song.id,
+      //   name: song.title,
+      //   artist: song.artist ?? 'Unknown',
+      //   duration: song.duration ?? 0,
+      //   // artWorkUrl: '',
+      //   filePath: song.data
+      // ));
     }
 
     return ListView.builder(
@@ -203,7 +212,7 @@ boxsong!=Hive.openBox<Song>('songbox');
 
           onTap: ()async {
             Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(
-              songdata: song.filePath, 
+              songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), 
               audioPlayer: player
               )));
             
