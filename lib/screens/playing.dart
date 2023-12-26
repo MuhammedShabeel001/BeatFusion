@@ -1,17 +1,13 @@
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 class PlayingScreen extends StatefulWidget {
   final Song songdata;
-
   final AudioPlayer audioPlayer;
 
   const PlayingScreen({Key? key, required this.songdata, required this.audioPlayer})
@@ -33,7 +29,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
   return "$twoDigitMinutes:$twoDigitSeconds";
 }
 
-
   @override
   void initState(){
     super.initState();
@@ -51,7 +46,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
           _currentSliderValue = position.inMilliseconds.toDouble();
         });
        });
-    }catch(e){}
+    }catch(e){
+      print('catch an error');
+    }
   }
 
   void togglePlayPause() async {
@@ -85,18 +82,15 @@ class _PlayingScreenState extends State<PlayingScreen> {
   showDialog(
       context: context,
       builder: (context) {
-        return Container(
+        return SizedBox(
           child: AlertDialog(
             backgroundColor: MyTheme().secondaryColor,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             content: Container(
-              
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                // color: MyTheme().secondaryColor,
               ),
               height: 10,
-              // width: 200,
               child: StreamBuilder<double>(
                 stream: stream,
                 builder: (context, snapshot) {
@@ -113,10 +107,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
           ),
         );
       },
-  );
-
-
-;
+    );
   }
 
   @override
@@ -145,10 +136,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                   stream: _audioPlayer.volumeStream, 
                   onChanged: _audioPlayer.setVolume);
               }, 
-              icon: Icon(Icons.volume_up))
+              icon: const Icon(Icons.volume_up))
           ],
       ),
-
       body: Container(
         padding: const EdgeInsets.all(10),
         color: MyTheme().primaryColor,
@@ -157,8 +147,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
             children: [
               Flexible(
                 flex: 6,
-
-                //artwork
                 child: Container(
                   height: double.infinity,
                   width: double.infinity,
@@ -172,7 +160,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
                          )]
                   ),
                   padding: const EdgeInsets.all(10),
-                  // color: Colors.blue,
                   child: Container(
                       decoration: BoxDecoration(
                         color: MyTheme().primaryColor,
@@ -183,19 +170,14 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         offset: const Offset(0, 4)
                        )]
                       ),
-                      
                       child: const Icon(Icons.music_note_rounded,
                       color: Colors.white,
                       size: 150,),
                     ),
                 )),
-
                 const SizedBox(height: 10,),
-
               Flexible(
                 flex: 5,
-
-                //controls
                 child: Container(padding: const EdgeInsets.all(10),
                 height: double.infinity,
                 width: double.infinity,
@@ -203,7 +185,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
                     color: MyTheme().secondaryColor,
                     borderRadius: BorderRadius.circular(12)
                   ),
-
                   child: Column(
                       children: [
                         Text(
@@ -224,46 +205,43 @@ class _PlayingScreenState extends State<PlayingScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Slider(
-  value: _currentSliderValue.clamp(0.0, _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0),
-  min: 0.0,
-  max: _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
-  onChanged: (double value) {
-    setState(() {
-      _currentSliderValue = value;
-    });
-  },
-  onChangeEnd: (double value) {
-    _audioPlayer.seek(
-      Duration(milliseconds: value.toInt()),
-    );
-  },
-  activeColor: const Color.fromARGB(255, 54, 136, 244),
-  inactiveColor: Colors.grey.shade500,
-),
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Text(
-      "${formatDuration(Duration(milliseconds: _currentSliderValue.toInt()) ?? Duration.zero)}",
-      style: TextStyle(color: Colors.grey.shade500),
-    ),
-    Text(
-      "${formatDuration(_audioPlayer.duration ?? Duration.zero)}",
-      style: TextStyle(color: Colors.grey.shade500),
-    ),
-  ],
-),
-
-                    
-                          SizedBox(height: 5,),
+                          value: _currentSliderValue.clamp(0.0, _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0),
+                          min: 0.0,
+                          max: _audioPlayer.duration?.inMilliseconds.toDouble() ?? 0.0,
+                          onChanged: (double value) {
+                            setState(() {
+                              _currentSliderValue = value;
+                            });
+                          },
+                          onChangeEnd: (double value) {
+                            _audioPlayer.seek(
+                              Duration(milliseconds: value.toInt()),
+                            );
+                          },
+                          activeColor: const Color.fromARGB(255, 54, 136, 244),
+                          inactiveColor: Colors.grey.shade500,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              formatDuration(Duration(milliseconds: _currentSliderValue.toInt())),
+                              style: TextStyle(color: Colors.grey.shade500),
+                            ),
+                            Text(
+                              formatDuration(_audioPlayer.duration ?? Duration.zero),
+                              style: TextStyle(color: Colors.grey.shade500),
+                            ),
+                          ],
+                        ),
+                          const SizedBox(height: 5,),
                           Row(
-                            
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               IconButton(
                                   onPressed: () async {
-                                    await _audioPlayer.previousIndex;
+                                    _audioPlayer.previousIndex;
                                     int newPosition =
                                 (_audioPlayer.position.inSeconds - 10).toInt();
                             if (newPosition <
@@ -272,11 +250,6 @@ Row(
                               setState(() {
                                 _currentSliderValue = newPosition.toDouble();
                               });}
-
-                          //  await _audioPlayer.previousIndex();
-                          //  setState(() {
-                             
-                          //  });
                                   },
                                   icon: SvgPicture.asset('assets/pics/prev.svg')),
                               const SizedBox(
@@ -313,7 +286,6 @@ Row(
                               ),
                               IconButton(
                                   onPressed: ()  {
-                                    // await _audioPlayer.nextIndex;
                                     int newPosition =
                                 (_audioPlayer.position.inSeconds + 10).toInt();
                             if (newPosition <
@@ -326,8 +298,8 @@ Row(
                                   icon: SvgPicture.asset('assets/pics/next.svg')),
                                 ],
                               ),
-                              SizedBox(height: 10,),
-                              Container(
+                              const SizedBox(height: 10,),
+                              SizedBox(
                                 height: 50,
                                 width: double.infinity,
                                 child: Row(
@@ -346,7 +318,6 @@ Row(
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
-                                            
                                             content: Text(
                                               isShuffle
                                                   ? 'Shuffle On'
@@ -392,13 +363,10 @@ Row(
                               )
                       ],
                   ),
-                  // color: Colors.green,
                 ))
             ],
           )),
-
       ),
     );
   }
-
 }

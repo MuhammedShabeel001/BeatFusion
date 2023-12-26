@@ -2,7 +2,6 @@
 import 'package:beatfusion/database/song.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-// import 'song.dart';
 part 'playlist.g.dart';
 
 @HiveType(typeId: 2)

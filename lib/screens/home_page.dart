@@ -4,13 +4,9 @@ import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/library.dart';
 import 'package:beatfusion/screens/search.dart';
 import 'package:beatfusion/widgets/list_of_songs.dart';
-// import 'package:beatfusion/widgets/list_ofsongs.dart';
-import 'package:beatfusion/screens/playing.dart';
 import 'package:beatfusion/widgets/settings.dart';
-// import 'package:beatfusion/widgets/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
@@ -26,16 +22,13 @@ class ScreenHome extends StatefulWidget {
 class _ScreenHomeState extends State<ScreenHome> with SingleTickerProviderStateMixin {
 
   int currentSongID = 0;
-
   late TabController _tabController;
   Widget? permissionResult; 
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
-
   requestStoragePermission() async{
     if(!kIsWeb){
       bool permissionStatus = await _audioQuery.permissionsStatus();
-
       setState(() {
         permissionResult =const Center(
           child: CircularProgressIndicator(),
@@ -93,9 +86,6 @@ bool isHome = true;
 bool isSearch = false;
 
 final AudioPlayer _player = AudioPlayer();
-
-
-
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -103,7 +93,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: MyTheme().primaryColor,
-      drawer: SettingsScreen(),
+      drawer: const SettingsScreen(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: MyTheme().appBarColor,
@@ -112,25 +102,21 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
           style: FontStyles.greeting,
         ),
         actions: [
-          
-            
-              IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: (){
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenSearch(),));
-                 }, 
-                icon: SvgPicture.asset('assets/pics/search.svg')),
-              IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: (){
-                  _scaffoldKey.currentState?.openDrawer();
-                }, 
-                icon: Icon(Icons.settings_rounded,
-                color: MyTheme().iconColor,))
-            
-          
+          IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => const ScreenSearch(),));
+             }, 
+            icon: SvgPicture.asset('assets/pics/search.svg')),
+          IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: (){
+              _scaffoldKey.currentState?.openDrawer();
+            }, 
+            icon: Icon(Icons.settings_rounded,
+            color: MyTheme().iconColor,))
         ],
         bottom: TabBar(
                 splashFactory: NoSplash.splashFactory,
@@ -174,10 +160,6 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                   ),
                 ]),
       ),
-      // drawer: Drawer(
-      //   backgroundColor: MyTheme().tertiaryColor,
-        
-      // ),
       body:Container(
         padding: const EdgeInsets.all(10),
 
@@ -192,8 +174,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
             
             controller: _tabController,
             children:  [
-            // ListOfSongs(),
-            SongsList(),
+            const SongsList(),
             LibraryScreen()
           ],),
         ),
@@ -212,33 +193,17 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                       
                       children: [
                         GestureDetector(
-                            // onTap: () {
-                            //    Navigator.push
-                            //     (context, MaterialPageRoute(
-                            //       builder: (context) => const MusicPlaySong(),));
-                            //   setState(() {
-                            //     isMusicPlayerTapped = !isMusicPlayerTapped;
-                            //     SystemChannels.textInput
-                            //       .invokeMethod('TextInput.hide');
-                               
-                                  
-                            //   });
-                              
-                            // },
                             child: Container(
                               decoration: BoxDecoration(
                                 color: MyTheme().secondaryColor,
                                 borderRadius: BorderRadius.circular(12)
                               ),
-                              // color: Colors.blueAccent,
                               child: ListTile(
                                 leading: QueryArtworkWidget(
                                   id: currentSongID,
                                   keepOldArtwork: true,
                                   type: ArtworkType.AUDIO,
                                   artworkBorder: BorderRadius.zero,
-          
-                                  //If the artwork or the song has no illustration
                                   nullArtworkWidget: Container(
                                       padding: const EdgeInsets.all(12.0),
                                       decoration: BoxDecoration(
@@ -283,7 +248,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                             onPressed: () async {
                                               setState(() {
                                                 isPlaying = !isPlaying;
-                                                ScreenHome();
+                                                const ScreenHome();
                                               });
                                               await _player.pause();
                                             },
@@ -293,7 +258,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                             onPressed: () async {
                                               setState(() {
                                                 isPlaying = !isPlaying;
-                                                ScreenHome();
+                                                const ScreenHome();
                                               });
                                               await _player.play();
                                             },
@@ -301,7 +266,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
                                     IconButton(
                                       onPressed: () async {
                                         await _player.seekToNext();
-                                        ScreenHome();
+                                        const ScreenHome();
                                       },
                                       icon:SvgPicture.asset('assets/pics/next2.svg')),
                                   ],

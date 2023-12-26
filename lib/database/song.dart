@@ -1,6 +1,5 @@
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'favorite.dart';
 
 part 'song.g.dart';
 
@@ -17,9 +16,6 @@ class Song {
 
   @HiveField(3)
   final int duration;
- 
-  // @HiveField(4)
-  // final String artWorkUrl;
 
   @HiveField(5)
   final String filePath;
@@ -29,9 +25,7 @@ class Song {
     required this.name,
     required this.artist,
     required this.duration,
-    // required this.artWorkUrl,
     required this.filePath
   });
 
-  // String get artWorkUrl => null;
 }

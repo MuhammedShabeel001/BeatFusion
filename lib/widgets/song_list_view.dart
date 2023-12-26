@@ -4,43 +4,31 @@ import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/Playlist.dart';
 import 'package:beatfusion/screens/favourite/fav_list.dart';
-// import 'package:beatfusion/screens/favorite.dart';
 import 'package:beatfusion/screens/playing.dart';
-import 'package:beatfusion/screens/test.dart';
-// import 'package:beatfusion/functions/control_functions.dart';
-// import 'package:beatfusion/screens/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-// import 'song.dart';
 
 class SongListView extends StatefulWidget {
   final List<SongModel> songs;
 
-  SongListView({required this.songs});
+  const SongListView({super.key, required this.songs} );
 
   @override
   State<SongListView> createState() => _SongListViewState();
 }
 
 class _SongListViewState extends State<SongListView> {
-  // bool isPlaying = false;
     int currentSongID = 0;
     Box<Song>? boxsong;
-
     final AudioPlayer player = AudioPlayer();
   @override
  void initState(){
   super.initState();
   openSongs();
-
-
-
 }
   
-    
-
 addList() {
   showModalBottomSheet(
     backgroundColor: Colors.transparent,
@@ -109,30 +97,26 @@ addList() {
   );
 }
 
-// Function to handle Add to Playlist action
-void addToPlaylistFunction() {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => playlistScreen(),));
-  // Add your logic for adding to playlist here
-  print('Added to Playlist');
-}
+  void addToPlaylistFunction() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),));
+    print('Added to Playlist');
+  }
 
-// Function to handle Add to Favorite action
-void addToFavoriteFunction() {
-  // Add your logic for adding to favorite here
-  Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()  ,));
-  print('Added to Favorite');
-}
+  void addToFavoriteFunction() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()  ,));
+    print('Added to Favorite');
+  }
 
-void openSongs(){
-boxsong!=Hive.openBox<Song>('songbox');
-  print('..................................${boxsong}');
-}
+  void openSongs(){
+  // ignore: unrelated_type_equality_checks
+  boxsong!=Hive.openBox<Song>('songbox');
+    print('..................................${boxsong}');
+  }
 
-
-    void _changePlayerVisibility() {
-    setState(() {
-      isPlayerViewVisible = true;
-    });
+  void _changePlayerVisibility() {
+      setState(() {
+        isPlayerViewVisible = true;
+      });
   }
 
   void _updateSongDetails(int index) {
@@ -146,7 +130,6 @@ boxsong!=Hive.openBox<Song>('songbox');
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -162,15 +145,6 @@ boxsong!=Hive.openBox<Song>('songbox');
           duration: song.duration ?? 0, 
           filePath: song.data));
       }
-
-      // songBox.add(Song(
-      //   key: song.id,
-      //   name: song.title,
-      //   artist: song.artist ?? 'Unknown',
-      //   duration: song.duration ?? 0,
-      //   // artWorkUrl: '',
-      //   filePath: song.data
-      // ));
     }
 
     return ListView.builder(
@@ -178,30 +152,26 @@ boxsong!=Hive.openBox<Song>('songbox');
       itemBuilder: (context, index) {
         final song=songBox.getAt(index);
         return ListTile(
-          contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 10),
+          contentPadding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
 
           title: SizedBox(
             height: 18,
             child: Text(
               song!.name,
-              
-              //(widget.songs[index].title).replaceAll('_', ' '),
             style: FontStyles.name,
             maxLines: 1,),
           ),
 
-          subtitle: Text( song!.artist,
-            //widget.songs[index].artist ?? 'Unknown',
+          subtitle: Text( song.artist,
           style: FontStyles.artist,
           maxLines: 1,),
-
           leading: Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
               color: MyTheme().primaryColor
             ),
-            child: Icon(Icons.music_note_rounded,
+            child: const Icon(Icons.music_note_rounded,
             color: Colors.white,),
           ),
 

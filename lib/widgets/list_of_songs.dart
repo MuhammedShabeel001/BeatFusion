@@ -1,13 +1,9 @@
-// import 'package:beatfusion/database/functions/song_function.dart';
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/functions/control_functions.dart';
-// import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/widgets/song_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SongsList extends StatefulWidget {
@@ -20,11 +16,8 @@ class SongsList extends StatefulWidget {
 class _SongsListState extends State<SongsList> {
 
   final OnAudioQuery audioQuery = OnAudioQuery();
-
   int _selectedValueOrder = 0;
   int _selectedValueSort = 0;
-
-
 
   changeOrder() {
     showModalBottomSheet(
@@ -193,14 +186,12 @@ class _SongsListState extends State<SongsList> {
         });
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: MyTheme().secondaryColor,
-        // shadowColor: MyTheme().secondaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15)
         ),
@@ -233,7 +224,5 @@ class _SongsListState extends State<SongsList> {
         },
       )
     );
-      
-    
   }
 }

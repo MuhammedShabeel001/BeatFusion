@@ -1,30 +1,27 @@
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/Landing/screen1.dart';
-import 'package:beatfusion/screens/favourite/favorite.dart';
-import 'package:beatfusion/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  // Song song;
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
   void initState(){
     super.initState();
     goToLandingPage().then((value){
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LandingOne(),)
+        MaterialPageRoute(builder: (context) => const LandingOne(),)
       );
     });
   }
 
   Future<void> goToLandingPage()async{
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
   }
 
   @override
