@@ -11,16 +11,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class SongListView extends StatefulWidget {
+class SongPlayListView extends StatefulWidget {
   final List<SongModel> songs;
 
-  const SongListView({super.key, required this.songs} );
+  const SongPlayListView({super.key, required this.songs} );
 
   @override
-  State<SongListView> createState() => _SongListViewState();
+  State<SongPlayListView> createState() => _SongPlayListViewState();
 }
 
-class _SongListViewState extends State<SongListView> {
+class _SongPlayListViewState extends State<SongPlayListView> {
     int currentSongID = 0;
     Box<Song>? boxsong;
     final AudioPlayer player = AudioPlayer();
@@ -30,73 +30,7 @@ class _SongListViewState extends State<SongListView> {
   openSongs();
 }
   
-addList() {
-  showModalBottomSheet(
-    backgroundColor: Colors.transparent,
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.23,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-          color: MyTheme().primaryColor,
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 20.0, top: 10.0),
-                child: Icon(
-                  Icons.maximize_rounded,
-                  size: 50.0,
-                  color: MyTheme().secondaryColor,
-                ),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ListTile(
-                  onTap: () {
-                    // Handle Add to Playlist action
-                    addToPlaylistFunction();
-                    Navigator.pop(context);
-                  },
-                  title: Text(
-                    'Add to Playlist',
-                    style: FontStyles.order,
-                  ),
-                  leading: Icon(
-                    Icons.playlist_add,
-                    color: MyTheme().selectedTile,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    // Handle Add to Favorite action
-                    addToFavoriteFunction();
-                    Navigator.pop(context);
-                  },
-                  title: Text(
-                    'Add to Favorite',
-                    style: FontStyles.order,
-                  ),
-                  leading: Icon(
-                    Icons.favorite,
-                    color: MyTheme().selectedTile,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+
 
   void addToPlaylistFunction() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),));
@@ -131,6 +65,8 @@ addList() {
       }
     });
   }
+
+  Set<int> selectedSongs = Set<int>();
 
   @override
   Widget build(BuildContext context) {
@@ -177,21 +113,24 @@ addList() {
           ),
 
           trailing: IconButton(
-            onPressed: () => addList(), 
-            icon: Icon(Icons.more_vert,
-            color: MyTheme().iconColor,)),
-
-          onTap: ()async {
-            var recentlyPlayedBox = await Hive.openBox('recently');
-            recentlyPlayedBox.add(song);
-            
-            // Recent.add(song);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(
-              songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), 
-              audioPlayer: player
-
-              )));
-            
+            onPressed: () {
+              setState(() {
+                if (selectedSongs.contains(index)) {
+                  selectedSongs.remove(index);
+                } else {
+                  selectedSongs.add(index);
+                }
+              });
+            },
+            icon: Icon(
+              selectedSongs.contains(index) ? Icons.check_box : Icons.add,
+              color: MyTheme().iconColor,
+            ),
+          ),
+          onTap: () async {
+            // Handle tap actions here
+            _updateSongDetails(index);
+            _changePlayerVisibility();
           },
          
         );

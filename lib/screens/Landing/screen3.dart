@@ -2,12 +2,33 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/screens/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingThree extends StatelessWidget {
   const LandingThree({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _shouldShowScreens(), 
+      builder: (context, snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
+        }
+        if (snapshot.data == true) {
+          return _buildLandingOne(context);
+        }else{
+          return ScreenHome();
+        }
+      });
+  }
+
+  Future<bool> _shouldShowScreens()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('hasSeenScreens') ?? true;
+  }
+  
+  Widget _buildLandingOne(BuildContext context) {
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -46,7 +67,9 @@ Beatfusion now!''',
                         ),
                       )
                     ),
-                    onPressed: (){
+                    onPressed: ()async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('hasSeenScreens', true);
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const ScreenHome(),), (route) => false);
                     }, 
                     child: Text('Get inside',style: FontStyles.greeting,))

@@ -11,16 +11,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class SongListView extends StatefulWidget {
+class PlaylistView extends StatefulWidget {
   final List<SongModel> songs;
 
-  const SongListView({super.key, required this.songs} );
+  const PlaylistView({super.key, required this.songs} );
 
   @override
-  State<SongListView> createState() => _SongListViewState();
+  State<PlaylistView> createState() => _PlaylistViewState();
 }
 
-class _SongListViewState extends State<SongListView> {
+class _PlaylistViewState extends State<PlaylistView> {
     int currentSongID = 0;
     Box<Song>? boxsong;
     final AudioPlayer player = AudioPlayer();
@@ -134,7 +134,7 @@ addList() {
 
   @override
   Widget build(BuildContext context) {
-    final songBox = Hive.box<Song>('songsbox');
+    final songBox = Hive.box<Song>('songs');
     print(songBox.length);
 
     for (var song in widget.songs) {

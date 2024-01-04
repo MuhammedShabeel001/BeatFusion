@@ -17,7 +17,7 @@ class SongHistoryAdapter extends TypeAdapter<SongHistory> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SongHistory(
-      RecentSong: fields[0] as String,
+      RecentSong: (fields[0] as List).cast<Song>(),
     );
   }
 

@@ -1,5 +1,6 @@
 
 // ignore: depend_on_referenced_packages
+import 'package:beatfusion/database/song.dart';
 import 'package:hive/hive.dart';
 part 'history.g.dart';
 
@@ -8,7 +9,7 @@ class SongHistory {
 
   @HiveField(0)
   // ignore: non_constant_identifier_names
-  String RecentSong;
+  List<Song> RecentSong;
 
   SongHistory({
     required this.RecentSong

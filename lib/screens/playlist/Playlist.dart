@@ -1,5 +1,6 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/screens/playlist/playlist_controller.dart';
 import 'package:flutter/material.dart';
 
 class playlistScreen extends StatelessWidget {
@@ -13,8 +14,13 @@ class playlistScreen extends StatelessWidget {
         title: const Text('Recent'),
       ),
       body: Center(
-        child: Text('Playlist screen',style: FontStyles.greeting,),
+        child: Text('Playlist',),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: (){
+          showalert(context);
+        }) ,
     );
   }
 }

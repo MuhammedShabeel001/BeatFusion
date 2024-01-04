@@ -1,7 +1,7 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/screens/Playlist.dart';
+import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/playing.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
