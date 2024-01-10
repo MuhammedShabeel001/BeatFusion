@@ -13,54 +13,54 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 class SongPlayListView extends StatefulWidget {
   final List<SongModel> songs;
+  final void Function(int index) onSongSelected;
 
-  const SongPlayListView({super.key, required this.songs} );
+  const SongPlayListView({Key? key, required this.songs, required this.onSongSelected});
 
   @override
   State<SongPlayListView> createState() => _SongPlayListViewState();
 }
 
 class _SongPlayListViewState extends State<SongPlayListView> {
-    int currentSongID = 0;
-    Box<Song>? boxsong;
-    final AudioPlayer player = AudioPlayer();
-  @override
- void initState(){
-  super.initState();
-  openSongs();
-}
-  
+  int currentSongID = 0;
+  late Box<Song> boxsong;
+  final AudioPlayer player = AudioPlayer();
 
+  @override
+  void initState() {
+    super.initState();
+    openSongs();
+  }
 
   void addToPlaylistFunction() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen()));
     print('Added to Playlist');
   }
 
   void addToFavoriteFunction() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()  ,));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()));
     print('Added to Favorite');
   }
 
-  void openSongs(){
-  // ignore: unrelated_type_equality_checks
-  boxsong!=Hive.openBox<Song>('songbox');
+  void openSongs() async {
+    // Use await when opening the box
+    boxsong = await Hive.openBox<Song>('songbox');
     print('..................................${boxsong}');
   }
 
   void _changePlayerVisibility() {
-      setState(() {
-        isPlayerViewVisible = true;
-      });
+    setState(() {
+      isPlayerViewVisible = true;
+    });
   }
 
   void _updateSongDetails(int index) {
     setState(() {
-      if (songs.isNotEmpty) {
-        currentSongTitle = songs[index].title;
+      if (widget.songs.isNotEmpty) {
+        currentSongTitle = widget.songs[index].title;
         currentIndex = index;
-        currentSongID = songs[index].id;
-        currentArtist = songs[index].artist;
+        currentSongID = widget.songs[index].id;
+        currentArtist = widget.songs[index].artist;
         isPlaying = true;
       }
     });
@@ -76,44 +76,48 @@ class _SongPlayListViewState extends State<SongPlayListView> {
     for (var song in widget.songs) {
       if (songBox.get(song.id) == null) {
         songBox.put(song.id, Song(
-          key: song.id, 
-          name: song.title, 
-          artist: song.artist ?? 'unknown', 
-          duration: song.duration ?? 0, 
-          filePath: song.data));
+          key: song.id,
+          name: song.title,
+          artist: song.artist ?? 'unknown',
+          duration: song.duration ?? 0,
+          filePath: song.data,
+        ));
       }
     }
 
     return ListView.builder(
       itemCount: songBox.length,
       itemBuilder: (context, index) {
-        final song=songBox.getAt(index);
+        final song = songBox.getAt(index);
         return ListTile(
-          contentPadding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
-
+          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           title: SizedBox(
             height: 18,
             child: Text(
               song!.name,
-            style: FontStyles.name,
-            maxLines: 1,),
+              style: FontStyles.name,
+              maxLines: 1,
+            ),
           ),
-
-          subtitle: Text( song.artist,
-          style: FontStyles.artist,
-          maxLines: 1,),
+          subtitle: Text(
+            song.artist,
+            style: FontStyles.artist,
+            maxLines: 1,
+          ),
           leading: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
-              color: MyTheme().primaryColor
+              color: MyTheme().primaryColor,
             ),
-            child: const Icon(Icons.music_note_rounded,
-            color: Colors.white,),
+            child: const Icon(
+              Icons.music_note_rounded,
+              color: Colors.white,
+            ),
           ),
-
           trailing: IconButton(
             onPressed: () {
+              widget.onSongSelected(index); // Call onSongSelected when pressed
               setState(() {
                 if (selectedSongs.contains(index)) {
                   selectedSongs.remove(index);
@@ -132,15 +136,8 @@ class _SongPlayListViewState extends State<SongPlayListView> {
             _updateSongDetails(index);
             _changePlayerVisibility();
           },
-         
         );
-
-        
-
-        
       },
     );
   }
-  
-
 }

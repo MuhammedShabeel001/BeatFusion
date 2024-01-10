@@ -1,5 +1,6 @@
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 part 'song.g.dart';
 
@@ -28,4 +29,13 @@ class Song {
     required this.filePath
   });
 
+  static Song fromSongModel(SongModel songModel) {
+    return Song(
+      key: songModel.id, 
+      name: songModel.title, 
+      artist: songModel.artist ?? 'unknown', 
+      duration: songModel.duration ?? 0, 
+      filePath: songModel.data);
+
+}
 }
