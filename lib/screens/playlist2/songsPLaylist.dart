@@ -4,14 +4,15 @@ import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist2/listOfPLaylistSongs.dart';
 import 'package:beatfusion/widgets/song_list_view.dart';
-import 'package:beatfusion/database/song.dart'; // Import the Song model
+import 'package:beatfusion/database/song.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SongsPlayList extends StatefulWidget {
-  const SongsPlayList({Key? key});
+  String ListName;
+  SongsPlayList({Key? key, required this.ListName}) : super(key: key);
 
   @override
   State<SongsPlayList> createState() => _SongsPlayListState();
@@ -21,7 +22,7 @@ class _SongsPlayListState extends State<SongsPlayList> {
   final OnAudioQuery audioQuery = OnAudioQuery();
   int _selectedValueOrder = 0;
   int _selectedValueSort = 0;
-  List<SongModel> selectedSongs = []; // List to store selected songs
+  Set<SongModel> selectedSongs = {};
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +37,18 @@ class _SongsPlayListState extends State<SongsPlayList> {
         actions: [
           TextButton(
             onPressed: () async {
-              // Add selected songs to Hive when OK button is pressed
               final playlistBox = await Hive.openBox<Playlist>('playlists');
-
-              // Replace 'Your Playlist Name' with the actual playlist name
-              final playlistName = 'Your Playlist Name';
+              final playlistName = widget.ListName;
 
               final existingPlaylist = playlistBox.get(playlistName);
 
               if (existingPlaylist != null) {
-                // If playlist exists, update the song list
                 final updatedPlaylist = Playlist(
                   name: playlistName,
                   song: [...existingPlaylist.song, ...selectedSongs.map((song) => Song.fromSongModel(song))],
                 );
                 playlistBox.put(playlistName, updatedPlaylist);
               } else {
-                // If playlist doesn't exist, create a new one
                 final newPlaylist = Playlist(
                   name: playlistName,
                   song: selectedSongs.map((song) => Song.fromSongModel(song)).toList(),
@@ -60,9 +56,7 @@ class _SongsPlayListState extends State<SongsPlayList> {
                 playlistBox.put(playlistName, newPlaylist);
               }
 
-              // Close the box after using it
               await playlistBox.close();
-
               Navigator.pop(context);
             },
             child: Text('OK'),
@@ -71,10 +65,11 @@ class _SongsPlayListState extends State<SongsPlayList> {
       ),
       body: FutureBuilder<List<SongModel>>(
         future: OnAudioQuery().querySongs(
-            sortType: sortTechnique[_selectedValueSort],
-            orderType: orderTechnique[_selectedValueOrder],
-            uriType: UriType.EXTERNAL,
-            ignoreCase: true),
+          sortType: sortTechnique[_selectedValueSort],
+          orderType: orderTechnique[_selectedValueOrder],
+          uriType: UriType.EXTERNAL,
+          ignoreCase: true,
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

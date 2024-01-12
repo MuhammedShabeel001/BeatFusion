@@ -75,7 +75,7 @@ class _SongPlayListViewState extends State<SongPlayListView> {
 
     for (var song in widget.songs) {
       if (songBox.get(song.id) == null) {
-        songBox.put(song.id, Song(
+        songBox.put(song.data, Song(
           key: song.id,
           name: song.title,
           artist: song.artist ?? 'unknown',

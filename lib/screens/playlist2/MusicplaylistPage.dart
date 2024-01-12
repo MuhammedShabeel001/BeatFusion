@@ -47,8 +47,8 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
                 onPressed: isButtonEnabled
                     ? () {
                         // Get the entered playlist name
-                        // String playlistName =
-                        //     playlistNameController.text.trim();
+                        String playlistName =
+                            playlistNameController.text.trim();
 
                         // // Create a new playlist object
                         // Playlist newPlaylist =
@@ -59,12 +59,12 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
                         // playlistBox.add(newPlaylist);
 
                         // // Close the dialog
-                        // Navigator.of(context).pop();
+                        Navigator.of(context).pop();
 
                         // Navigate to the new screen
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SongsPlayList()),
+                          MaterialPageRoute(builder: (context) => SongsPlayList(ListName: playlistName)),
                         );
                       }
                     : null,
