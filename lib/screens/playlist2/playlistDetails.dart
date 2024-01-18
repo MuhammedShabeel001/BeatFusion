@@ -29,7 +29,10 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           return ListTile(
             title: Text(song.name),
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), audioPlayer: player),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(songdata: 
+              // song.filePath,
+              Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
+               audioPlayer: player),));
             },
             trailing: IconButton(onPressed: (){}, icon:Icon(Icons.close),color: Colors.red,),
             // Add more information or actions related to each song if needed

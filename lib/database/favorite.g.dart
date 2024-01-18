@@ -17,25 +17,16 @@ class SongFavoriteAdapter extends TypeAdapter<SongFavorite> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SongFavorite(
-      key: fields[0] as int,
-      filePath: fields[1] as String,
-      name: fields[2] as String,
-      artist: fields[3] as String,
+      song: (fields[0] as List).cast<Song>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, SongFavorite obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.key)
       ..writeByte(1)
-      ..write(obj.filePath)
-      ..writeByte(2)
-      ..write(obj.name)
-      ..writeByte(3)
-      ..write(obj.artist);
+      ..writeByte(0)
+      ..write(obj.song);
   }
 
   @override

@@ -1,18 +1,17 @@
-import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
+import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist2/listOfPLaylistSongs.dart';
-import 'package:beatfusion/widgets/song_list_view.dart';
-import 'package:beatfusion/database/song.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class SongsPlayList extends StatefulWidget {
+  final Function? onPlaylistAdded; // Correctly define onPlaylistAdded
+
   String ListName;
-  SongsPlayList({Key? key, required this.ListName}) : super(key: key);
+  SongsPlayList({Key? key, required this.ListName, this.onPlaylistAdded}) : super(key: key);
 
   @override
   State<SongsPlayList> createState() => _SongsPlayListState();
@@ -57,7 +56,12 @@ class _SongsPlayListState extends State<SongsPlayList> {
               }
 
               await playlistBox.close();
-              Navigator.pop(context);
+              Navigator.pop(context, true);
+
+              // Call the callback function to notify the PlaylistScreen
+              if (widget.onPlaylistAdded != null) {
+                widget.onPlaylistAdded!();
+              }
             },
             child: Text('OK'),
           )

@@ -2,15 +2,18 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
+// import 'package:beatfusion/screens/favourite/favcontrols.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 
+// ignore: must_be_immutable
 class PlayingScreen extends StatefulWidget {
-  final Song songdata;
-  final AudioPlayer audioPlayer;
+  Song songdata;
+  AudioPlayer audioPlayer;
 
-  const PlayingScreen({Key? key, required this.songdata, required this.audioPlayer})
+  PlayingScreen({Key? key,  required this.songdata, required this.audioPlayer})
       : super(key: key);
 
   @override
@@ -18,9 +21,11 @@ class PlayingScreen extends StatefulWidget {
 }
 
 class _PlayingScreenState extends State<PlayingScreen> {
-  late AudioPlayer _audioPlayer;
+  late  AudioPlayer _audioPlayer;
   bool isPlaying = false;
   double _currentSliderValue = 0.0;
+
+  
 
   String formatDuration(Duration duration) {
   String twoDigits(int n) => n.toString().padLeft(2, "0");
@@ -112,6 +117,38 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var PlayBox = Hive.box<Song>('songsbox');
+
+    int findcurrentSong(songs){
+      for (int i=0; i< PlayBox.length; i++){
+        if(PlayBox.getAt(i)?.filePath == songs){
+          return i;
+        }
+      }
+      return -1;
+    }
+    
+    
+    void playNext(int index)async{
+      final nextSong = PlayBox.getAt(index);
+      if (nextSong != null ){
+        setState(() {
+          widget.songdata = nextSong;
+        });
+        await _audioPlayer;
+      }
+    }
+
+    void playPrev(int index)async{
+      final prevSong = PlayBox.getAt(index);
+      if (prevSong != null ){
+        setState(() {
+          widget.songdata = prevSong;
+        });
+        await _audioPlayer;
+      }
+    }
+
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
       appBar: AppBar(
@@ -241,15 +278,29 @@ class _PlayingScreenState extends State<PlayingScreen> {
                             children: [
                               IconButton(
                                   onPressed: () async {
-                                    _audioPlayer.previousIndex;
-                                    int newPosition =
-                                (_audioPlayer.position.inSeconds - 10).toInt();
-                            if (newPosition <
-                                _audioPlayer.duration!.inSeconds) {
-                              _audioPlayer.seek(Duration(seconds: newPosition));
-                              setState(() {
-                                _currentSliderValue = newPosition.toDouble();
-                              });}
+                                    final currentposition = _audioPlayer.position;
+                                    const tenSec = Duration(seconds: 10);
+
+                                    if(currentposition >= tenSec){
+                                      await _audioPlayer.seek(Duration.zero);
+                                      await _audioPlayer.play();
+                                    }else{
+                                      stopSong();
+                                    }
+                                    int currentIndex = findcurrentSong(widget.songdata);
+                                    if (currentIndex != -1 && currentIndex > 0){
+                                      playPrev(currentIndex - 1);
+                                      await AudioPlayer();
+                                    }
+                            //         _audioPlayer.previousIndex;
+                            //         int newPosition =
+                            //     (_audioPlayer.position.inSeconds - 10).toInt();
+                            // if (newPosition <
+                            //     _audioPlayer.duration!.inSeconds) {
+                            //   _audioPlayer.seek(Duration(seconds: newPosition));
+                            //   setState(() {
+                            //     _currentSliderValue = newPosition.toDouble();
+                            //   });}
                                   },
                                   icon: SvgPicture.asset('assets/pics/prev.svg')),
                               const SizedBox(
@@ -286,14 +337,18 @@ class _PlayingScreenState extends State<PlayingScreen> {
                               ),
                               IconButton(
                                   onPressed: ()  {
-                                    int newPosition =
-                                (_audioPlayer.position.inSeconds + 10).toInt();
-                            if (newPosition <
-                                _audioPlayer.duration!.inSeconds) {
-                              _audioPlayer.seek(Duration(seconds: newPosition));
-                              setState(() {
-                                _currentSliderValue = newPosition.toDouble();
-                              });}
+                                    int currentIndex = findcurrentSong(widget.songdata);
+                                    if (currentIndex != -1 && currentIndex < PlayBox.length-1){
+                                      playNext(currentIndex +1);
+                                    }
+                            //         int newPosition =
+                            //     (_audioPlayer.position.inSeconds + 10).toInt();
+                            // if (newPosition <
+                            //     _audioPlayer.duration!.inSeconds) {
+                            //   _audioPlayer.seek(Duration(seconds: newPosition));
+                            //   setState(() {
+                            //     _currentSliderValue = newPosition.toDouble();
+                            //   });}
                                   },
                                   icon: SvgPicture.asset('assets/pics/next.svg')),
                                 ],

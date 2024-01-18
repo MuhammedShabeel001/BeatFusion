@@ -21,7 +21,7 @@ class LibraryScreen extends StatelessWidget {
   }
 
   void onTapHistory(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const RecentScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  RecentScreen()));
   }
 
   @override

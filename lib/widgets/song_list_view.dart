@@ -181,18 +181,43 @@ addList() {
             icon: Icon(Icons.more_vert,
             color: MyTheme().iconColor,)),
 
-          onTap: ()async {
-            var recentlyPlayedBox = await Hive.openBox('recently');
-            recentlyPlayedBox.add(song);
-            
-            // Recent.add(song);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(
-              songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), 
-              audioPlayer: player
+          onTap: () async {
+  // Open the SongHistory Hive box
+  var historyBox = await Hive.openBox<SongHistory>('history');
 
-              )));
-            
-          },
+  // Get the current song from the SongBox
+  var song = songBox.getAt(index);
+
+  // Get the existing list of recent songs from the SongHistory box
+  var recentSongs = historyBox.get(0)?.RecentSong ?? [];
+
+  // Add the current song to the list
+  recentSongs.add(Song(
+    key: song!.key,
+    name: song.name,
+    artist: song.artist,
+    duration: song.duration,
+    filePath: song.filePath,
+  ));
+
+  // Update the SongHistory box with the new list
+  historyBox.put(0, SongHistory(RecentSong: recentSongs));
+
+  // Close the SongHistory box
+  await historyBox.close();
+
+  // Navigate to the PlayingScreen
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => PlayingScreen(
+        songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
+        audioPlayer: player,
+      ),
+    ),
+  );
+},
+
          
         );
 
@@ -205,3 +230,10 @@ addList() {
   
 
 }
+
+
+
+
+// User
+// in the above provided code only one song is listed down/storing to hive field 
+// I need the code to add every song to the hive field

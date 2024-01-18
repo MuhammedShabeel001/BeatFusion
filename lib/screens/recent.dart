@@ -1,19 +1,39 @@
-import 'package:beatfusion/common/text_style.dart';
-import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/history.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+// import 'package:your_project_name/database/history.dart';
 
 class RecentScreen extends StatelessWidget {
-  const RecentScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme().primaryColor,
       appBar: AppBar(
-        title: const Text('Recent'),
+        title: Text('Recent Songs'),
       ),
-      body: Center(
-        child: Text('Recently played screen',style: FontStyles.greeting,),
+      body: FutureBuilder(
+        future: Hive.openBox<SongHistory>('history'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            var historyBox = Hive.box<SongHistory>('history');
+            var recentSongs = historyBox.get(0)?.RecentSong ?? [];
+
+            return ListView.builder(
+              itemCount: recentSongs.length,
+              itemBuilder: (context, index) {
+                var song = recentSongs[index];
+                return ListTile(
+                  title: Text(song.name),
+                  subtitle: Text(song.artist),
+                  // Add more UI components as needed
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

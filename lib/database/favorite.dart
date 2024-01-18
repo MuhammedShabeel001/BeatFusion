@@ -1,4 +1,5 @@
 
+import 'package:beatfusion/database/song.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'favorite.g.dart';
@@ -6,21 +7,12 @@ part 'favorite.g.dart';
 @HiveType(typeId: 2)
 class SongFavorite{
   @HiveField(0)
-  int key ;
+  final List<Song> song;
 
-  @HiveField(1)
-  String filePath;
-
-  @HiveField(2)
-  String name;
-
-  @HiveField(3)
-  String artist;
+  
 
   SongFavorite({
-    required this.key,
-    required this.filePath,
-    required this.name,
-    required this.artist
+    required this.song,
+    
   });
 }

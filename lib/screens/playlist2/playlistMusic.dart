@@ -4,7 +4,12 @@ import 'package:beatfusion/screens/playlist2/playlistDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class PlaylistScreen extends StatelessWidget {
+class PlaylistScreen extends StatefulWidget {
+  @override
+  State<PlaylistScreen> createState() => _PlaylistScreenState();
+}
+
+class _PlaylistScreenState extends State<PlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,27 +48,18 @@ class PlaylistScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showAddPlaylistDialog(context);
+        onPressed: () async {
+          // Show the Add Playlist dialog
+          final result = await showAddPlaylistDialog(context);
+
+          // Check the result and refresh the screen if needed
+          
+            // Refresh the screen by calling setState
+            setState(() {});
+          
         },
         child: Icon(Icons.add),
       ),
     );
   }
-
-  // void showAddPlaylistDialog(BuildContext context) {
-  //   // Implement the logic to show a dialog for adding a new playlist
-  //   // For example, using the showDialog method
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Add Playlist'),
-  //         // Add the form fields or input widgets for playlist name and songs
-  //         // Implement the logic to add the new playlist to the box
-  //         // Update the UI accordingly
-  //       );
-  //     },
-  //   );
-  // }
 }
