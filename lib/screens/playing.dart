@@ -1,5 +1,6 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 // import 'package:beatfusion/screens/favourite/favcontrols.dart';
@@ -148,6 +149,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
         await _audioPlayer;
       }
     }
+
+    // final songBox = Hive.box<Song>('songsbox');
 
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
@@ -362,8 +365,22 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                   children: [
                                     //favorite
                                     IconButton(
-                                      onPressed: (){}, 
-                                      icon: SvgPicture.asset('assets/pics/Fav.svg')),
+  onPressed: () async {
+    var FavoriteBox = await Hive.openBox<SongFavorite>('song_favorite_box');
+    var currentSong = widget.songdata;
+    var FavSongs = FavoriteBox.get(0)?.song ?? [];
+
+    FavSongs.add(Song(
+      key: currentSong.key,
+      name: currentSong.name,
+      artist: currentSong.artist,
+      duration: currentSong.duration,
+      filePath: currentSong.filePath,
+    ));
+
+    FavoriteBox.put(0, SongFavorite(song: FavSongs));
+  }, 
+  icon: SvgPicture.asset('assets/pics/Fav.svg')),
                                     IconButton(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,

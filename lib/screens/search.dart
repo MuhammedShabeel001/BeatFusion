@@ -100,7 +100,7 @@ void addToFavoriteFunction() {
   @override
   void initState() {
     super.initState();
-    songBox = Hive.box<Song>('songs');
+    songBox = Hive.box<Song>('songsbox');
   }
 
   List<Song> searchSongs(String query) {

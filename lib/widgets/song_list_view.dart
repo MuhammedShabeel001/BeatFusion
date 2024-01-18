@@ -7,6 +7,7 @@ import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/favourite/fav_list.dart';
 import 'package:beatfusion/screens/playing.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -62,8 +63,8 @@ addList() {
                 ListTile(
                   onTap: () {
                     // Handle Add to Playlist action
-                    addToPlaylistFunction();
-                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => playlistScreen(),));
+                    // Navigator.pop(context);
                   },
                   title: Text(
                     'Add to Playlist',

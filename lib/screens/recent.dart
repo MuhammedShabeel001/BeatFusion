@@ -1,7 +1,6 @@
 import 'package:beatfusion/database/history.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-// import 'package:your_project_name/database/history.dart';
 
 class RecentScreen extends StatelessWidget {
   @override
@@ -20,6 +19,9 @@ class RecentScreen extends StatelessWidget {
           } else {
             var historyBox = Hive.box<SongHistory>('history');
             var recentSongs = historyBox.get(0)?.RecentSong ?? [];
+
+            // Reverse the order of recentSongs
+            recentSongs = recentSongs.reversed.toList();
 
             return ListView.builder(
               itemCount: recentSongs.length,
