@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class LibraryScreen extends StatelessWidget {
   LibraryScreen({super.key});
 
-  final List<String> itemNames = ['Favorite', 'Playlists', 'History'];
+  final List<String> itemNames = ['Favorite', 'Playlists', 'Recent'];
 
   void onTapFavorite(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()));

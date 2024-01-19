@@ -17,9 +17,8 @@ Future<void> main() async{
   await Hive.initFlutter();
   Hive.registerAdapter(SongAdapter());
   Hive.registerAdapter(PlaylistAdapter());
-  // Hive.registerAdapter(SongFavoriteAdapter());
-  // Hive.registerAdapter(SongFavoriteAdapter());
   Hive.registerAdapter(SongHistoryAdapter());
+  // Hive.registerAdapter(SongFavoriteAdapter());
   // await openBoxes();
   
   await Hive.openBox<Song>('songsbox');

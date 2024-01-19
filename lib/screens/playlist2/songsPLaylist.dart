@@ -1,9 +1,11 @@
+import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist2/listOfPLaylistSongs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -28,6 +30,9 @@ class _SongsPlayListState extends State<SongsPlayList> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: SvgPicture.asset('assets/pics/back.svg')),
         backgroundColor: MyTheme().secondaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -63,7 +68,7 @@ class _SongsPlayListState extends State<SongsPlayList> {
                 widget.onPlaylistAdded!();
               }
             },
-            child: Text('OK'),
+            child: Text('OK',style: FontStyles.greeting,),
           )
         ],
       ),

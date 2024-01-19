@@ -1,7 +1,10 @@
 import 'package:beatfusion/common/text_style.dart';
+import 'package:beatfusion/widgets/privacyPolicy.dart';
 import 'package:beatfusion/widgets/rate_us.dart';
+import 'package:beatfusion/widgets/termsOfUse.dart';
 import 'package:flutter/material.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -76,10 +79,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ListTile(
                           contentPadding: const EdgeInsets.only(left: 15),
                           title: Text('Privacy Policy',style: FontStyles.settings,),
+                          onTap: () => showPrivacyPolicy(context)
+                          // {
+                          //   // Navigator.push(context, MaterialPageRoute(builder: (context) => showPrivacyPolicy(),));
+                          // },
                         ),
                         ListTile(
                           contentPadding: const EdgeInsets.only(left: 15),
                           title: Text('Terms of use',style: FontStyles.settings,),
+                          onTap: () => showTermOfUse(context)
                         ),
                       ],
                     ),

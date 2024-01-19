@@ -1,5 +1,7 @@
 
 
+import 'package:beatfusion/common/text_style.dart';
+import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/screens/playlist/playlist_songs.dart';
 import 'package:beatfusion/screens/playlist2/songsPLaylist.dart';
@@ -14,9 +16,12 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(
+        
+        // backgroundColor: MyTheme().tertiaryColor,
         builder: (context, setState) {
           return AlertDialog(
-            title: Text('Add Playlist'),
+            backgroundColor: MyTheme().tertiaryColor,
+            title: Text('Add Playlist',style: TextStyle(color: MyTheme().primaryColor),),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -30,20 +35,20 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
                   },
                   decoration: InputDecoration(
                     hintText: 'Enter playlist name',
-                    errorText: isButtonEnabled ? null : 'Playlist name is required',
+                    errorText: isButtonEnabled ? null : '',
                   ),
                 ),
               ],
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('Cancel'),
+                child: Text('Cancel',style: TextStyle(color: MyTheme().secondaryColor),),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: Text('Add'),
+                child: Text('Add',),
                 onPressed: isButtonEnabled
                     ? () {
                         // Get the entered playlist name
