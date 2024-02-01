@@ -4,7 +4,7 @@
 import 'package:beatfusion/common/theme.dart';
 // import 'package:beatfusion/database/playlist.dart';
 // import 'package:beatfusion/screens/playlist/playlist_songs.dart';
-import 'package:beatfusion/screens/playlist2/songsPLaylist.dart';
+// import 'package:beatfusion/screens/playlist2/songsPLaylist.dart';
 import 'package:flutter/material.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 
