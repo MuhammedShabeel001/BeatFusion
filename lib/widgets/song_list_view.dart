@@ -211,7 +211,12 @@ addList() {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => PlayingScreen(
+      builder: (context) =>
+      //  PlayingScreen(
+      //   songs: [], 
+      //   currentIndex: currentIndex, 
+      //   audioPlayer: player)
+      PlayingScreen(
         songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
         audioPlayer: player,
       ),

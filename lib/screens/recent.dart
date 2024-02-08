@@ -2,6 +2,7 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/song.dart';
+import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -77,7 +78,12 @@ class RecentScreen extends StatelessWidget {
             Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => PlayingScreen(
+      builder: (context) => 
+      // PlayingScreen(
+      //   songs: [], 
+      //   currentIndex: currentIndex, 
+      //   audioPlayer: player)
+      PlayingScreen(
         songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
         audioPlayer: player,
       ),

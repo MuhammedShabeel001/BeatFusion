@@ -1,6 +1,7 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
+import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playing.dart';
 import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:flutter/material.dart';
@@ -66,10 +67,16 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           style: FontStyles.artist,
           maxLines: 1,),
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(songdata: 
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => 
+        //           PlayingScreen(
+        // songs: [], 
+        // currentIndex: currentIndex, 
+        // audioPlayer: player)
+                   PlayingScreen(songdata: 
                   // song.filePath,
                   Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
-                   audioPlayer: player),));
+                   audioPlayer: player),
+                   ));
                 },
                 trailing: IconButton(onPressed: (){}, icon:Icon(Icons.close),color: Colors.red,),
                 // Add more information or actions related to each song if needed

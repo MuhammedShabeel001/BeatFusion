@@ -187,12 +187,18 @@ addList() {
             recentlyPlayedBox.add(song);
             
             // Recent.add(song);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PlayingScreen(
+            Navigator.push(context, MaterialPageRoute(builder: (context) => 
+        //     PlayingScreen(
+        // songs: [], 
+        // currentIndex: currentIndex, 
+        // audioPlayer: player)
+             PlayingScreen(
               // songdata: song.filePath,
               songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), 
               audioPlayer: player
 
-              )));
+              )
+              ));
             
           },
          

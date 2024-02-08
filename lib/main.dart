@@ -24,7 +24,7 @@ Future<void> main() async{
   await Hive.openBox<Song>('songsbox');
   await Hive.openBox<Playlist>('playlistbox');
   await Hive.openBox<SongHistory>('history');
-  await Hive.openBox<SongFavorite>('song_favorite_box');
+  // await Hive.openBox<SongFavorite>('song_favorite_box');
   runApp(const BeatFusion());
 }
 

@@ -3,7 +3,6 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
-// import 'package:beatfusion/screens/favourite/favcontrols.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -44,18 +43,73 @@ class _PlayingScreenState extends State<PlayingScreen> {
       _audioPlayer.setUrl(widget.songdata.filePath);
       _audioPlayer.play();
       setState(() {
-        isPlaying=true;
+        isPlaying = true;
       });
 
       _audioPlayer.positionStream.listen((position) {
         setState(() {
           _currentSliderValue = position.inMilliseconds.toDouble();
         });
-       });
+      });
     }catch(e){
       print('catch an error');
     }
   }
+
+  List<Song> getSongBoxAsList(){
+    var songBox = Hive.box<Song>('songsbox');
+    List<Song> songsList = [];
+    for (int i=0; i<songBox.length; i++){
+      songsList.add(songBox.getAt(i)!);
+    }
+    return songsList;
+  }
+
+  void playNext() async {
+    int currentIndex = findcurrentSongIndex(widget.songdata);
+    var songsList = getSongBoxAsList();
+
+    if (currentIndex != -1 && currentIndex < songsList.length - 1) {
+      setState(() {
+        widget.songdata = songsList[currentIndex + 1];
+      });
+      await _audioPlayer.setUrl(widget.songdata.filePath);
+      await _audioPlayer.play();
+    }
+  }
+
+  void playPrev() async {
+    int currentIndex = findcurrentSongIndex(widget.songdata);
+    var songsList = getSongBoxAsList();
+
+    if (currentIndex != -1 && currentIndex > 0) {
+      setState(() {
+        widget.songdata = songsList[currentIndex - 1];
+      });
+      await _audioPlayer.setUrl(widget.songdata.filePath);
+      await _audioPlayer.play();
+    }
+  }
+
+  int findcurrentSongIndex(Song song) {
+    var songsList = getSongBoxAsList();
+    for (int i = 0; i < songsList.length; i++) {
+      if (songsList[i].filePath == song.filePath) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  // int findcurrentSong(Song song){
+  //   var songsbox = Hive.box<Song>('songbox');
+  //   for(int i=0; i<songsbox.length; i++){
+  //     if (songsbox.getAt(i)?.name == song.name || songsbox.getAt(i)?.filePath == song.filePath){
+  //       return i;
+  //     }
+  //   }
+  //   return -1;
+  // }
 
   void togglePlayPause() async {
     if(isPlaying){
@@ -120,9 +174,18 @@ class _PlayingScreenState extends State<PlayingScreen> {
   Widget build(BuildContext context) {
     var PlayBox = Hive.box<Song>('songsbox');
 
-    int findcurrentSong(songs){
-      for (int i=0; i< PlayBox.length; i++){
-        if(PlayBox.getAt(i)?.filePath == songs){
+    // int findcurrentSong(songs){
+    //   for (int i=0; i< PlayBox.length; i++){
+    //     if(PlayBox.getAt(i)?.filePath == songs){
+    //       return i;
+    //     }
+    //   }
+    //   return -1;
+    // }
+
+    int findCurrentSongIndex(String filePath) {
+      for (int i = 0; i < PlayBox.length; i++) {
+        if (PlayBox.getAt(i)?.filePath == filePath) {
           return i;
         }
       }
@@ -130,25 +193,25 @@ class _PlayingScreenState extends State<PlayingScreen> {
     }
     
     
-    void playNext(int index)async{
-      final nextSong = PlayBox.getAt(index);
-      if (nextSong != null ){
-        setState(() {
-          widget.songdata = nextSong;
-        });
-        await _audioPlayer;
-      }
-    }
+    // void playNext(int index)async{
+    //   final nextSong = PlayBox.getAt(index);
+    //   if (nextSong != null ){
+    //     setState(() {
+    //       widget.songdata = nextSong;
+    //     });
+    //     await _audioPlayer;
+    //   }
+    // }
 
-    void playPrev(int index)async{
-      final prevSong = PlayBox.getAt(index);
-      if (prevSong != null ){
-        setState(() {
-          widget.songdata = prevSong;
-        });
-        await _audioPlayer;
-      }
-    }
+    // void playPrev(int index)async{
+    //   final prevSong = PlayBox.getAt(index);
+    //   if (prevSong != null ){
+    //     setState(() {
+    //       widget.songdata = prevSong;
+    //     });
+    //     await _audioPlayer;
+    //   }
+    // }
 
     // final songBox = Hive.box<Song>('songsbox');
 
@@ -290,9 +353,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                     }else{
                                       stopSong();
                                     }
-                                    int currentIndex = findcurrentSong(widget.songdata);
+                                    int currentIndex = findCurrentSongIndex(widget.songdata.filePath);
                                     if (currentIndex != -1 && currentIndex > 0){
-                                      playPrev(currentIndex - 1);
+                                      playPrev();
                                       await AudioPlayer();
                                     }
                             //         _audioPlayer.previousIndex;
@@ -340,9 +403,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                               ),
                               IconButton(
                                   onPressed: ()  {
-                                    int currentIndex = findcurrentSong(widget.songdata);
+                                    int currentIndex = findCurrentSongIndex(widget.songdata.filePath);
                                     if (currentIndex != -1 && currentIndex < PlayBox.length-1){
-                                      playNext(currentIndex +1);
+                                      playNext();
                                     }
                             //         int newPosition =
                             //     (_audioPlayer.position.inSeconds + 10).toInt();
