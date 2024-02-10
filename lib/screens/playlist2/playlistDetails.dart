@@ -12,7 +12,7 @@ import 'package:just_audio/just_audio.dart';
 class PlaylistDetailScreen extends StatefulWidget {
   final Playlist playlist;
 
-  const PlaylistDetailScreen(this.playlist);
+   PlaylistDetailScreen(this.playlist);
 
   @override
   State<PlaylistDetailScreen> createState() => _PlaylistDetailScreenState();
@@ -20,11 +20,22 @@ class PlaylistDetailScreen extends StatefulWidget {
 
 class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   final AudioPlayer player = AudioPlayer();
+  void refreshScreen(){
+    setState(() {
+      
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
+      // backgroundColor: Colors.amber,
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed: (){
+            refreshScreen();
+          }, icon: Icon(Icons.refresh_outlined))
+        ],
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
         }, icon: SvgPicture.asset('assets/pics/back.svg')),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
+// import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
 class PlayingScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
   late  AudioPlayer _audioPlayer;
   bool isPlaying = false;
   double _currentSliderValue = 0.0;
-
+  bool isRepeating = false;
   
 
   String formatDuration(Duration duration) {
@@ -50,10 +51,24 @@ class _PlayingScreenState extends State<PlayingScreen> {
         setState(() {
           _currentSliderValue = position.inMilliseconds.toDouble();
         });
+
+        // if (position >= _audioPlayer.position) {
+        //   playNext();
+        // }
       });
+
+      
+      
     }catch(e){
       print('catch an error');
     }
+  }
+
+  void toggleRepeat(){
+    setState(() {
+      isRepeating = !isRepeating;
+      _audioPlayer.setLoopMode(isRepeating ? LoopMode.one : LoopMode.off);
+    });
   }
 
   List<Song> getSongBoxAsList(){
@@ -448,41 +463,69 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                     onPressed: () async {
-                                      setState(() {
-                                        isShuffle = !isShuffle;
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              isShuffle
-                                                  ? 'Shuffle On'
-                                                  : 'Shuffle Off',
-                                              textAlign: TextAlign.center,
-                                              style: FontStyles.artist2,
-                                            ),
-                                            behavior:
-                                                SnackBarBehavior.floating,
-                                            margin: const EdgeInsets.only(
-                                                bottom:300,
-                                                left: 70,
-                                                right: 70),
-                                            duration: const Duration(
-                                                milliseconds: 600),
-                                            backgroundColor:
-                                                const Color.fromARGB(
-                                                    131, 64, 66, 88),
-                                            elevation: 0,
-                                            shape:
-                                                const RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                20.0))),
-                                          ),
-                                        );
-                                      });
-                                      await _audioPlayer
-                                          .setShuffleModeEnabled(isShuffle);
+                                      // setState(() {
+                                      //   isShuffle = !isShuffle;
+                                      //   ScaffoldMessenger.of(context)
+                                      //       .showSnackBar(
+                                      //     SnackBar(
+                                      //       content: Text(
+                                      //         isShuffle
+                                      //             ? 'Shuffle On'
+                                      //             : 'Shuffle Off',
+                                      //         textAlign: TextAlign.center,
+                                      //         style: FontStyles.artist2,
+                                      //       ),
+                                      //       behavior:
+                                      //           SnackBarBehavior.floating,
+                                      //       margin: const EdgeInsets.only(
+                                      //           bottom:300,
+                                      //           left: 70,
+                                      //           right: 70),
+                                      //       duration: const Duration(
+                                      //           milliseconds: 600),
+                                      //       backgroundColor:
+                                      //           const Color.fromARGB(
+                                      //               131, 64, 66, 88),
+                                      //       elevation: 0,
+                                      //       shape:
+                                      //           const RoundedRectangleBorder(
+                                      //               borderRadius:
+                                      //                   BorderRadius.all(
+                                      //                       Radius.circular(
+                                      //                           20.0))),
+                                      //     ),
+                                      //   );
+                                      // });
+                                      // await _audioPlayer
+                                      //     .setShuffleModeEnabled(isShuffle);
+
+                                      // await _audioPlayer.setShuffleModeEnabled(!isShuffle);
+                                      // setState(() {
+                                      //   isShuffle = !isShuffle;
+                                      // });
+                                      toggleRepeat();
+
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      isShuffle ? 'Repeat On' : 'Repeat Off',
+                      textAlign: TextAlign.center,
+                      style: FontStyles.artist2,
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    margin: const EdgeInsets.only(
+                      bottom: 310,
+                      left: 70,
+                      right: 70,
+                    ),
+                    duration: const Duration(milliseconds: 600),
+                    backgroundColor: const Color.fromARGB(131, 64, 66, 88),
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                  ),
+                );
                                      },
                                     icon:isShuffle
                                         ? SvgPicture.asset('assets/pics/suffleon.svg')

@@ -13,11 +13,21 @@ class PlaylistScreen extends StatefulWidget {
 }
 
 class _PlaylistScreenState extends State<PlaylistScreen> {
+
+  Future <void> refreshScreen()async{
+    setState(() {
+      
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme().primaryColor,
-      appBar: AppBar(leading: IconButton(onPressed: (){
+      
+      // backgroundColor: MyTheme().primaryColor,
+      backgroundColor: Colors.amber,
+      appBar: AppBar(
+        actions: [IconButton(onPressed: (){refreshScreen();}, icon: Icon(Icons.refresh))],
+        leading: IconButton(onPressed: (){
         Navigator.pop(context);
       }, icon: SvgPicture.asset('assets/pics/back.svg')),
         title: Text('Playlist Screen',style: FontStyles.greeting,),

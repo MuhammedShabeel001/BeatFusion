@@ -67,7 +67,7 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
                         Navigator.of(context).pop();
 
                         // Navigate to the new screen
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => SongsPlayList(ListName: playlistName)),
                         );
