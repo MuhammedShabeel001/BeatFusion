@@ -191,6 +191,11 @@ addList() {
 
   // Get the existing list of recent songs from the SongHistory box
   var recentSongs = historyBox.get(0)?.RecentSong ?? [];
+  int existingIndex = recentSongs.indexWhere((element) => element.key == song!.key);
+
+  if (existingIndex != -1) {
+    recentSongs.removeAt(existingIndex);
+  }
 
   // Add the current song to the list
   recentSongs.add(Song(
@@ -236,10 +241,3 @@ addList() {
   
 
 }
-
-
-
-
-// User
-// in the above provided code only one song is listed down/storing to hive field 
-// I need the code to add every song to the hive field

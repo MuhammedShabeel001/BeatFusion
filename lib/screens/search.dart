@@ -102,6 +102,8 @@ void addToFavoriteFunction() {
   void initState() {
     super.initState();
     songBox = Hive.box<Song>('songsbox');
+
+    performSearch();
   }
 
   List<Song> searchSongs(String query) {
@@ -124,6 +126,7 @@ void addToFavoriteFunction() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(actions: [IconButton(onPressed: (){}, icon: Icon(Icons.refresh_rounded))],),
       backgroundColor: MyTheme().primaryColor,
       body: SafeArea(
         child: Container(

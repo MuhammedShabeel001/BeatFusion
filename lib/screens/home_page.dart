@@ -106,7 +106,8 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onPressed: (){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => const ScreenSearch(),));
+               
+               Navigator.push(context, MaterialPageRoute(builder: (context) =>  ScreenSearch(),));
              }, 
             icon: SvgPicture.asset('assets/pics/search.svg')),
           IconButton(
