@@ -3,6 +3,7 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
+import 'package:beatfusion/widgets/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -43,6 +44,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
     try{
       _audioPlayer.setUrl(widget.songdata.filePath);
       _audioPlayer.play();
+
+      addToHistory(widget.songdata);
       setState(() {
         isPlaying = true;
       });
@@ -81,6 +84,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
   }
 
   void playNext() async {
+    
     int currentIndex = findcurrentSongIndex(widget.songdata);
     var songsList = getSongBoxAsList();
 
@@ -90,10 +94,13 @@ class _PlayingScreenState extends State<PlayingScreen> {
       });
       await _audioPlayer.setUrl(widget.songdata.filePath);
       await _audioPlayer.play();
+
+      addToHistory(widget.songdata);
     }
   }
 
   void playPrev() async {
+    
     int currentIndex = findcurrentSongIndex(widget.songdata);
     var songsList = getSongBoxAsList();
 
@@ -103,6 +110,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
       });
       await _audioPlayer.setUrl(widget.songdata.filePath);
       await _audioPlayer.play();
+
+      addToHistory(widget.songdata);
     }
   }
 
