@@ -1,10 +1,8 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/favourite/fav_list.dart';
 import 'package:beatfusion/screens/playlist2/playlistMusic.dart';
 import 'package:beatfusion/screens/recent.dart';
-import 'package:beatfusion/screens/recent/list_of_recentsongs.dart';
 import 'package:flutter/material.dart';
 
 class LibraryScreen extends StatelessWidget {
@@ -13,7 +11,7 @@ class LibraryScreen extends StatelessWidget {
   final List<String> itemNames = ['Favorite', 'Playlists', 'Recent'];
 
   void onTapFavorite(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteScreen()));
   }
 
   void onTapPlaylists(BuildContext context) {

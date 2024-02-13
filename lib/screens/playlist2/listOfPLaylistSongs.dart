@@ -1,11 +1,9 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/favourite/fav_list.dart';
-import 'package:beatfusion/screens/playing.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
@@ -117,7 +115,7 @@ class _SongPlayListViewState extends State<SongPlayListView> {
           ),
           trailing: IconButton(
             onPressed: () {
-              widget.onSongSelected(index); // Call onSongSelected when pressed
+              widget.onSongSelected(index);
               setState(() {
                 if (selectedSongs.contains(index)) {
                   selectedSongs.remove(index);

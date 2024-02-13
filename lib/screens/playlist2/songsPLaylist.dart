@@ -3,18 +3,16 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
-import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/playlist2/listOfPLaylistSongs.dart';
-import 'package:beatfusion/screens/playlist2/playlistDetails.dart';
 import 'package:beatfusion/screens/playlist2/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+// ignore: must_be_immutable
 class SongsPlayList extends StatefulWidget {
-  final Function? onPlaylistAdded; // Correctly define onPlaylistAdded
+  final Function? onPlaylistAdded; 
   final VoidCallback? onPlaylistUpdated;
 
   String ListName;
@@ -67,14 +65,9 @@ class _SongsPlayListState extends State<SongsPlayList> {
               }
 
               await playlistBox.close();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen()));
-              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(),));
               // ignore: use_build_context_synchronously
-              // Navigator.pop(context);
-              // Navigator.push(context,
-              //  MaterialPageRoute(builder: (context) => playlistScreen(),));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen()));
 
-              // Call the callback function to notify the PlaylistScreen
               if (widget.onPlaylistAdded != null) {
                 widget.onPlaylistAdded!();
               }
@@ -96,7 +89,7 @@ class _SongsPlayListState extends State<SongsPlayList> {
         ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {

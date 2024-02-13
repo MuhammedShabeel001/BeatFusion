@@ -1,6 +1,5 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist/Playlist.dart';
@@ -61,7 +60,6 @@ addList() {
               children: [
                 ListTile(
                   onTap: () {
-                    // Handle Add to Playlist action
                     addToPlaylistFunction();
                     Navigator.pop(context);
                   },
@@ -76,7 +74,6 @@ addList() {
                 ),
                 ListTile(
                   onTap: () {
-                    // Handle Add to Favorite action
                     addToFavoriteFunction();
                     Navigator.pop(context);
                   },
@@ -109,7 +106,6 @@ addList() {
   }
 
   void openSongs(){
-  // ignore: unrelated_type_equality_checks
   boxsong!=Hive.openBox<Song>('songbox');
     print('..................................${boxsong}');
   }
@@ -185,31 +181,15 @@ addList() {
           onTap: ()async {
             var recentlyPlayedBox = await Hive.openBox('recently');
             recentlyPlayedBox.add(song);
-            
-            // Recent.add(song);
             Navigator.push(context, MaterialPageRoute(builder: (context) => 
-        //     PlayingScreen(
-        // songs: [], 
-        // currentIndex: currentIndex, 
-        // audioPlayer: player)
              PlayingScreen(
-              // songdata: song.filePath,
               songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), 
               audioPlayer: player
-
               )
               ));
-            
           },
-         
         );
-
-        
-
-        
       },
     );
   }
-  
-
 }

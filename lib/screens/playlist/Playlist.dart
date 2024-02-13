@@ -1,4 +1,3 @@
-import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/screens/playlist/playlist_controller.dart';
 import 'package:flutter/material.dart';

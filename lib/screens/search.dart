@@ -1,7 +1,6 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/playing.dart';
 import 'package:flutter/material.dart';
@@ -90,12 +89,11 @@ class _ScreenSearchState extends State<ScreenSearch> {
 
 void addToPlaylistFunction() {
   Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),));
-  // Add your logic for adding to playlist here
-  print('Added to Playlist');
+  // print('Added to Playlist');
 }
 
 void addToFavoriteFunction() {
-  print('Added to Favorite');
+  // print('Added to Favorite');
 }
 
   @override
@@ -126,7 +124,6 @@ void addToFavoriteFunction() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(actions: [IconButton(onPressed: (){}, icon: Icon(Icons.refresh_rounded))],),
       backgroundColor: MyTheme().primaryColor,
       body: SafeArea(
         child: Container(
@@ -152,7 +149,7 @@ void addToFavoriteFunction() {
                         cursorColor: MyTheme().secondaryColor,
                         controller: _searchController,
                         onChanged: (query) {
-                          performSearch(); // Start searching while typing
+                          performSearch();
                         },
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
@@ -212,20 +209,13 @@ void addToFavoriteFunction() {
                               ),
                               onTap: ()async {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => 
-        //                         PlayingScreen(
-        // songs: [], 
-        // currentIndex: currentIndex, 
-        // audioPlayer: player)
                                 PlayingScreen(
-                                  // songdata: song.filePath,
                                   songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), 
                                   audioPlayer: player
                                   )
                                   ));
-
                               },
                               );
-
                             }
                           )
                         : const Center(

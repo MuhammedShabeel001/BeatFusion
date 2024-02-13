@@ -1,10 +1,6 @@
-import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist/playlist_songs.dart';
-import 'package:beatfusion/widgets/song_list_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlaylistList extends StatefulWidget {
@@ -17,9 +13,6 @@ class PlaylistList extends StatefulWidget {
 class _PlaylistListState extends State<PlaylistList> {
 
   final OnAudioQuery audioQuery = OnAudioQuery();
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +28,6 @@ class _PlaylistListState extends State<PlaylistList> {
       ),
       body: FutureBuilder<List<SongModel>>(
         future: OnAudioQuery().querySongs(
-         
           uriType: UriType.EXTERNAL,
           ignoreCase: true
         ),

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
-// import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
 class PlayingScreen extends StatefulWidget {
@@ -54,10 +53,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
         setState(() {
           _currentSliderValue = position.inMilliseconds.toDouble();
         });
-
-        // if (position >= _audioPlayer.position) {
-        //   playNext();
-        // }
       });
 
       
@@ -125,15 +120,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
     return -1;
   }
 
-  // int findcurrentSong(Song song){
-  //   var songsbox = Hive.box<Song>('songbox');
-  //   for(int i=0; i<songsbox.length; i++){
-  //     if (songsbox.getAt(i)?.name == song.name || songsbox.getAt(i)?.filePath == song.filePath){
-  //       return i;
-  //     }
-  //   }
-  //   return -1;
-  // }
 
   void togglePlayPause() async {
     if(isPlaying){
@@ -196,16 +182,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: non_constant_identifier_names
     var PlayBox = Hive.box<Song>('songsbox');
-
-    // int findcurrentSong(songs){
-    //   for (int i=0; i< PlayBox.length; i++){
-    //     if(PlayBox.getAt(i)?.filePath == songs){
-    //       return i;
-    //     }
-    //   }
-    //   return -1;
-    // }
 
     int findCurrentSongIndex(String filePath) {
       for (int i = 0; i < PlayBox.length; i++) {
@@ -216,29 +194,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
       return -1;
     }
     
-    
-    // void playNext(int index)async{
-    //   final nextSong = PlayBox.getAt(index);
-    //   if (nextSong != null ){
-    //     setState(() {
-    //       widget.songdata = nextSong;
-    //     });
-    //     await _audioPlayer;
-    //   }
-    // }
-
-    // void playPrev(int index)async{
-    //   final prevSong = PlayBox.getAt(index);
-    //   if (prevSong != null ){
-    //     setState(() {
-    //       widget.songdata = prevSong;
-    //     });
-    //     await _audioPlayer;
-    //   }
-    // }
-
-    // final songBox = Hive.box<Song>('songsbox');
-
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
       appBar: AppBar(
@@ -382,15 +337,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       playPrev();
                                       await AudioPlayer();
                                     }
-                            //         _audioPlayer.previousIndex;
-                            //         int newPosition =
-                            //     (_audioPlayer.position.inSeconds - 10).toInt();
-                            // if (newPosition <
-                            //     _audioPlayer.duration!.inSeconds) {
-                            //   _audioPlayer.seek(Duration(seconds: newPosition));
-                            //   setState(() {
-                            //     _currentSliderValue = newPosition.toDouble();
-                            //   });}
                                   },
                                   icon: SvgPicture.asset('assets/pics/prev.svg')),
                               const SizedBox(
@@ -431,14 +377,6 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                     if (currentIndex != -1 && currentIndex < PlayBox.length-1){
                                       playNext();
                                     }
-                            //         int newPosition =
-                            //     (_audioPlayer.position.inSeconds + 10).toInt();
-                            // if (newPosition <
-                            //     _audioPlayer.duration!.inSeconds) {
-                            //   _audioPlayer.seek(Duration(seconds: newPosition));
-                            //   setState(() {
-                            //     _currentSliderValue = newPosition.toDouble();
-                            //   });}
                                   },
                                   icon: SvgPicture.asset('assets/pics/next.svg')),
                                 ],
@@ -453,8 +391,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                     //favorite
                                     IconButton(
   onPressed: () async {
+    // ignore: non_constant_identifier_names
     var FavoriteBox = await Hive.openBox<SongFavorite>('song_favorite_box');
     var currentSong = widget.songdata;
+    // ignore: non_constant_identifier_names
     var FavSongs = FavoriteBox.get(0)?.song ?? [];
 
     FavSongs.add(Song(
@@ -472,46 +412,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                     onPressed: () async {
-                                      // setState(() {
-                                      //   isShuffle = !isShuffle;
-                                      //   ScaffoldMessenger.of(context)
-                                      //       .showSnackBar(
-                                      //     SnackBar(
-                                      //       content: Text(
-                                      //         isShuffle
-                                      //             ? 'Shuffle On'
-                                      //             : 'Shuffle Off',
-                                      //         textAlign: TextAlign.center,
-                                      //         style: FontStyles.artist2,
-                                      //       ),
-                                      //       behavior:
-                                      //           SnackBarBehavior.floating,
-                                      //       margin: const EdgeInsets.only(
-                                      //           bottom:300,
-                                      //           left: 70,
-                                      //           right: 70),
-                                      //       duration: const Duration(
-                                      //           milliseconds: 600),
-                                      //       backgroundColor:
-                                      //           const Color.fromARGB(
-                                      //               131, 64, 66, 88),
-                                      //       elevation: 0,
-                                      //       shape:
-                                      //           const RoundedRectangleBorder(
-                                      //               borderRadius:
-                                      //                   BorderRadius.all(
-                                      //                       Radius.circular(
-                                      //                           20.0))),
-                                      //     ),
-                                      //   );
-                                      // });
-                                      // await _audioPlayer
-                                      //     .setShuffleModeEnabled(isShuffle);
-
-                                      // await _audioPlayer.setShuffleModeEnabled(!isShuffle);
-                                      // setState(() {
-                                      //   isShuffle = !isShuffle;
-                                      // });
+                                      
                                       toggleRepeat();
 
                                       ScaffoldMessenger.of(context).showSnackBar(

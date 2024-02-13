@@ -1,14 +1,10 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/favourite/fav_list.dart';
 import 'package:beatfusion/screens/playing.dart';
-import 'package:beatfusion/widgets/controller.dart';
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -63,9 +59,7 @@ addList() {
               children: [
                 ListTile(
                   onTap: () {
-                    // Handle Add to Playlist action
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => playlistScreen(),));
-                    // Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),)); 
                   },
                   title: Text(
                     'Add to Playlist',
@@ -102,42 +96,24 @@ addList() {
 
   void addToPlaylistFunction() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),));
-    print('Added to Playlist');
+    // print('Added to Playlist');
   }
 
   void addToFavoriteFunction() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()  ,));
-    print('Added to Favorite');
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteScreen()  ,));
+    // print('Added to Favorite');
   }
 
   void openSongs(){
   // ignore: unrelated_type_equality_checks
   boxsong!=Hive.openBox<Song>('songbox');
-    print('..................................${boxsong}');
-  }
-
-  void _changePlayerVisibility() {
-      setState(() {
-        isPlayerViewVisible = true;
-      });
-  }
-
-  void _updateSongDetails(int index) {
-    setState(() {
-      if (songs.isNotEmpty) {
-        currentSongTitle = songs[index].title;
-        currentIndex = index;
-        currentSongID = songs[index].id;
-        currentArtist = songs[index].artist;
-        isPlaying = true;
-      }
-    });
+    // print('..................................${boxsong}');
   }
 
   @override
   Widget build(BuildContext context) {
     final songBox = Hive.box<Song>('songsbox');
-    print(songBox.length);
+    // print(songBox.length);
 
     for (var song in widget.songs) {
       if (songBox.get(song.id) == null) {
@@ -184,62 +160,19 @@ addList() {
             color: MyTheme().iconColor,)),
 
           onTap: () async {
-  // Open the SongHistory Hive box
-  // var historyBox = await Hive.openBox<SongHistory>('history');
-
-  // // Get the current song from the SongBox
-  // var song = songBox.getAt(index);
-
-  // // Get the existing list of recent songs from the SongHistory box
-  // var recentSongs = historyBox.get(0)?.RecentSong ?? [];
-  // int existingIndex = recentSongs.indexWhere((element) => element.key == song!.key);
-
-  // if (existingIndex != -1) {
-  //   recentSongs.removeAt(existingIndex);
-  // }
-
-  // // Add the current song to the list
-  // recentSongs.add(Song(
-  //   key: song!.key,
-  //   name: song.name,
-  //   artist: song.artist,
-  //   duration: song.duration,
-  //   filePath: song.filePath,
-  // ));
-
-  // // Update the SongHistory box with the new list
-  // historyBox.put(0, SongHistory(RecentSong: recentSongs));
-
-  // // Close the SongHistory box
-  // await historyBox.close();
-
-  // Navigate to the PlayingScreen
-  
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) =>
-      //  PlayingScreen(
-      //   songs: [], 
-      //   currentIndex: currentIndex, 
-      //   audioPlayer: player)
       PlayingScreen(
         songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
         audioPlayer: player,
       ),
     ),
   );
-},
-
-         
+}, 
         );
-
-        
-
-        
       },
     );
   }
-  
-
 }

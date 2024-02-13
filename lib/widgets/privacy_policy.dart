@@ -1,24 +1,11 @@
-
-
-// import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-// import 'package:beatfusion/database/playlist.dart';
-// import 'package:beatfusion/screens/playlist/playlist_songs.dart';
-import 'package:beatfusion/screens/playlist2/songsPLaylist.dart';
-// import 'package:beatfusion/widgets/Definitions.dart';
 import 'package:flutter/material.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> showPrivacyPolicy(BuildContext context) async {
-  // TextEditingController playlistNameController = TextEditingController();
-  // bool isButtonEnabled = false;
-
   return showDialog(
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(
-        
-        // backgroundColor: MyTheme().tertiaryColor,
         builder: (context, setState) {
           return AlertDialog(
             backgroundColor: MyTheme().tertiaryColor,
@@ -111,7 +98,6 @@ Future<void> showPrivacyPolicy(BuildContext context) async {
                             'mshabeel999@gmail.com',
                             style: TextStyle(fontWeight: FontWeight.bold)
                           ),
-                          // Add the rest of the content here...
                         ],
                       ),
                     ),
@@ -129,6 +115,3 @@ Future<void> showPrivacyPolicy(BuildContext context) async {
     },
   );
 }
-
-
-

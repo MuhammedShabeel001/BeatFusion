@@ -1,7 +1,6 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/database/playlist.dart'; // Update with the correct import path
-import 'package:beatfusion/screens/playlist2/MusicplaylistPage.dart';
+import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/screens/playlist2/playlistDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,9 +21,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      // backgroundColor: MyTheme().primaryColor,
-      backgroundColor: Colors.amber,
+      backgroundColor: MyTheme().primaryColor,
       appBar: AppBar(
         actions: [IconButton(onPressed: (){refreshScreen();}, icon: Icon(Icons.refresh))],
         leading: IconButton(onPressed: (){
@@ -44,7 +41,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             borderRadius: BorderRadius.circular(12)
           ),
           child: FutureBuilder<Box<Playlist>>(
-            future: Hive.openBox<Playlist>('playlists'), // Assuming 'playlists' is the box name
+            future: Hive.openBox<Playlist>('playlists'),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -77,14 +74,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             style: FontStyles.name,
             maxLines: 1,),
           ),
-                      // subtitle: Text('Song Count: ${playlist.song.length}'),
                       subtitle: Text( 'Song Count: ${playlist.song.length}',
           style: FontStyles.artist,
           maxLines: 1,),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist),));
-                        // Navigate to the detailed playlist screen or perform other actions
-                        // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist)));
                       },
                     );
                   },
@@ -98,14 +92,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         backgroundColor: MyTheme().tertiaryColor,
         
         onPressed: () async {
-          // Show the Add Playlist dialog
-          final result = await showAddPlaylistDialog(context);
-
-          // Check the result and refresh the screen if needed
-          
-            // Refresh the screen by calling setState
             setState(() {});
-          
         },
         child: Icon(Icons.add),
       ),
