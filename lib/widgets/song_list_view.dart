@@ -4,6 +4,8 @@ import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/favourite/fav_list.dart';
 import 'package:beatfusion/screens/playing.dart';
+import 'package:beatfusion/screens/playlist2/playlistMusic.dart';
+import 'package:beatfusion/widgets/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
@@ -28,71 +30,71 @@ class _SongListViewState extends State<SongListView> {
   openSongs();
 }
   
-addList() {
-  showModalBottomSheet(
-    backgroundColor: Colors.transparent,
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.23,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-          color: MyTheme().primaryColor,
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 20.0, top: 10.0),
-                child: Icon(
-                  Icons.maximize_rounded,
-                  size: 50.0,
-                  color: MyTheme().secondaryColor,
-                ),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ListTile(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),)); 
-                  },
-                  title: Text(
-                    'Add to Playlist',
-                    style: FontStyles.order,
-                  ),
-                  leading: Icon(
-                    Icons.playlist_add,
-                    color: MyTheme().selectedTile,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    // Handle Add to Favorite action
-                    addToFavoriteFunction();
-                    Navigator.pop(context);
-                  },
-                  title: Text(
-                    'Add to Favorite',
-                    style: FontStyles.order,
-                  ),
-                  leading: Icon(
-                    Icons.favorite,
-                    color: MyTheme().selectedTile,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+// addList() {
+//   showModalBottomSheet(
+//     backgroundColor: Colors.transparent,
+//     context: context,
+//     builder: (BuildContext context) {
+//       return Container(
+//         height: MediaQuery.of(context).size.height * 0.23,
+//         decoration: BoxDecoration(
+//           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+//           color: MyTheme().primaryColor,
+//         ),
+//         child: Stack(
+//           children: [
+//             Positioned(
+//               top: 0,
+//               left: 0,
+//               right: 0,
+//               child: Container(
+//                 margin: const EdgeInsets.only(bottom: 20.0, top: 10.0),
+//                 child: Icon(
+//                   Icons.maximize_rounded,
+//                   size: 50.0,
+//                   color: MyTheme().secondaryColor,
+//                 ),
+//               ),
+//             ),
+//             Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 ListTile(
+//                   onTap: () {
+//                     Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen())); 
+//                   },
+//                   title: Text(
+//                     'Add to Playlist',
+//                     style: FontStyles.order,
+//                   ),
+//                   leading: Icon(
+//                     Icons.playlist_add,
+//                     color: MyTheme().selectedTile,
+//                   ),
+//                 ),
+//                 ListTile(
+//                   onTap: () {
+//                     // Handle Add to Favorite action
+//                     addToFavoriteFunction();
+//                     Navigator.pop(context);
+//                   },
+//                   title: Text(
+//                     'Add to Favorite',
+//                     style: FontStyles.order,
+//                   ),
+//                   leading: Icon(
+//                     Icons.favorite,
+//                     color: MyTheme().selectedTile,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
 
   void addToPlaylistFunction() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const playlistScreen(),));
@@ -155,7 +157,8 @@ addList() {
           ),
 
           trailing: IconButton(
-            onPressed: () => addList(), 
+            // onPressed: () => addList(), 
+            onPressed: () => addList(context),
             icon: Icon(Icons.more_vert,
             color: MyTheme().iconColor,)),
 

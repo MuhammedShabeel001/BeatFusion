@@ -1,7 +1,9 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
+import 'package:beatfusion/screens/playlist2/MusicplaylistPage.dart';
 import 'package:beatfusion/screens/playlist2/playlistDetails.dart';
+import 'package:beatfusion/widgets/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -77,6 +79,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       subtitle: Text( 'Song Count: ${playlist.song.length}',
           style: FontStyles.artist,
           maxLines: 1,),
+
+          trailing: IconButton(onPressed: () => PlaylistMenu(context), icon: Icon(Icons.more_vert),color: MyTheme().iconColor,),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist),));
                       },
@@ -93,6 +97,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         
         onPressed: () async {
             setState(() {});
+            showAddPlaylistDialog(context);
+            // showAddOrEditPlaylistDialog(context);
         },
         child: Icon(Icons.add),
       ),

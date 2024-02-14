@@ -50,10 +50,14 @@ class _SongsPlayListState extends State<SongsPlayList> {
 
               final existingPlaylist = playlistBox.get(playlistName);
 
+              final Set<int> existingSongKeys = existingPlaylist?.song.map((song) => song.key).toSet()??{};
+
+              final List<SongModel> uniqueSelectedSongs = selectedSongs.where((song) => !existingSongKeys.contains(song.id)).toList();
+
               if (existingPlaylist != null) {
                 final updatedPlaylist = Playlist(
                   name: playlistName,
-                  song: [...existingPlaylist.song, ...selectedSongs.map((song) => Song.fromSongModel(song))],
+                  song: [...existingPlaylist.song, ...uniqueSelectedSongs.map((song) => Song.fromSongModel(song))],
                 );
                 playlistBox.put(playlistName, updatedPlaylist);
               } else {

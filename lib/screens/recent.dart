@@ -3,6 +3,7 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/playing.dart';
+import 'package:beatfusion/widgets/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // ignore: depend_on_referenced_packages
@@ -73,6 +74,10 @@ class RecentScreen extends StatelessWidget {
                       subtitle: Text( song.artist,
           style: FontStyles.artist,
           maxLines: 1,),
+          trailing: IconButton(
+            onPressed: () => addList(context), 
+            icon: Icon(Icons.more_vert,
+            color: MyTheme().iconColor,)),
 
           onTap: () {
             Navigator.push(
