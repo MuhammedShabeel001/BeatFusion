@@ -240,6 +240,26 @@ void PlaylistMenu(BuildContext context){
   );
 }
 
+void showCompletionDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('Song Completed'),
+        content: Text('The currently playing song has been completed.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   // Future<void> showEditPlaylistDialog(BuildContext context, Playlist playlist) async {
   //   playlistNameController.text = playlist.name;

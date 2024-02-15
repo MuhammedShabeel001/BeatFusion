@@ -50,11 +50,21 @@ class _PlayingScreenState extends State<PlayingScreen> {
       });
 
       _audioPlayer.positionStream.listen((position) {
-        setState(() {
-          _currentSliderValue = position.inMilliseconds.toDouble();
-        });
-      });
+  setState(() {
+    _currentSliderValue = position.inMilliseconds.toDouble();
+  });
+ 
 
+
+  _audioPlayer.durationStream.listen((duration) {
+      if (duration == _audioPlayer.position) {
+        // showCompletionDialog(context);
+        playNext();
+      }
+
+    });
+     });
+      
       
       
     }catch(e){
@@ -296,9 +306,14 @@ class _PlayingScreenState extends State<PlayingScreen> {
                             });
                           },
                           onChangeEnd: (double value) {
+                            // if(value >= (_audioPlayer.duration?.inMilliseconds ?? 0)){
+                            //   // showCompletionDialog(context);
+
+                            // }else{
                             _audioPlayer.seek(
                               Duration(milliseconds: value.toInt()),
                             );
+                            // }
                           },
                           activeColor: const Color.fromARGB(255, 54, 136, 244),
                           inactiveColor: Colors.grey.shade500,

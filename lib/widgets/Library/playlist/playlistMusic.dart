@@ -19,30 +19,14 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
 
   Future <void> refreshScreen()async{
     setState(() {
-      
     });
   }
-
-  Future<void> showEditPlaylistDialog(BuildContext context, Playlist playlist) async {
-  await showAddOrEditPlaylistDialog(context, initialName: playlist.name);
-
-  final playlistBox = await Hive.openBox<Playlist>('playlists');
-  final updatedPlaylist = Playlist(
-    name: playlist.name,
-    song: playlist.song,
-  );
-  playlistBox.putAt(playlistBox.keys.toList().indexOf(playlist.name), updatedPlaylist);
-
-  await playlistBox.close();
-  setState(() {});
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
       appBar: AppBar(
-        actions: [IconButton(onPressed: (){refreshScreen();}, icon: Icon(Icons.refresh))],
         leading: IconButton(onPressed: (){
         Navigator.pop(context);
       }, icon: SvgPicture.asset('assets/pics/back.svg')),
@@ -97,15 +81,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           style: FontStyles.artist,
           maxLines: 1,),
 
-          trailing: Row(
-            children: [IconButton(
-                            onPressed: () => showEditPlaylistDialog(context, playlist),
-                            icon: Icon(Icons.edit),
-                            color: MyTheme().iconColor,
-                          ),
+          trailing:
               IconButton(onPressed: () => PlaylistMenu(context), icon: Icon(Icons.more_vert),color: MyTheme().iconColor,),
-            ],
-          ),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist),));
                       },
