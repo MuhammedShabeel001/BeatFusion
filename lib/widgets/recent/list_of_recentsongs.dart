@@ -1,4 +1,5 @@
-import 'package:beatfusion/screens/recent/recent_list_view.dart';
+// import 'package:beatfusion/screens/recent/recent_list_view.dart';
+import 'package:beatfusion/widgets/recent/recent_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

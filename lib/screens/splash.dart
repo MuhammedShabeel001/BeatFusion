@@ -1,5 +1,6 @@
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/screens/Landing/screen1.dart';
+import 'package:beatfusion/widgets/Landing/screen1.dart';
+// import 'package:beatfusion/screens/Landing/screen1.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

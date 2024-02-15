@@ -1,8 +1,11 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/screens/favourite/fav_list.dart';
-import 'package:beatfusion/screens/playlist2/playlistMusic.dart';
-import 'package:beatfusion/screens/recent.dart';
+import 'package:beatfusion/widgets/Library/Recent/recent.dart';
+import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
+import 'package:beatfusion/widgets/favourite/fav_list.dart';
+// import 'package:beatfusion/screens/favourite/fav_list.dart';
+// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
+// import 'package:beatfusion/screens/Library/Recent/recent.dart';
 import 'package:flutter/material.dart';
 
 class LibraryScreen extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/playing.dart';
-import 'package:beatfusion/widgets/controller.dart';
+import 'package:beatfusion/functions/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // ignore: depend_on_referenced_packages

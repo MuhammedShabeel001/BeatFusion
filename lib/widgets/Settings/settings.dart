@@ -1,7 +1,10 @@
 import 'package:beatfusion/common/text_style.dart';
-import 'package:beatfusion/widgets/privacy_policy.dart';
-import 'package:beatfusion/widgets/rate_us.dart';
-import 'package:beatfusion/widgets/terms_of_use.dart';
+import 'package:beatfusion/widgets/Settings/privacy_policy.dart';
+import 'package:beatfusion/widgets/Settings/rate_us.dart';
+import 'package:beatfusion/widgets/Settings/terms_of_use.dart';
+// import 'package:beatfusion/widgets/privacy_policy.dart';
+// import 'package:beatfusion/widgets/rate_us.dart';
+// import 'package:beatfusion/widgets/terms_of_use.dart';
 import 'package:flutter/material.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';

@@ -3,9 +3,10 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/history.dart';
-import 'package:beatfusion/database/playlist.dart';
+// import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/screens/playlist2/playlistMusic.dart';
+// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
+import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

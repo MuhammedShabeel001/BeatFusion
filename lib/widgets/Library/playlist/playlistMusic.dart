@@ -1,9 +1,11 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
-import 'package:beatfusion/screens/playlist2/MusicplaylistPage.dart';
-import 'package:beatfusion/screens/playlist2/playlistDetails.dart';
-import 'package:beatfusion/widgets/controller.dart';
+// import 'package:beatfusion/screens/Library/playlist/MusicplaylistPage.dart';
+// import 'package:beatfusion/screens/Library/playlist/playlistDetails.dart';
+import 'package:beatfusion/functions/controller.dart';
+import 'package:beatfusion/widgets/Library/playlist/MusicplaylistPage.dart';
+import 'package:beatfusion/widgets/Library/playlist/playlistDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -20,6 +22,21 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       
     });
   }
+
+  Future<void> showEditPlaylistDialog(BuildContext context, Playlist playlist) async {
+  await showAddOrEditPlaylistDialog(context, initialName: playlist.name);
+
+  final playlistBox = await Hive.openBox<Playlist>('playlists');
+  final updatedPlaylist = Playlist(
+    name: playlist.name,
+    song: playlist.song,
+  );
+  playlistBox.putAt(playlistBox.keys.toList().indexOf(playlist.name), updatedPlaylist);
+
+  await playlistBox.close();
+  setState(() {});
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +97,15 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           style: FontStyles.artist,
           maxLines: 1,),
 
-          trailing: IconButton(onPressed: () => PlaylistMenu(context), icon: Icon(Icons.more_vert),color: MyTheme().iconColor,),
+          trailing: Row(
+            children: [IconButton(
+                            onPressed: () => showEditPlaylistDialog(context, playlist),
+                            icon: Icon(Icons.edit),
+                            color: MyTheme().iconColor,
+                          ),
+              IconButton(onPressed: () => PlaylistMenu(context), icon: Icon(Icons.more_vert),color: MyTheme().iconColor,),
+            ],
+          ),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist),));
                       },

@@ -1,10 +1,14 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/functions/control_functions.dart';
-import 'package:beatfusion/screens/library.dart';
+// import 'package:beatfusion/screens/Library/library.dart';
+// import 'package:beatfusion/screens/Settings/settings.dart';
 import 'package:beatfusion/screens/search.dart';
-import 'package:beatfusion/widgets/list_of_songs.dart';
-import 'package:beatfusion/widgets/settings.dart';
+import 'package:beatfusion/screens/library.dart';
+import 'package:beatfusion/widgets/Settings/settings.dart';
+import 'package:beatfusion/widgets/Songs/list_of_songs.dart';
+// import 'package:beatfusion/widgets/list_of_songs.dart';
+// import 'package:beatfusion/widgets/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

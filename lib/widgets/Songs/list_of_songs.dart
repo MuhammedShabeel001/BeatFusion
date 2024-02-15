@@ -1,7 +1,8 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/functions/control_functions.dart';
-import 'package:beatfusion/widgets/song_list_view.dart';
+import 'package:beatfusion/widgets/Songs/song_list_view.dart';
+// import 'package:beatfusion/widgets/song_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:on_audio_query/on_audio_query.dart';

@@ -1,12 +1,13 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/screens/Landing/screen2.dart';
+// import 'package:beatfusion/screens/Landing/screen3.dart';
 import 'package:beatfusion/screens/home_page.dart';
+import 'package:beatfusion/widgets/Landing/screen3.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LandingOne extends StatelessWidget {
-  const LandingOne({super.key});
+class LandingTwo extends StatelessWidget {
+  const LandingTwo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,8 @@ class LandingOne extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('hasSeenScreens') ?? true;
   }
-
-  Widget _buildLandingOne(BuildContext context){
+  
+  Widget _buildLandingOne(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -63,9 +64,9 @@ class LandingOne extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    '''User friendly mp3 
-music player for 
-your device''',
+                    '''We provide a better 
+audio experience 
+than others''',
                     textAlign: TextAlign.center,
                     style: FontStyles.landing,
                   ),
@@ -76,14 +77,14 @@ your device''',
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0), // Adjust the value for the desired roundness
+                          borderRadius: BorderRadius.circular(8.0), 
                         ),
                       )
                     ),
-                    onPressed: ()async {
+                    onPressed: ()async{
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setBool('hasSeenScreens', true);
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LandingTwo(),), (route) => false);
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LandingThree(),), (route) => false);
                     }, 
                     child: Text('Next',style: FontStyles.greeting,))
                 ],
@@ -95,4 +96,3 @@ your device''',
     );
   }
 }
-

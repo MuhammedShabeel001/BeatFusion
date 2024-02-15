@@ -3,7 +3,7 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
-import 'package:beatfusion/widgets/controller.dart';
+import 'package:beatfusion/functions/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
