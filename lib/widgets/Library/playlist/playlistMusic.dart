@@ -3,7 +3,7 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
 // import 'package:beatfusion/screens/Library/playlist/MusicplaylistPage.dart';
 // import 'package:beatfusion/screens/Library/playlist/playlistDetails.dart';
-import 'package:beatfusion/functions/controller.dart';
+// import 'package:beatfusion/functions/controller.dart';
 import 'package:beatfusion/widgets/Library/playlist/MusicplaylistPage.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistDetails.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,43 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     setState(() {
     });
   }
+
+  Future<void> deletePlaylist(BuildContext context, String playlistName) async {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Confirm Deletion'),
+        content: Text('Are you sure you want to delete the playlist "${playlistName}"?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              // Delete playlist from Hive
+              final playlistBox = await Hive.openBox<Playlist>('playlists');
+              await playlistBox.delete(playlistName);
+              await playlistBox.close();
+
+              // Update the UI
+              setState(() {});
+
+              // Close the dialog
+              Navigator.of(context).pop();
+            },
+            child: Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Close the dialog without deleting the playlist
+              Navigator.of(context).pop();
+            },
+            child: Text('No'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +93,12 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 final playlistBox = snapshot.data!;
           
                 return ListView.builder(
-                  itemCount: playlistBox.length,
-                  itemBuilder: (context, index) {
-                    final playlist = playlistBox.getAt(index);
-          
-                    return ListTile(
-                      leading: Container(
+  itemCount: playlistBox.length,
+  itemBuilder: (context, index) {
+    final playlist = playlistBox.getAt(index);
+
+    return ListTile(
+      leading: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
@@ -80,15 +117,38 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       subtitle: Text( 'Song Count: ${playlist.song.length}',
           style: FontStyles.artist,
           maxLines: 1,),
+      // ... other properties remain unchanged
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlaylistDetailScreen(playlist),
+                ),
+              );
+            },
+            icon: Icon(Icons.arrow_forward),
+            color: MyTheme().iconColor,
+          ),
+          SizedBox( // Added SizedBox with fixed width to prevent the error
+            width: 48, // Adjust the width as needed
+            child: IconButton(
+              onPressed: () {
+                deletePlaylist(context,playlist.name);
+              },
+              icon: Icon(Icons.delete),
+              color: MyTheme().iconColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+);
 
-          trailing:
-              IconButton(onPressed: () => PlaylistMenu(context), icon: Icon(Icons.more_vert),color: MyTheme().iconColor,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist),));
-                      },
-                    );
-                  },
-                );
               }
             },
           ),
