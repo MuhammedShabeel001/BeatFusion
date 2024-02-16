@@ -2,8 +2,9 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/functions/control_functions.dart';
+// import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/functions/controller.dart';
+import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -26,6 +27,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
   bool isPlaying = false;
   double _currentSliderValue = 0.0;
   bool isRepeating = false;
+  bool isRepeat =false;
   
 
   String formatDuration(Duration duration) {
@@ -433,7 +435,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      isShuffle ? 'Repeat On' : 'Repeat Off',
+                      isRepeating ? 'Repeat On' : 'Repeat Off',
                       textAlign: TextAlign.center,
                       style: FontStyles.artist2,
                     ),
@@ -452,11 +454,17 @@ class _PlayingScreenState extends State<PlayingScreen> {
                   ),
                 );
                                      },
-                                    icon:isShuffle
-                                        ? SvgPicture.asset('assets/pics/suffleon.svg')
-                                        : SvgPicture.asset('assets/pics/suffleoff.svg')),
+                                    icon:isRepeating
+                                        ? SvgPicture.asset('assets/pics/repeat on.svg')
+                                        : SvgPicture.asset('assets/pics/repeate off.svg')),
+                                    // icon:isRepeat
+                                    //     ? SvgPicture.asset('assets/pics/repeat on.svg')
+                                    //     : SvgPicture.asset('assets/pics/repeate off.svg')
+                                    // ),
                                     IconButton(
-                                      onPressed: (){}, 
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen()));
+                                      }, 
                                       icon: SvgPicture.asset('assets/pics/add list.svg')),
                                     IconButton(
                                       onPressed: (){}, 
