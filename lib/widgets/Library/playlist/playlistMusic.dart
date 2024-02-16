@@ -22,6 +22,94 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     });
   }
 
+  Future<void> renamePlaylist(BuildContext context, String oldName) async {
+    TextEditingController playlistNameController =
+        TextEditingController(text: oldName);
+    bool isButtonEnabled = true;
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: MyTheme().tertiaryColor,
+              title: Text(
+                'Rename Playlist',
+                style: TextStyle(color: MyTheme().primaryColor),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: playlistNameController,
+                    onChanged: (text) {
+                      setState(() {
+                        isButtonEnabled = text.trim().isNotEmpty;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Enter new playlist name',
+                      errorText: isButtonEnabled ? null : '',
+                    ),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: MyTheme().secondaryColor),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text(
+                    'Rename',
+                    style: TextStyle(color: MyTheme().primaryColor),
+                  ),
+                  onPressed: isButtonEnabled
+                      ? () async {
+                          String newPlaylistName =
+                              playlistNameController.text.trim();
+
+                          if (newPlaylistName != oldName) {
+                            final playlistBox =
+                                await Hive.openBox<Playlist>('playlists');
+
+                            // Update playlist name in Hive
+                            final Playlist? existingPlaylist =
+                                playlistBox.get(oldName);
+
+                            if (existingPlaylist != null) {
+                              final updatedPlaylist = Playlist(
+                                name: newPlaylistName,
+                                song: existingPlaylist.song,
+                              );
+                              playlistBox.put(newPlaylistName, updatedPlaylist);
+                              await playlistBox.delete(oldName);
+                            }
+
+                            await playlistBox.close();
+                          }
+
+                          Navigator.of(context).pop();
+                          setState(() {
+                            refreshScreen();
+                          });
+                        }
+                      : null,
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   Future<void> deletePlaylist(BuildContext context, String playlistName) async {
   return showDialog(
     context: context,
@@ -123,14 +211,9 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         children: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PlaylistDetailScreen(playlist),
-                ),
-              );
+              renamePlaylist(context, playlist.name);
             },
-            icon: Icon(Icons.arrow_forward),
+            icon: Icon(Icons.edit),
             color: MyTheme().iconColor,
           ),
           SizedBox( // Added SizedBox with fixed width to prevent the error
