@@ -159,8 +159,9 @@ class _SongListViewState extends State<SongListView> {
           ),
 
           trailing: IconButton(
-            // onPressed: () => addList(), 
-            onPressed: () => addList(context),
+            // onPressed: () => addList, 
+            onPressed: () => addList(context,song),
+            // onPressed: () => addList,
             icon: Icon(Icons.more_vert,
             color: MyTheme().iconColor,)),
 

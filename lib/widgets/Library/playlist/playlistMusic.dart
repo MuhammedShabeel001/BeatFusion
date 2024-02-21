@@ -1,6 +1,7 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
+import 'package:beatfusion/functions/controller.dart';
 // import 'package:beatfusion/screens/Library/playlist/MusicplaylistPage.dart';
 // import 'package:beatfusion/screens/Library/playlist/playlistDetails.dart';
 // import 'package:beatfusion/functions/controller.dart';
@@ -18,134 +19,8 @@ class PlaylistScreen extends StatefulWidget {
 class _PlaylistScreenState extends State<PlaylistScreen> {
 
   Future <void> refreshScreen()async{
-    setState(() {
-    });
+    setState(() {});
   }
-
-  Future<void> renamePlaylist(BuildContext context, String oldName) async {
-    TextEditingController playlistNameController =
-        TextEditingController(text: oldName);
-    bool isButtonEnabled = true;
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              backgroundColor: MyTheme().tertiaryColor,
-              title: Text(
-                'Rename Playlist',
-                style: TextStyle(color: MyTheme().primaryColor),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: playlistNameController,
-                    onChanged: (text) {
-                      setState(() {
-                        isButtonEnabled = text.trim().isNotEmpty;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Enter new playlist name',
-                      errorText: isButtonEnabled ? null : '',
-                    ),
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(color: MyTheme().secondaryColor),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text(
-                    'Rename',
-                    style: TextStyle(color: MyTheme().primaryColor),
-                  ),
-                  onPressed: isButtonEnabled
-                      ? () async {
-                          String newPlaylistName =
-                              playlistNameController.text.trim();
-
-                          if (newPlaylistName != oldName) {
-                            final playlistBox =
-                                await Hive.openBox<Playlist>('playlists');
-
-                            // Update playlist name in Hive
-                            final Playlist? existingPlaylist =
-                                playlistBox.get(oldName);
-
-                            if (existingPlaylist != null) {
-                              final updatedPlaylist = Playlist(
-                                name: newPlaylistName,
-                                song: existingPlaylist.song,
-                              );
-                              playlistBox.put(newPlaylistName, updatedPlaylist);
-                              await playlistBox.delete(oldName);
-                            }
-
-                            await playlistBox.close();
-                          }
-
-                          Navigator.of(context).pop();
-                          setState(() {
-                            refreshScreen();
-                          });
-                        }
-                      : null,
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Future<void> deletePlaylist(BuildContext context, String playlistName) async {
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Confirm Deletion'),
-        content: Text('Are you sure you want to delete the playlist "${playlistName}"?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () async {
-              // Delete playlist from Hive
-              final playlistBox = await Hive.openBox<Playlist>('playlists');
-              await playlistBox.delete(playlistName);
-              await playlistBox.close();
-
-              // Update the UI
-              setState(() {});
-
-              // Close the dialog
-              Navigator.of(context).pop();
-            },
-            child: Text('Yes'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Close the dialog without deleting the playlist
-              Navigator.of(context).pop();
-            },
-            child: Text('No'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +61,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     final playlist = playlistBox.getAt(index);
 
     return ListTile(
+      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist)));},
       leading: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -205,29 +82,13 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       subtitle: Text( 'Song Count: ${playlist.song.length}',
           style: FontStyles.artist,
           maxLines: 1,),
+          //onTap: Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist),)),
       // ... other properties remain unchanged
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            onPressed: () {
-              renamePlaylist(context, playlist.name);
-            },
-            icon: Icon(Icons.edit),
-            color: MyTheme().iconColor,
-          ),
-          SizedBox( // Added SizedBox with fixed width to prevent the error
-            width: 48, // Adjust the width as needed
-            child: IconButton(
-              onPressed: () {
-                deletePlaylist(context,playlist.name);
-              },
-              icon: Icon(Icons.delete),
-              color: MyTheme().iconColor,
-            ),
-          ),
-        ],
-      ),
+      trailing: IconButton(
+        onPressed: (){
+          PlaylistMenu(context, playlist, refreshScreen,);
+        }, 
+        icon: Icon(Icons.more_vert),color: MyTheme().iconColor,)
     );
   },
 );

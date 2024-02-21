@@ -75,7 +75,7 @@ class RecentScreen extends StatelessWidget {
           style: FontStyles.artist,
           maxLines: 1,),
           trailing: IconButton(
-            onPressed: () => addList(context), 
+            onPressed: () => addList, 
             icon: Icon(Icons.more_vert,
             color: MyTheme().iconColor,)),
 

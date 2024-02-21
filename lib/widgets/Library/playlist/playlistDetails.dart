@@ -30,8 +30,8 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: MyTheme().primaryColor,
-      backgroundColor: Colors.blue,
+      backgroundColor: MyTheme().primaryColor,
+      // backgroundColor: Colors.blue,
       appBar: AppBar(
         actions: [
           IconButton(onPressed: (){

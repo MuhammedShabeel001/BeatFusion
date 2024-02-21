@@ -3,10 +3,14 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/history.dart';
+import 'package:beatfusion/database/playlist.dart';
 // import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
-// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
+// import 'package:beatfusion/functions/control_functions.dart';
+import 'package:beatfusion/widgets/Library/playlist/MusicplaylistPage.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
+// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
+// import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -42,7 +46,7 @@ void addToHistory(Song song) async {
   }
 }
 
-void addList(BuildContext context){
+void addList(BuildContext context,Song songdata){
   showModalBottomSheet(
     backgroundColor: Colors.transparent,
     context: context,
@@ -72,9 +76,10 @@ void addList(BuildContext context){
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ListTile(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen())); 
-                  },
+                  onTap: () { Navigator.pop(context);
+                  playlistBottom(context, songdata);},
+                  //  PlaylistBottom(context),
+                  // showPlaylistBottomSheet(context),
                   title: Text(
                     'Add to Playlist',
                     style: FontStyles.order,
@@ -86,9 +91,11 @@ void addList(BuildContext context){
                 ),
                 ListTile(
                   onTap: () {
-                    // Handle Add to Favorite action
-                    addToFavoriteFunction();
                     Navigator.pop(context);
+                    playlistBottom(context, songdata);
+                    // Handle Add to Favorite action
+                    // addToFavoriteFunction();
+                    // Navigator.pop(context);
                   },
                   title: Text(
                     'Add to Favorite',
@@ -176,7 +183,7 @@ void addListPlaylist(BuildContext context){
   );
 }
 
-void PlaylistMenu(BuildContext context){
+void PlaylistMenu(BuildContext context,Playlist playlist,VoidCallback refreshScreen){
   showModalBottomSheet(
     backgroundColor: Colors.transparent,
     context: context,
@@ -206,7 +213,10 @@ void PlaylistMenu(BuildContext context){
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pop(context);
+                    renamePlaylist(context, playlist.name, refreshScreen);
+                  },
                   title: Text(
                     'Rename playlist',
                     style: FontStyles.order,
@@ -218,9 +228,8 @@ void PlaylistMenu(BuildContext context){
                 ),
                 ListTile(
                   onTap: () {
-                    // Handle Add to Favorite action
-                    addToFavoriteFunction();
                     Navigator.pop(context);
+                    deletePlaylist(context, playlist.name,refreshScreen);
                   },
                   title: Text(
                     'Delete Playlist',
@@ -301,3 +310,367 @@ void showCompletionDialog(BuildContext context) {
   //     },
   //   );
   // }
+
+  // import 'package:flutter/material.dart';
+// import 'package:beatfusion/common/theme.dart'; // Import your theme class
+// import 'package:hive/hive.dart'; // Import Hive for accessing the data
+
+// import 'package:flutter/material.dart';
+// import 'package:hive_flutter/hive_flutter.dart';
+// import 'package:beatfusion/database/playlist.dart'; // Import your Playlist model
+
+void showPlaylistBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    // backgroundColor: Colors.transparent,
+    context: context,
+    builder: (BuildContext context) {
+      return FutureBuilder<Box<Playlist>>(
+        future: Hive.openBox<Playlist>('playlists'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No playlists available'));
+          } else {
+            final playlistBox = snapshot.data!;
+
+            return ListView.builder(
+              itemCount: playlistBox.length,
+              itemBuilder: (context, index) {
+                final playlist = playlistBox.getAt(index);
+
+                return ListTile(
+                  title: Text(
+                    playlist!.name,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () {
+                    // Handle the tap on a playlist
+                    // You can perform any action here, such as navigating to the playlist details screen
+                    print('Tapped on playlist: ${playlist.name}');
+                    Navigator.pop(context); // Close the bottom sheet
+                  },
+                );
+              },
+            );
+          }
+        },
+      );
+    },
+  );
+}
+
+
+// void playlistBottom(BuildContext context){
+//   showModalBottomSheet(
+//     backgroundColor: Colors.transparent,
+//     context: context, 
+//     builder: (BuildContext context) {
+//       return Container(
+//         // height: MediaQuery.of(context).size.height * 0.23,
+//         decoration: BoxDecoration(
+          
+//           borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+//           color: MyTheme().primaryColor
+//         ),
+//         child: Stack(
+//           children: [
+//             Positioned(
+//               top: 0,
+//               bottom: 0,
+//               right: 0,
+//               child: Container(
+//                 margin: EdgeInsets.only(bottom: 20, top: 10),
+//                 child: Icon(
+//                   Icons.maximize_rounded,
+//                   size: 50,
+//                   color: MyTheme().secondaryColor,
+//                 ),
+//               )),
+//               Column(
+//                 // mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   ListTile(
+//                     onTap: (){},
+//                     title: Text(
+//                       'Add new playlist',
+//                       style: FontStyles.order,
+//                     ),
+//                     leading: Icon(
+//                       Icons.add,
+//                       color: MyTheme().selectedTile,
+//                     ),
+//                   ),
+//                   FutureBuilder<Box<Playlist>>(
+//                     future: Hive.openBox<Playlist>('playlists'), 
+//                     builder: (context, snapshot) {
+//                       if (snapshot.connectionState == ConnectionState.waiting) {
+//             return Center(child: CircularProgressIndicator());
+//           } else if (snapshot.hasError) {
+//             return Center(child: Text('Error: ${snapshot.error}'));
+//           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+//             return Center(child: Text('No playlists available'));
+//           } else{
+//             final playlistBox = snapshot.data!;
+
+//             return ListView.builder(
+//               itemCount: playlistBox.length,
+//               itemBuilder: (context, index) {
+//                 final playlist = playlistBox.getAt(index);
+
+//                 return ListTile(
+//                   title: Text(playlist!.name,style: FontStyles.name,),
+//                   leading: Icon(Icons.folder,color: MyTheme().tertiaryColor,),
+//                 );
+//               },);
+//           }
+//                     },)
+//                 ],
+//               )
+//           ],
+//         ),
+//       );
+//     },);
+// }
+
+
+void playlistBottom(BuildContext context,Song songdata) {
+  showModalBottomSheet(
+    backgroundColor: Colors.transparent,
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        margin: EdgeInsets.only(top: 20), // Adjust the top margin
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+          color: MyTheme().primaryColor,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Set to min to take up only the necessary space
+          children: [
+            Icon(
+                  Icons.maximize_rounded,
+                  size: 50.0,
+                  color: MyTheme().secondaryColor,
+                ),
+            ListTile(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistScreen(),),
+                );
+                showAddPlaylistDialog(context);
+              },
+              title: Text(
+                'Add new playlist',
+                style: FontStyles.order,
+              ),
+              leading: Icon(
+                Icons.add,
+                color: MyTheme().selectedTile,
+              ),
+            ),
+            FutureBuilder<Box<Playlist>>(
+              future: Hive.openBox<Playlist>('playlists'),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No playlists available'));
+                } else {
+                  final playlistBox = snapshot.data!;
+
+                  return ListView.builder(
+                    shrinkWrap: true, // Allow the ListView to shrink-wrap
+                    itemCount: playlistBox.length,
+                    itemBuilder: (context, index) {
+                      final playlist = playlistBox.getAt(index);
+
+                      return ListTile(
+                        onTap: () {
+                          // addToPlaylist(playlist.name,songdata);
+                        },
+                        title: Text(
+                          playlist!.name,
+                          style: FontStyles.name,
+                        ),
+                        leading: Icon(
+                          Icons.folder,
+                          color: MyTheme().tertiaryColor,
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+
+
+
+
+
+
+
+
+  Future<void> renamePlaylist(BuildContext context, String oldName, VoidCallback refreshScreen) async {
+    TextEditingController playlistNameController =
+        TextEditingController(text: oldName);
+    bool isButtonEnabled = true;
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: MyTheme().tertiaryColor,
+              title: Text(
+                'Rename Playlist',
+                style: TextStyle(color: MyTheme().primaryColor),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: playlistNameController,
+                    onChanged: (text) {
+                      setState(() {
+                        isButtonEnabled = text.trim().isNotEmpty;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Enter new playlist name',
+                      errorText: isButtonEnabled ? null : '',
+                    ),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: MyTheme().secondaryColor),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text(
+                    'Rename',
+                    style: TextStyle(color: MyTheme().primaryColor),
+                  ),
+                  onPressed: isButtonEnabled
+                      ? () async {
+                          String newPlaylistName =
+                              playlistNameController.text.trim();
+
+                          if (newPlaylistName != oldName) {
+                            final playlistBox =
+                                await Hive.openBox<Playlist>('playlists');
+
+                            // Update playlist name in Hive
+                            final Playlist? existingPlaylist =
+                                playlistBox.get(oldName);
+
+                            if (existingPlaylist != null) {
+                              final updatedPlaylist = Playlist(
+                                name: newPlaylistName,
+                                song: existingPlaylist.song,
+                              );
+                              playlistBox.put(newPlaylistName, updatedPlaylist);
+                              await playlistBox.delete(oldName);
+                            }
+
+                            await playlistBox.close();
+                          }
+
+                          Navigator.of(context).pop();
+                          refreshScreen();
+                          setState(() {
+                            // refreshScreen();
+                          });
+                        }
+                      : null,
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+
+
+
+
+
+
+  Future<void> deletePlaylist(BuildContext context, String playlistName,VoidCallback refreshScreen) async {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Confirm Deletion'),
+        content: Text('Are you sure you want to delete the playlist "${playlistName}"?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              // Delete playlist from Hive
+              final playlistBox = await Hive.openBox<Playlist>('playlists');
+              await playlistBox.delete(playlistName);
+              await playlistBox.close();
+
+              // Update the UI
+              refreshScreen();
+              // setState(() {});
+
+              // Close the dialog
+              Navigator.of(context).pop();
+          
+            },
+            child: Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Close the dialog without deleting the playlist
+              Navigator.of(context).pop();
+            },
+            child: Text('No'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+
+// Future<void> addToPlaylist(String playlistName, Song currentSong) async {
+//   var playlistBox = await Hive.openBox<Playlist>('playlists');
+
+//   var selectedPlaylist = playlistBox.values.firstWhere(
+//     (playlist) => playlist.name == playlistName,
+//     orElse: () => null as Playlist,
+//   );
+
+//   if (selectedPlaylist != null) {
+//     // Make sure to check if the song is not already in the playlist
+//     if (!selectedPlaylist.song.contains(currentSong)) {
+//       selectedPlaylist.song.add(currentSong);
+//       playlistBox.put(selectedPlaylist.name, selectedPlaylist);
+//     }
+//   }
+
+//   await playlistBox.close();
+// }

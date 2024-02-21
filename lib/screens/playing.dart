@@ -1,14 +1,21 @@
+// import 'dart:io';
+
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/favorite.dart';
+// import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
 // import 'package:beatfusion/functions/control_functions.dart';
+// import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/functions/controller.dart';
-import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
+// import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
+
+// import '../functions/control_functions.dart';
+// import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
 class PlayingScreen extends StatefulWidget {
@@ -28,6 +35,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
   double _currentSliderValue = 0.0;
   bool isRepeating = false;
   bool isRepeat =false;
+
+  
   
 
   String formatDuration(Duration duration) {
@@ -205,6 +214,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
       }
       return -1;
     }
+
+
     
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
@@ -462,13 +473,21 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                     //     : SvgPicture.asset('assets/pics/repeate off.svg')
                                     // ),
                                     IconButton(
-                                      onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen()));
-                                      }, 
+                                      onPressed: () => playlistBottom(context,widget.songdata), 
                                       icon: SvgPicture.asset('assets/pics/add list.svg')),
-                                    IconButton(
-                                      onPressed: (){}, 
-                                      icon: SvgPicture.asset('assets/pics/share.svg',),)
+    //                                 IconButton(
+    //                                   onPressed: ()async{
+    // //                                     final path = widget.songdata.filePath;
+    // // // If you have the bytes of the song data, you can include them in the share as well.
+    // // // For now, let's assume bytes is a placeholder variable.
+    // // // Replace it with the actual bytes of your song data.
+    // // // List<int> bytes = [/* replace with actual bytes */];
+    // // // File(path).writeAsBytesSync(bytes);
+
+    // // await Share.shareFiles([path], text: "Check out this song: ${widget.songdata.name} by ${widget.songdata.artist}");
+    //                                   }, 
+                                      // icon: SvgPicture.asset('assets/pics/share.svg',),)
+                                    
                                   ],
                                 ),
                               )
