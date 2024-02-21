@@ -18,7 +18,7 @@ class PlaylistScreen extends StatefulWidget {
 
 class _PlaylistScreenState extends State<PlaylistScreen> {
 
-  Future <void> refreshScreen()async{
+  Future <void> refreshScreen11()async{
     setState(() {});
   }
 
@@ -86,7 +86,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       // ... other properties remain unchanged
       trailing: IconButton(
         onPressed: (){
-          PlaylistMenu(context, playlist, refreshScreen,);
+          PlaylistMenu(context, playlist, refreshScreen11,);
         }, 
         icon: Icon(Icons.more_vert),color: MyTheme().iconColor,)
     );

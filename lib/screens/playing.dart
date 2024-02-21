@@ -474,20 +474,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                     // ),
                                     IconButton(
                                       onPressed: () => playlistBottom(context,widget.songdata), 
-                                      icon: SvgPicture.asset('assets/pics/add list.svg')),
-    //                                 IconButton(
-    //                                   onPressed: ()async{
-    // //                                     final path = widget.songdata.filePath;
-    // // // If you have the bytes of the song data, you can include them in the share as well.
-    // // // For now, let's assume bytes is a placeholder variable.
-    // // // Replace it with the actual bytes of your song data.
-    // // // List<int> bytes = [/* replace with actual bytes */];
-    // // // File(path).writeAsBytesSync(bytes);
-
-    // // await Share.shareFiles([path], text: "Check out this song: ${widget.songdata.name} by ${widget.songdata.artist}");
-    //                                   }, 
-                                      // icon: SvgPicture.asset('assets/pics/share.svg',),)
-                                    
+                                      icon: SvgPicture.asset('assets/pics/add list.svg')),                         
                                   ],
                                 ),
                               )

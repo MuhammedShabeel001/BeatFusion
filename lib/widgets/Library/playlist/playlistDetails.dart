@@ -8,6 +8,7 @@ import 'package:beatfusion/widgets/Library/playlist/songsPLaylist.dart';
 import 'package:flutter/material.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PlaylistDetailScreen extends StatefulWidget {
@@ -27,6 +28,20 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
       
     });
   }
+
+  void removeSong(Song song) {
+    setState(() {
+      // Remove the song from the playlist
+      widget.playlist.song.remove(song);
+
+      // Remove the song from the Hive box
+      final playlistBox = Hive.box<Playlist>('playlists');
+      final updatedPlaylist = playlistBox.get(widget.playlist.name);
+      updatedPlaylist?.song.remove(song.key);
+      playlistBox.put(widget.playlist.name, updatedPlaylist!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +58,9 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
         ],
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
+          
         }, icon: SvgPicture.asset('assets/pics/back.svg')),
-        title: Text('Songs',style: FontStyles.greeting,),
+        title: Text(widget.playlist.name,style: FontStyles.greeting,),
       ),
       body: Container(
         height: double.infinity,
@@ -89,7 +105,10 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                    audioPlayer: player),
                    ));
                 },
-                trailing: IconButton(onPressed: () => addListPlaylist(context), icon:Icon(Icons.more_vert),color: MyTheme().iconColor,),
+                trailing: 
+                  IconButton(onPressed: () => removeSong(song), icon: Icon(Icons.remove)),
+                    // IconButton(onPressed: () => addListPlaylist(context), icon:Icon(Icons.more_vert),color: MyTheme().iconColor,),
+                  
               );
             },
           ),

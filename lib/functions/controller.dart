@@ -8,6 +8,7 @@ import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
 // import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/widgets/Library/playlist/MusicplaylistPage.dart';
+import 'package:beatfusion/widgets/Library/playlist/playlistDetails.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 // import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
 // import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
@@ -491,6 +492,8 @@ void playlistBottom(BuildContext context,Song songdata) {
                       return ListTile(
                         onTap: () {
                           // addToPlaylist(playlist.name,songdata);
+                          // PlaylistMenu(context, playlist, () { });
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist)));
                         },
                         title: Text(
                           playlist!.name,
