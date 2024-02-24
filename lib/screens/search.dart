@@ -142,7 +142,7 @@ void addToFavoriteFunction() {
                                   maxLines: 1,
                                 ),
                                 trailing: IconButton(
-                                  onPressed: () => addList, 
+                                  onPressed: () => addList(context,song), 
                                   icon: const Icon(Icons.more_vert,
                                   color: Colors.white,),
                               ),

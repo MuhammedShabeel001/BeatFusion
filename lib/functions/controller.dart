@@ -94,18 +94,14 @@ void addList(BuildContext context,Song songdata){
                 ListTile(
   onTap: () {
     Navigator.pop(context);
-    if (isInFavorites(songdata)) {
-      removeFromFavorite(songdata);
-    }else{
-      addToFavorite(songdata);
-    }
+    toggleFavorite(context, songdata);
   },
   title: Text( 
-    isInFavorites(songdata) ? 'Remove from Favorites' : 'Add to Favorites',  
+     'Add to Favorites',  
     style: FontStyles.order,
   ),
   leading: Icon(
-    isInFavorites(songdata) ? Icons.favorite : Icons.favorite_border,
+     Icons.favorite ,
     color: MyTheme().selectedTile,
   ),
 ),
@@ -118,56 +114,105 @@ void addList(BuildContext context,Song songdata){
   );
 }
 
-void addToFavorite(Song song) async {
-  final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('favoriteBox');
+void toggleFavorite(BuildContext context, Song song) async {
+  var favoriteBox = await Hive.openBox<SongFavorite>('FavouriteSong');
+  var favoriteSongs = favoriteBox.get(0)?.song ?? [];
 
-  // Retrieve the existing list of songs from the favorite box
-  List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+  // Check if the song is already in favorites
+  bool isFavorite = favoriteSongs.any((s) => s.filePath == song.filePath);
 
-  // Check if the song is not already in the favorite list
-  if (!currentSongs.contains(song)) {
-    // Add the song to the list
-    currentSongs.add(song);
-
-    // Save the updated list to the favorite box
-    await favoriteBox.put(0, SongFavorite(song: currentSongs));
-
-    // Optionally, you can display a message or perform any other actions
-    print('Song added to Favorites!');
+  if (isFavorite) {
+    // If the song is already in favorites, remove it
+    favoriteSongs.removeWhere((s) => s.filePath == song.filePath);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Removed from Favorites',
+          style: FontStyles.artist2,
+        ),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(milliseconds: 1500),
+        backgroundColor: const Color.fromARGB(131, 64, 66, 88),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+      ),
+    );
   } else {
-    // Optionally, you can display a message or perform any other actions
-    print('Song is already in Favorites!');
+    // If the song is not in favorites, add it
+    favoriteSongs.add(song);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Added to Favorites',
+          style: FontStyles.artist2,
+        ),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(milliseconds: 1500),
+        backgroundColor: const Color.fromARGB(131, 64, 66, 88),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+      ),
+    );
   }
+
+  favoriteBox.put(0, SongFavorite(song: favoriteSongs));
 }
 
 
-void removeFromFavorite(Song song) async {
-  final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('favoriteBox');
+// void addToFavorite(Song song) async {
+//   final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('favoriteBox');
 
-  // Retrieve the existing list of songs from the favorite box
-  List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+//   // Retrieve the existing list of songs from the favorite box
+//   List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
 
-  // Check if the song is in the favorite list
-  if (currentSongs.contains(song)) {
-    // Remove the song from the list
-    currentSongs.remove(song);
+//   // Check if the song is not already in the favorite list
+//   if (!currentSongs.contains(song)) {
+//     // Add the song to the list
+//     currentSongs.add(song);
 
-    // Save the updated list to the favorite box
-    await favoriteBox.put(0, SongFavorite(song: currentSongs));
+//     // Save the updated list to the favorite box
+//     await favoriteBox.put(0, SongFavorite(song: currentSongs));
 
-    // Optionally, you can display a message or perform any other actions
-    print('Song removed from Favorites!');
-  } else {
-    // Optionally, you can display a message or perform any other actions
-    print('Song is not in Favorites!');
-  }
-}
+//     // Optionally, you can display a message or perform any other actions
+//     print('Song added to Favorites!');
+//   } else {
+//     // Optionally, you can display a message or perform any other actions
+//     print('Song is already in Favorites!');
+//   }
+// }
 
-bool isInFavorites(Song song) {
-  final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('FavouriteSong');
-  List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
-  return currentSongs.contains(song);
-}
+
+// void removeFromFavorite(Song song) async {
+//   final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('favoriteBox');
+
+//   // Retrieve the existing list of songs from the favorite box
+//   List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+
+//   // Check if the song is in the favorite list
+//   if (currentSongs.contains(song)) {
+//     // Remove the song from the list
+//     currentSongs.remove(song);
+
+//     // Save the updated list to the favorite box
+//     await favoriteBox.put(0, SongFavorite(song: currentSongs));
+
+//     // Optionally, you can display a message or perform any other actions
+//     print('Song removed from Favorites!');
+//   } else {
+//     // Optionally, you can display a message or perform any other actions
+//     print('Song is not in Favorites!');
+//   }
+// }
+
+// bool isInFavorites(Song song) {
+//   final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('FavouriteSong');
+//   List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+//   return currentSongs.contains(song);
+// }
 
 
 // void addToFavorite(Song song) async {
@@ -242,7 +287,8 @@ void addListPlaylist(BuildContext context,Song songdata){
                 ListTile(
                   onTap: () {
                     // Handle Add to Favorite action
-                    addToFavorite(songdata);
+                    // addToFavorite(songdata);
+                    toggleFavorite(context, songdata);
                     Navigator.pop(context);
                   },
                   title: Text(
