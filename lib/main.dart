@@ -1,4 +1,5 @@
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
@@ -11,14 +12,16 @@ Future<void> main() async{
   
   await Hive.initFlutter();
   Hive.registerAdapter(SongAdapter());
+  Hive.registerAdapter(SongFavoriteAdapter());
   Hive.registerAdapter(PlaylistAdapter());
   Hive.registerAdapter(SongHistoryAdapter());
-  // Hive.registerAdapter(SongFavoriteAdapter());
+  
   
   await Hive.openBox<Song>('songsbox');
+  await Hive.openBox<SongFavorite>('FavouriteSong');
   await Hive.openBox<Playlist>('playlistbox');
   await Hive.openBox<SongHistory>('history');
-  // await Hive.openBox<SongFavorite>('song_favorite_box');
+
   runApp(const BeatFusion());
 }
 

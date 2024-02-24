@@ -2,6 +2,7 @@
 
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/playlist.dart';
 // import 'package:beatfusion/database/playlist.dart';
@@ -91,22 +92,23 @@ void addList(BuildContext context,Song songdata){
                   ),
                 ),
                 ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    playlistBottom(context, songdata);
-                    // Handle Add to Favorite action
-                    // addToFavoriteFunction();
-                    // Navigator.pop(context);
-                  },
-                  title: Text(
-                    'Add to Favorite',
-                    style: FontStyles.order,
-                  ),
-                  leading: Icon(
-                    Icons.favorite,
-                    color: MyTheme().selectedTile,
-                  ),
-                ),
+  onTap: () {
+    Navigator.pop(context);
+    if (isInFavorites(songdata)) {
+      removeFromFavorite(songdata);
+    }else{
+      addToFavorite(songdata);
+    }
+  },
+  title: Text( 
+    isInFavorites(songdata) ? 'Remove from Favorites' : 'Add to Favorites',  
+    style: FontStyles.order,
+  ),
+  leading: Icon(
+    isInFavorites(songdata) ? Icons.favorite : Icons.favorite_border,
+    color: MyTheme().selectedTile,
+  ),
+),
               ],
             ),
           ],
@@ -116,11 +118,99 @@ void addList(BuildContext context,Song songdata){
   );
 }
 
-void addToFavoriteFunction() {
+void addToFavorite(Song song) async {
+  final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('favoriteBox');
+
+  // Retrieve the existing list of songs from the favorite box
+  List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+
+  // Check if the song is not already in the favorite list
+  if (!currentSongs.contains(song)) {
+    // Add the song to the list
+    currentSongs.add(song);
+
+    // Save the updated list to the favorite box
+    await favoriteBox.put(0, SongFavorite(song: currentSongs));
+
+    // Optionally, you can display a message or perform any other actions
+    print('Song added to Favorites!');
+  } else {
+    // Optionally, you can display a message or perform any other actions
+    print('Song is already in Favorites!');
+  }
 }
 
 
-void addListPlaylist(BuildContext context){
+void removeFromFavorite(Song song) async {
+  final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('favoriteBox');
+
+  // Retrieve the existing list of songs from the favorite box
+  List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+
+  // Check if the song is in the favorite list
+  if (currentSongs.contains(song)) {
+    // Remove the song from the list
+    currentSongs.remove(song);
+
+    // Save the updated list to the favorite box
+    await favoriteBox.put(0, SongFavorite(song: currentSongs));
+
+    // Optionally, you can display a message or perform any other actions
+    print('Song removed from Favorites!');
+  } else {
+    // Optionally, you can display a message or perform any other actions
+    print('Song is not in Favorites!');
+  }
+}
+
+bool isInFavorites(Song song) {
+  final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('FavouriteSong');
+  List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+  return currentSongs.contains(song);
+}
+
+
+// void addToFavorite(Song song) async {
+//   final Box<SongFavorite> favoriteBox = Hive.box<SongFavorite>('favoriteBox');
+
+//   // Retrieve the existing list of songs from the favorite box
+//   List<Song> currentSongs = favoriteBox.get(0)?.song ?? [];
+
+//   // Check if the song is already in the favorite list
+//   if (currentSongs.contains(song)) {
+//     // Remove the song from the list
+//     currentSongs.remove(song);
+
+//     try {
+//       // Save the updated list to the favorite box
+//       await favoriteBox.put(0, SongFavorite(song: currentSongs));
+
+//       // Display feedback to the user
+//       print('Song removed from Favorites!');
+//     } catch (e) {
+//       // Handle any potential exceptions during Hive operations
+//       print('Error removing song from Favorites: $e');
+//     }
+//   } else {
+//     // Add the song to the list using spread operator for immutability
+//     currentSongs = [...currentSongs, song];
+
+//     try {
+//       // Save the updated list to the favorite box
+//       await favoriteBox.put(0, SongFavorite(song: currentSongs));
+
+//       // Display feedback to the user
+//       print('Song added to Favorites!');
+//     } catch (e) {
+//       // Handle any potential exceptions during Hive operations
+//       print('Error adding song to Favorites: $e');
+//     }
+//   }
+// }
+
+
+
+void addListPlaylist(BuildContext context,Song songdata){
   showModalBottomSheet(
     backgroundColor: Colors.transparent,
     context: context,
@@ -152,7 +242,7 @@ void addListPlaylist(BuildContext context){
                 ListTile(
                   onTap: () {
                     // Handle Add to Favorite action
-                    addToFavoriteFunction();
+                    addToFavorite(songdata);
                     Navigator.pop(context);
                   },
                   title: Text(
@@ -677,3 +767,5 @@ void playlistBottom(BuildContext context,Song songdata) {
 
 //   await playlistBox.close();
 // }
+
+

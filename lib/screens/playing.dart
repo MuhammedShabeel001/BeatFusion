@@ -3,6 +3,7 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/favorite.dart';
+// import 'package:beatfusion/database/favorite.dart';
 // import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
 // import 'package:beatfusion/functions/control_functions.dart';
@@ -34,7 +35,140 @@ class _PlayingScreenState extends State<PlayingScreen> {
   bool isPlaying = false;
   double _currentSliderValue = 0.0;
   bool isRepeating = false;
-  bool isRepeat =false;
+  // bool isRepeat =false;
+
+  bool favoriteBoxContainsSong(Song song) {
+  var favoriteBox = Hive.box<SongFavorite>('FavouriteSong');
+  return favoriteBox.get(0)?.song?.any((s) => s.filePath == song.filePath) ?? false;
+}
+
+
+  void toggleFavorite(Song song) async {
+  var favoriteBox = await Hive.openBox<SongFavorite>('FavouriteSong');
+  var currentSong = song;
+
+  // Check if the current song is already in favorites
+  bool isFavorite = favoriteBox.get(0)?.song?.any((s) => s.filePath == currentSong.filePath) ?? false;
+
+  if (isFavorite) {
+    // If the song is already in favorites, remove it
+    var favoriteSongs = favoriteBox.get(0)?.song ?? [];
+    favoriteSongs.removeWhere((s) => s.filePath == currentSong.filePath);
+    favoriteBox.put(0, SongFavorite(song: favoriteSongs));
+
+    // Show a snackbar or update the UI to indicate removal
+    showSnackbar('Removed from Favorites');
+  } else {
+    // If the song is not in favorites, add it
+    var favoriteSongs = favoriteBox.get(0)?.song ?? [];
+    favoriteSongs.add(currentSong);
+    favoriteBox.put(0, SongFavorite(song: favoriteSongs));
+
+    // Show a snackbar or update the UI to indicate addition
+    showSnackbar('Added to Favorites');
+  }
+
+  setState(() {});
+}
+
+void showSnackbar(String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: FontStyles.artist2,
+      ),
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.only(
+        bottom: 310,
+        left: 70,
+        right: 70,
+      ),
+      duration: const Duration(milliseconds: 600),
+      backgroundColor: const Color.fromARGB(131, 64, 66, 88),
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+    ),
+  );
+}
+
+
+
+
+
+//   void toggleFavorite() async {
+//   var favoriteBox = await Hive.openBox<SongFavorite>('FavouriteSong');
+//   var currentSong = widget.songdata;
+
+//   // Check if the current song is already in favorites
+//   bool isFavorite = favoriteBox.get(0)?.song?.any((song) => song.filePath == currentSong.filePath) ?? false;
+
+//   if (isFavorite) {
+//     // If the song is already in favorites, remove it
+//     var favoriteSongs = favoriteBox.get(0)?.song ?? [];
+//     favoriteSongs.removeWhere((song) => song.filePath == currentSong.filePath);
+//     favoriteBox.put(0, SongFavorite(song: favoriteSongs));
+
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(
+//         content: Text(
+//           'Removed from Favorites',
+//           textAlign: TextAlign.center,
+//           style: FontStyles.artist2,
+//         ),
+//         behavior: SnackBarBehavior.floating,
+//         margin: const EdgeInsets.only(
+//           bottom: 310,
+//           left: 70,
+//           right: 70,
+//         ),
+//         duration: const Duration(milliseconds: 600),
+//         backgroundColor: const Color.fromARGB(131, 64, 66, 88),
+//         elevation: 0,
+//         shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(20.0)),
+//         ),
+//       ),
+//     );
+//   } else {
+//     // If the song is not in favorites, add it
+//     var favoriteSongs = favoriteBox.get(0)?.song ?? [];
+//     favoriteSongs.add(Song(
+//       key: currentSong.key,
+//       name: currentSong.name,
+//       artist: currentSong.artist,
+//       duration: currentSong.duration,
+//       filePath: currentSong.filePath,
+//     ));
+//     favoriteBox.put(0, SongFavorite(song: favoriteSongs));
+
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(
+//         content: Text(
+//           'Added to Favorites',
+//           textAlign: TextAlign.center,
+//           style: FontStyles.artist2,
+//         ),
+//         behavior: SnackBarBehavior.floating,
+//         margin: const EdgeInsets.only(
+//           bottom: 310,
+//           left: 70,
+//           right: 70,
+//         ),
+//         duration: const Duration(milliseconds: 600),
+//         backgroundColor: const Color.fromARGB(131, 64, 66, 88),
+//         elevation: 0,
+//         shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(20.0)),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 
   
   
@@ -419,23 +553,28 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                     //favorite
                                     IconButton(
   onPressed: () async {
+    toggleFavorite(widget.songdata);
     // ignore: non_constant_identifier_names
-    var FavoriteBox = await Hive.openBox<SongFavorite>('song_favorite_box');
-    var currentSong = widget.songdata;
-    // ignore: non_constant_identifier_names
-    var FavSongs = FavoriteBox.get(0)?.song ?? [];
+    // var FavoriteBox = await Hive.openBox<SongFavorite>('song_favorite_box');
+    // var currentSong = widget.songdata;
+    // // ignore: non_constant_identifier_names
+    // var FavSongs = FavoriteBox.get(0)?.song ?? [];
 
-    FavSongs.add(Song(
-      key: currentSong.key,
-      name: currentSong.name,
-      artist: currentSong.artist,
-      duration: currentSong.duration,
-      filePath: currentSong.filePath,
-    ));
+    // FavSongs.add(Song(
+    //   key: currentSong.key,
+    //   name: currentSong.name,
+    //   artist: currentSong.artist,
+    //   duration: currentSong.duration,
+    //   filePath: currentSong.filePath,
+    // ));
 
-    FavoriteBox.put(0, SongFavorite(song: FavSongs));
+    // FavoriteBox.put(0, SongFavorite(song: FavSongs));
   }, 
-  icon: SvgPicture.asset('assets/pics/Fav.svg')),
+  icon: Icon(
+    favoriteBoxContainsSong(widget.songdata)
+    ? Icons.favorite
+    : Icons.favorite_border    
+  )),
                                     IconButton(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,

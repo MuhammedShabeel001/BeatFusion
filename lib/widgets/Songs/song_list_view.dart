@@ -7,7 +7,7 @@ import 'package:beatfusion/screens/playing.dart';
 // import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
 import 'package:beatfusion/functions/controller.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
-import 'package:beatfusion/widgets/favourite/fav_list.dart';
+// import 'package:beatfusion/widgets/favourite/fav_list.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
@@ -26,77 +26,14 @@ class _SongListViewState extends State<SongListView> {
     int currentSongID = 0;
     Box<Song>? boxsong;
     final AudioPlayer player = AudioPlayer();
+    // List<Song> currentSongs = [];
   @override
  void initState(){
   super.initState();
   openSongs();
 }
   
-// addList() {
-//   showModalBottomSheet(
-//     backgroundColor: Colors.transparent,
-//     context: context,
-//     builder: (BuildContext context) {
-//       return Container(
-//         height: MediaQuery.of(context).size.height * 0.23,
-//         decoration: BoxDecoration(
-//           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-//           color: MyTheme().primaryColor,
-//         ),
-//         child: Stack(
-//           children: [
-//             Positioned(
-//               top: 0,
-//               left: 0,
-//               right: 0,
-//               child: Container(
-//                 margin: const EdgeInsets.only(bottom: 20.0, top: 10.0),
-//                 child: Icon(
-//                   Icons.maximize_rounded,
-//                   size: 50.0,
-//                   color: MyTheme().secondaryColor,
-//                 ),
-//               ),
-//             ),
-//             Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 ListTile(
-//                   onTap: () {
-//                     Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen())); 
-//                   },
-//                   title: Text(
-//                     'Add to Playlist',
-//                     style: FontStyles.order,
-//                   ),
-//                   leading: Icon(
-//                     Icons.playlist_add,
-//                     color: MyTheme().selectedTile,
-//                   ),
-//                 ),
-//                 ListTile(
-//                   onTap: () {
-//                     // Handle Add to Favorite action
-//                     addToFavoriteFunction();
-//                     Navigator.pop(context);
-//                   },
-//                   title: Text(
-//                     'Add to Favorite',
-//                     style: FontStyles.order,
-//                   ),
-//                   leading: Icon(
-//                     Icons.favorite,
-//                     color: MyTheme().selectedTile,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }
+
 
   void addToPlaylistFunction() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistScreen(),));
@@ -104,7 +41,7 @@ class _SongListViewState extends State<SongListView> {
   }
 
   void addToFavoriteFunction() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteScreen()  ,));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteScreen()  ,));
     // print('Added to Favorite');
   }
 
@@ -160,7 +97,7 @@ class _SongListViewState extends State<SongListView> {
 
           trailing: IconButton(
             // onPressed: () => addList, 
-            onPressed: () => addList(context,song),
+            onPressed: () => addList(context,song,),
             // onPressed: () => addList,
             icon: Icon(Icons.more_vert,
             color: MyTheme().iconColor,)),

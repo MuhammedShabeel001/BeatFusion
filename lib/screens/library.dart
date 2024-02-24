@@ -1,8 +1,9 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
+import 'package:beatfusion/widgets/Library/Favorite/favouriteSongScreen.dart';
 import 'package:beatfusion/widgets/Library/Recent/recent.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
-import 'package:beatfusion/widgets/favourite/fav_list.dart';
+// import 'package:beatfusion/widgets/favourite/fav_list.dart';
 // import 'package:beatfusion/screens/favourite/fav_list.dart';
 // import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
 // import 'package:beatfusion/screens/Library/Recent/recent.dart';
@@ -14,7 +15,7 @@ class LibraryScreen extends StatelessWidget {
   final List<String> itemNames = ['Favorite', 'Playlists', 'Recent'];
 
   void onTapFavorite(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteSongsScreen()));
   }
 
   void onTapPlaylists(BuildContext context) {
