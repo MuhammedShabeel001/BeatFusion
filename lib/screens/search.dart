@@ -150,7 +150,8 @@ void addToFavoriteFunction() {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => 
                                 PlayingScreen(
                                   songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath), 
-                                  audioPlayer: player
+                                  audioPlayer: player,
+                                  // boxType: '',
                                   )
                                   ));
                               },

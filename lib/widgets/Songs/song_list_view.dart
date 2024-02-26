@@ -110,6 +110,7 @@ class _SongListViewState extends State<SongListView> {
       PlayingScreen(
         songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
         audioPlayer: player,
+        // boxType: 'songs',
       ),
     ),
   );
