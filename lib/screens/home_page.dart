@@ -124,6 +124,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
             color: MyTheme().iconColor,))
         ],
         bottom: TabBar(
+          dividerHeight: 0.0,
                 splashFactory: NoSplash.splashFactory,
                 controller: _tabController,            
                 unselectedLabelColor: MyTheme().secondaryColor,
@@ -184,108 +185,108 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
           ],),
         ),
       ),
-      bottomSheet: isPlayerViewVisible
+      // bottomSheet: isPlayerViewVisible
       
-          ? Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: MyTheme().primaryColor,
-              borderRadius: BorderRadius.circular(0)
-            ),
-            child: Container(
-                child: isMusicPlayerTapped 
-                    ? Stack(
+      //     ? Container(
+      //       padding: const EdgeInsets.all(10),
+      //       decoration: BoxDecoration(
+      //         color: MyTheme().primaryColor,
+      //         borderRadius: BorderRadius.circular(0)
+      //       ),
+      //       child: Container(
+      //           child: isMusicPlayerTapped 
+      //               ? Stack(
                       
-                      children: [
-                        GestureDetector(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: MyTheme().secondaryColor,
-                                borderRadius: BorderRadius.circular(12)
-                              ),
-                              child: ListTile(
-                                leading: QueryArtworkWidget(
-                                  id: currentSongID,
-                                  keepOldArtwork: true,
-                                  type: ArtworkType.AUDIO,
-                                  artworkBorder: BorderRadius.zero,
-                                  nullArtworkWidget: Container(
-                                      padding: const EdgeInsets.all(12.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(7),
-                                        shape: BoxShape.rectangle,
-                                        color: const Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                      child: const Icon(
-                                        Icons.music_note_sharp,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                                title: SizedBox(
-                                  height: 18,
-                                  child: currentSongTitle.length > 20
-                                      ? Marquee(
-                                          text: (currentSongTitle)
-                                                  .replaceAll('_', ' ') +
-                                              ('      '),
-                                          style: FontStyles.name,
-                                          fadingEdgeStartFraction: 0.2,
-                                          fadingEdgeEndFraction: 0.2,
-                                          scrollAxis: Axis.horizontal,
-                                        )
-                                      : Text(
-                                          currentSongTitle,
-                                          style: FontStyles.name,
-                                          maxLines: 1,
-                                        ),
-                                ),
-                                subtitle: Text(
-                                  currentArtist ?? "No Artist",
-                                  style: FontStyles.artist,
-                                  maxLines: 1,
-                                ),
-                                trailing: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    isPlaying
-                                        ? IconButton(
-                                            onPressed: () async {
-                                              setState(() {
-                                                isPlaying = !isPlaying;
-                                                const ScreenHome();
-                                              });
-                                              await _player.pause();
-                                            },
-                                            icon: SvgPicture.asset('assets/pics/pause.svg'),
-                                          )
-                                        : IconButton(
-                                            onPressed: () async {
-                                              setState(() {
-                                                isPlaying = !isPlaying;
-                                                const ScreenHome();
-                                              });
-                                              await _player.play();
-                                            },
-                                            icon: SvgPicture.asset('assets/pics/play.svg')),
-                                    IconButton(
-                                      onPressed: () async {
-                                        await _player.seekToNext();
-                                        const ScreenHome();
-                                      },
-                                      icon:SvgPicture.asset('assets/pics/next2.svg')),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    )
-                    :null
+      //                 children: [
+      //                   GestureDetector(
+      //                       child: Container(
+      //                         decoration: BoxDecoration(
+      //                           color: MyTheme().secondaryColor,
+      //                           borderRadius: BorderRadius.circular(12)
+      //                         ),
+      //                         child: ListTile(
+      //                           leading: QueryArtworkWidget(
+      //                             id: currentSongID,
+      //                             keepOldArtwork: true,
+      //                             type: ArtworkType.AUDIO,
+      //                             artworkBorder: BorderRadius.zero,
+      //                             nullArtworkWidget: Container(
+      //                                 padding: const EdgeInsets.all(12.0),
+      //                                 decoration: BoxDecoration(
+      //                                   borderRadius: BorderRadius.circular(7),
+      //                                   shape: BoxShape.rectangle,
+      //                                   color: const Color.fromARGB(255, 0, 0, 0),
+      //                                 ),
+      //                                 child: const Icon(
+      //                                   Icons.music_note_sharp,
+      //                                   color: Colors.white,
+      //                                 )),
+      //                           ),
+      //                           title: SizedBox(
+      //                             height: 18,
+      //                             child: currentSongTitle.length > 20
+      //                                 ? Marquee(
+      //                                     text: (currentSongTitle)
+      //                                             .replaceAll('_', ' ') +
+      //                                         ('      '),
+      //                                     style: FontStyles.name,
+      //                                     fadingEdgeStartFraction: 0.2,
+      //                                     fadingEdgeEndFraction: 0.2,
+      //                                     scrollAxis: Axis.horizontal,
+      //                                   )
+      //                                 : Text(
+      //                                     currentSongTitle,
+      //                                     style: FontStyles.name,
+      //                                     maxLines: 1,
+      //                                   ),
+      //                           ),
+      //                           subtitle: Text(
+      //                             currentArtist ?? "No Artist",
+      //                             style: FontStyles.artist,
+      //                             maxLines: 1,
+      //                           ),
+      //                           trailing: Row(
+      //                             mainAxisAlignment: MainAxisAlignment.end,
+      //                             mainAxisSize: MainAxisSize.min,
+      //                             children: [
+      //                               isPlaying
+      //                                   ? IconButton(
+      //                                       onPressed: () async {
+      //                                         setState(() {
+      //                                           isPlaying = !isPlaying;
+      //                                           const ScreenHome();
+      //                                         });
+      //                                         await _player.pause();
+      //                                       },
+      //                                       icon: SvgPicture.asset('assets/pics/pause.svg'),
+      //                                     )
+      //                                   : IconButton(
+      //                                       onPressed: () async {
+      //                                         setState(() {
+      //                                           isPlaying = !isPlaying;
+      //                                           const ScreenHome();
+      //                                         });
+      //                                         await _player.play();
+      //                                       },
+      //                                       icon: SvgPicture.asset('assets/pics/play.svg')),
+      //                               IconButton(
+      //                                 onPressed: () async {
+      //                                   await _player.seekToNext();
+      //                                   const ScreenHome();
+      //                                 },
+      //                                 icon:SvgPicture.asset('assets/pics/next2.svg')),
+      //                             ],
+      //                           ),
+      //                         ),
+      //                       ),
+      //                     ),
+      //                 ],
+      //               )
+      //               :null
 
-            ),
-          )
-          :null,
+      //       ),
+      //     )
+      //     :null,
     
       );
   }

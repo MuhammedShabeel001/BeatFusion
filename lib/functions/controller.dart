@@ -881,3 +881,77 @@ void FavouriteList(BuildContext context,Song songdata,VoidCallback refreshFavour
     },
   );
 }
+
+
+// void PlaylistSongList(BuildContext context,Song songdata,){
+//   showModalBottomSheet(
+//     backgroundColor: Colors.transparent,
+//     context: context,
+//     builder: (BuildContext context) {
+//       return Container(
+//         height: MediaQuery.of(context).size.height * 0.23,
+//         decoration: BoxDecoration(
+//           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+//           color: MyTheme().primaryColor,
+//         ),
+//         child: Stack(
+//           children: [
+//             Positioned(
+//               top: 0,
+//               left: 0,
+//               right: 0,
+//               child: Container(
+//                 margin: const EdgeInsets.only(bottom: 20.0, top: 10.0),
+//                 child: Icon(
+//                   Icons.maximize_rounded,
+//                   size: 50.0,
+//                   color: MyTheme().secondaryColor,
+//                 ),
+//               ),
+//             ),
+//             Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 ListTile(
+//                   onTap: () { Navigator.pop(context);
+//                   removeSong();
+//                   // playlistBottom(context, songdata);
+//                   },
+//                   //  PlaylistBottom(context),
+//                   // showPlaylistBottomSheet(context),
+//                   title: Text(
+//                     'Remove from Playlist',
+//                     style: FontStyles.order,
+//                   ),
+//                   leading: Icon(
+//                     Icons.playlist_remove,
+//                     color: MyTheme().selectedTile,
+//                   ),
+//                 ),
+//                 ListTile(
+//   onTap: () {
+//     Navigator.pop(context);
+//     toggleFavorite(context, songdata);
+//     // refreshFavouriteScreen();
+//   },
+//   title: Text( 
+//      'Add to Favorites',  
+//     style: FontStyles.order,
+//   ),
+//   leading: Icon(
+//      Icons.favorite ,
+//     color: MyTheme().selectedTile,
+//   ),
+// ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
+
+// import 'package:hive/hive.dart';
+
+

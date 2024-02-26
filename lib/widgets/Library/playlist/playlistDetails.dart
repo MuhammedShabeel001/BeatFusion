@@ -29,17 +29,40 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
     });
   }
 
-  void removeSong(Song song) {
-    setState(() {
-      // Remove the song from the playlist
-      widget.playlist.song.remove(song);
+    void removeSong(Song song) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Remove Song"),
+          content: Text("Are you sure you want to remove ${song.name}?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  // Remove the song from the playlist
+                  widget.playlist.song.remove(song);
 
-      // Remove the song from the Hive box
-      final playlistBox = Hive.box<Playlist>('playlists');
-      final updatedPlaylist = playlistBox.get(widget.playlist.name);
-      updatedPlaylist?.song.remove(song.key);
-      playlistBox.put(widget.playlist.name, updatedPlaylist!);
-    });
+                  // Remove the song from the Hive box
+                  final playlistBox = Hive.box<Playlist>('playlists');
+                  final updatedPlaylist = playlistBox.get(widget.playlist.name);
+                  updatedPlaylist?.song.remove(song.key);
+                  playlistBox.put(widget.playlist.name, updatedPlaylist!);
+                });
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Remove"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

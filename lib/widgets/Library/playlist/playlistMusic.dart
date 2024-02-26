@@ -29,6 +29,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       appBar: AppBar(
         leading: IconButton(onPressed: (){
         Navigator.pop(context);
+        
       }, icon: SvgPicture.asset('assets/pics/back.svg')),
         title: Text('Playlist Screen',style: FontStyles.greeting,),
       ),
