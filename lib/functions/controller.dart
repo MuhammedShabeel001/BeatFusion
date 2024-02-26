@@ -9,6 +9,7 @@ import 'package:beatfusion/widgets/Library/playlist/playlistDetails.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 void addToHistory(Song song) async {
   try {
@@ -596,4 +597,19 @@ void FavouriteList(BuildContext context,Song songdata,VoidCallback refreshFavour
       );
     },
   );
+}
+
+
+final OnAudioQuery onAudioQuery = OnAudioQuery();
+Future<void> fetchSongs() async {
+  await onAudioQuery.permissionsStatus();
+  final songs = await onAudioQuery.querySongs();
+
+  final songBox = await Hive.openBox<Song>('songs');
+
+  for (final song in songs) {
+    final hiveSong = Song(key: song.id, name: song.displayName, artist: song.artist??'unknown', duration: song.duration??0, filePath: song.data);
+
+    await songBox.put(song.id, hiveSong);
+  }
 }

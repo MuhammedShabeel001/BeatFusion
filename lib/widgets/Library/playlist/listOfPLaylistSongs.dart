@@ -106,22 +106,21 @@ class _SongPlayListViewState extends State<SongPlayListView> {
               color: Colors.white,
             ),
           ),
-          trailing: IconButton(
-            onPressed: () {
-              widget.onSongSelected(index);
-              setState(() {
-                if (selectedSongs.contains(index)) {
-                  selectedSongs.remove(index);
-                } else {
+          trailing: Checkbox(
+          value: selectedSongs.contains(index),
+          onChanged: (bool? value) {
+            widget.onSongSelected(index);
+            setState(() {
+              if (value != null) {
+                if (value) {
                   selectedSongs.add(index);
+                } else {
+                  selectedSongs.remove(index);
                 }
-              });
-            },
-            icon: Icon(
-              selectedSongs.contains(index) ? Icons.check_box : Icons.add,
-              color: MyTheme().iconColor,
-            ),
-          ),
+              }
+            });
+          },
+        ),
           onTap: () async {
             _updateSongDetails(index);
             _changePlayerVisibility();

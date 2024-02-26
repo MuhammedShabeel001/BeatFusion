@@ -1,27 +1,24 @@
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/screens/home_page.dart';
+import 'package:beatfusion/widgets/Landing/landing.dart';
+// import 'package:beatfusion/widgets/Landing/screen1.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashState extends State<SplashScreen> {
   @override
-  void initState(){
+  void initState() {
+    splashtime(context);
     super.initState();
-    goToLandingPage().then((value){
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const ScreenHome(),)
-      );
-    });
-  }
-
-  Future<void> goToLandingPage()async{
-    await Future.delayed(const Duration(seconds: 5));
   }
 
   @override
@@ -40,3 +37,25 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
+Future<void> splashtime(context) async {
+  final shared = await SharedPreferences.getInstance();
+  final key1 = shared.getBool(key);
+  if (key1 == null || key1 == false) {
+    await Future.delayed(const Duration(seconds: 2));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => const Welcome1(),
+      ),
+    );
+  } else {
+    await Future.delayed(const Duration(seconds: 2));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (ctx) => ScreenHome(),
+      ),
+      (route) => false,
+    );
+  }
+}
+

@@ -70,7 +70,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           IconButton(onPressed: (){
             Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => SongsPlayList(ListName: widget.playlist.name)),);
+                          MaterialPageRoute(builder: (context) => SongsPlayList(ListName: widget.playlist.name,)),);
           }, icon: Icon(Icons.add),color: MyTheme().iconColor,)
         ],
         leading: IconButton(onPressed: (){

@@ -4,6 +4,7 @@ import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/splash.dart';
+import 'package:beatfusion/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 

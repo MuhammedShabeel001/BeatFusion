@@ -47,7 +47,7 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
                         Navigator.of(context).pop();
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => SongsPlayList(ListName: playlistName)),
+                          MaterialPageRoute(builder: (context) => SongsPlayList(ListName: playlistName,)),
                         );
                       }
                     : null,
