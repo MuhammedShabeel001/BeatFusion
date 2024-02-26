@@ -2,10 +2,7 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/widgets/Library/playlist/listOfPLaylistSongs.dart';
-// import 'package:beatfusion/screens/Library/playlist/listOfPLaylistSongs.dart';
-// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,8 +23,6 @@ class SongsPlayList extends StatefulWidget {
 
 class _SongsPlayListState extends State<SongsPlayList> {
   final OnAudioQuery audioQuery = OnAudioQuery();
-  int _selectedValueOrder = 0;
-  int _selectedValueSort = 0;
   Set<SongModel> selectedSongs = {};
 
   @override
@@ -71,7 +66,6 @@ class _SongsPlayListState extends State<SongsPlayList> {
               }
 
               await playlistBox.close();
-              // ignore: use_build_context_synchronously
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  PlaylistScreen()));
 
               if (widget.onPlaylistAdded != null) {
@@ -88,8 +82,6 @@ class _SongsPlayListState extends State<SongsPlayList> {
       ),
       body: FutureBuilder<List<SongModel>>(
         future: OnAudioQuery().querySongs(
-          sortType: sortTechnique[_selectedValueSort],
-          orderType: orderTechnique[_selectedValueOrder],
           uriType: UriType.EXTERNAL,
           ignoreCase: true,
         ),

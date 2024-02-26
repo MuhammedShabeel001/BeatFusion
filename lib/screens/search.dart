@@ -1,11 +1,8 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
-// import 'package:beatfusion/screens/playlist/Playlist.dart';
 import 'package:beatfusion/screens/playing.dart';
-// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
 import 'package:beatfusion/functions/controller.dart';
-import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
@@ -24,16 +21,6 @@ class _ScreenSearchState extends State<ScreenSearch> {
 
   final AudioPlayer player = AudioPlayer();
 
-
-
-void addToPlaylistFunction() {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistScreen(),));
-  // print('Added to Playlist');
-}
-
-void addToFavoriteFunction() {
-  // print('Added to Favorite');
-}
 
   @override
   void initState() {

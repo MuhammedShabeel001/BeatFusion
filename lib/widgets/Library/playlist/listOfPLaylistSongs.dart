@@ -3,10 +3,6 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/functions/control_functions.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
-// import 'package:beatfusion/widgets/favourite/fav_list.dart';
-// import 'package:beatfusion/screens/playlist/Playlist.dart';
-// import 'package:beatfusion/screens/favourite/fav_list.dart';
-// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
@@ -38,13 +34,7 @@ class _SongPlayListViewState extends State<SongPlayListView> {
     print('Added to Playlist');
   }
 
-  // void addToFavoriteFunction() {
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteScreen()));
-  //   print('Added to Favorite');
-  // }
-
   void openSongs() async {
-    // Use await when opening the box
     boxsong = await Hive.openBox<Song>('songbox');
     print('..................................${boxsong}');
   }
@@ -133,7 +123,6 @@ class _SongPlayListViewState extends State<SongPlayListView> {
             ),
           ),
           onTap: () async {
-            // Handle tap actions here
             _updateSongDetails(index);
             _changePlayerVisibility();
           },

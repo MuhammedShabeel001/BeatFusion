@@ -6,7 +6,7 @@ import 'package:beatfusion/screens/playing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:just_audio/just_audio.dart'; // Adjust the import based on your project structure
+import 'package:just_audio/just_audio.dart'; 
 
 class FavoriteSongsScreen extends StatefulWidget {
   
@@ -80,15 +80,12 @@ class _FavoriteSongsScreenState extends State<FavoriteSongsScreen> {
                       onTap: () {
                         Navigator.push(context, 
                         MaterialPageRoute(builder: (context) => PlayingScreen(songdata: song, audioPlayer: AudioPlayer(),
-                        //  boxType: 'favorite',
                          ), ));
                       },
-                      // Add other song details as needed
                     );
                   },
                 );
               } else {
-                // Handle loading state
                 return Center(
                   child: CircularProgressIndicator(),
                 );

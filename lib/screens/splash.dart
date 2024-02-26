@@ -1,6 +1,5 @@
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/widgets/Landing/screen1.dart';
-// import 'package:beatfusion/screens/Landing/screen1.dart';
+import 'package:beatfusion/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     goToLandingPage().then((value){
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LandingOne(),)
+        MaterialPageRoute(builder: (context) => const ScreenHome(),)
       );
     });
   }

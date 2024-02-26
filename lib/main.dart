@@ -3,7 +3,7 @@ import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/screens/home_page.dart';
+import 'package:beatfusion/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -40,8 +40,8 @@ class BeatFusion extends StatelessWidget {
           backgroundColor: MyTheme().primaryColor,
         )
       ),
-      // home:  SplashScreen(),
-      home: const ScreenHome(),
+      home:  SplashScreen(),
+      // home: const ScreenHome(),
     );
   }
 }

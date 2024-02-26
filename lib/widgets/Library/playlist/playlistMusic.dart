@@ -2,9 +2,6 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/functions/controller.dart';
-// import 'package:beatfusion/screens/Library/playlist/MusicplaylistPage.dart';
-// import 'package:beatfusion/screens/Library/playlist/playlistDetails.dart';
-// import 'package:beatfusion/functions/controller.dart';
 import 'package:beatfusion/widgets/Library/playlist/MusicplaylistPage.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlistDetails.dart';
 import 'package:flutter/material.dart';
@@ -83,8 +80,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       subtitle: Text( 'Song Count: ${playlist.song.length}',
           style: FontStyles.artist,
           maxLines: 1,),
-          //onTap: Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistDetailScreen(playlist),)),
-      // ... other properties remain unchanged
       trailing: IconButton(
         onPressed: (){
           PlaylistMenu(context, playlist, refreshScreen11,);
@@ -93,7 +88,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     );
   },
 );
-
               }
             },
           ),
@@ -105,7 +99,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         onPressed: () async {
             setState(() {});
             showAddPlaylistDialog(context);
-            // showAddOrEditPlaylistDialog(context);
         },
         child: Icon(Icons.add),
       ),

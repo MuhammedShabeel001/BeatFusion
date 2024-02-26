@@ -2,8 +2,6 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/playing.dart';
-// import 'package:beatfusion/screens/Library/playlist/songsPLaylist.dart';
-import 'package:beatfusion/functions/controller.dart';
 import 'package:beatfusion/widgets/Library/playlist/songsPLaylist.dart';
 import 'package:flutter/material.dart';
 import 'package:beatfusion/database/playlist.dart';
@@ -39,23 +37,21 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
               },
               child: Text("Cancel"),
             ),
             TextButton(
               onPressed: () {
                 setState(() {
-                  // Remove the song from the playlist
                   widget.playlist.song.remove(song);
 
-                  // Remove the song from the Hive box
                   final playlistBox = Hive.box<Playlist>('playlists');
                   final updatedPlaylist = playlistBox.get(widget.playlist.name);
                   updatedPlaylist?.song.remove(song.key);
                   playlistBox.put(widget.playlist.name, updatedPlaylist!);
                 });
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop(); 
               },
               child: Text("Remove"),
             ),
@@ -69,11 +65,9 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
-      // backgroundColor: Colors.blue,
       appBar: AppBar(
         actions: [
           IconButton(onPressed: (){
-            // refreshScreen();
             Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => SongsPlayList(ListName: widget.playlist.name)),);
@@ -117,7 +111,6 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
             style: FontStyles.name,
             maxLines: 1,),
           ),
-
           subtitle: Text( song.artist,
           style: FontStyles.artist,
           maxLines: 1,),
@@ -126,14 +119,11 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
                    PlayingScreen(songdata: 
                   Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
                    audioPlayer: player, 
-                  //  boxType: 'playlist',
                    ),
                    ));
                 },
                 trailing: 
                   IconButton(onPressed: () => removeSong(song), icon: Icon(Icons.remove)),
-                    // IconButton(onPressed: () => addListPlaylist(context), icon:Icon(Icons.more_vert),color: MyTheme().iconColor,),
-                  
               );
             },
           ),

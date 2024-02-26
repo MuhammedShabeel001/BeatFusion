@@ -1,13 +1,8 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
-// import 'package:beatfusion/screens/playlist/Playlist.dart';
-// import 'package:beatfusion/screens/favourite/fav_list.dart';
 import 'package:beatfusion/screens/playing.dart';
-// import 'package:beatfusion/screens/Library/playlist/playlistMusic.dart';
 import 'package:beatfusion/functions/controller.dart';
-import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
-// import 'package:beatfusion/widgets/favourite/fav_list.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart';
@@ -26,35 +21,19 @@ class _SongListViewState extends State<SongListView> {
     int currentSongID = 0;
     Box<Song>? boxsong;
     final AudioPlayer player = AudioPlayer();
-    // List<Song> currentSongs = [];
   @override
  void initState(){
   super.initState();
   openSongs();
 }
   
-
-
-  void addToPlaylistFunction() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistScreen(),));
-    // print('Added to Playlist');
-  }
-
-  void addToFavoriteFunction() {
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteScreen()  ,));
-    // print('Added to Favorite');
-  }
-
   void openSongs(){
-  // ignore: unrelated_type_equality_checks
   boxsong!=Hive.openBox<Song>('songbox');
-    // print('..................................${boxsong}');
   }
 
   @override
   Widget build(BuildContext context) {
     final songBox = Hive.box<Song>('songsbox');
-    // print(songBox.length);
 
     for (var song in widget.songs) {
       if (songBox.get(song.id) == null) {
@@ -96,9 +75,7 @@ class _SongListViewState extends State<SongListView> {
           ),
 
           trailing: IconButton(
-            // onPressed: () => addList, 
             onPressed: () => addList(context,song,),
-            // onPressed: () => addList,
             icon: Icon(Icons.more_vert,
             color: MyTheme().iconColor,)),
 
@@ -110,7 +87,6 @@ class _SongListViewState extends State<SongListView> {
       PlayingScreen(
         songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
         audioPlayer: player,
-        // boxType: 'songs',
       ),
     ),
   );

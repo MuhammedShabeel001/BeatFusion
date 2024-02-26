@@ -47,9 +47,7 @@ class RecentScreen extends StatelessWidget {
               } else {
                 var historyBox = Hive.box<SongHistory>('history');
                 var recentSongs = historyBox.get(0)?.RecentSong ?? [];
-                // Reverse the order of recentSongs
                 recentSongs = recentSongs.reversed.toList();
-          
                 return ListView.builder(
                   itemCount: recentSongs.length,
                   itemBuilder: (context, index) {
@@ -87,7 +85,6 @@ class RecentScreen extends StatelessWidget {
       PlayingScreen(
         songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
         audioPlayer: player,
-        // boxType: 'Recent',
       ),
     ),
   );
