@@ -90,7 +90,7 @@ void toggleRepeat() async {
   if (isPlaying) {
     // If repeat is turned on, seek to the beginning of the song
     if (isRepeating) {
-      await _audioPlayer.seek(Duration.zero);
+      await _audioPlayer.play();
     }
     // If repeat is turned off, do nothing and let the current song continue playing
   }
@@ -117,10 +117,6 @@ void toggleRepeat() async {
     ),
   );
 }
-
-
-
-
 
   void playNext() async {
     int currentIndex = findcurrentSongIndex(widget.songdata);
