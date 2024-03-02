@@ -1,5 +1,5 @@
 import 'package:beatfusion/common/theme.dart';
-import 'package:beatfusion/widgets/Library/playlist/songsPLaylist.dart';
+import 'package:beatfusion/widgets/Library/playlist/songs_playlist.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showAddPlaylistDialog(BuildContext context) async {
@@ -13,34 +13,33 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
         builder: (context, setState) {
           return AlertDialog(
             backgroundColor: MyTheme().tertiaryColor,
-            title: Text('Add Playlist',style: TextStyle(color: MyTheme().primaryColor),),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: playlistNameController,
-                  onChanged: (text) {
-                    setState(() {
-                      isButtonEnabled = text.trim().isNotEmpty;
-                    });
-                  },
+              title: Text('Add Playlist',style: TextStyle(color: MyTheme().primaryColor),),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: playlistNameController,
+                    onChanged: (text) {
+                      setState(() {
+                        isButtonEnabled = text.trim().isNotEmpty;
+                      });
+                    },
                   decoration: InputDecoration(
                     hintText: 'Enter playlist name',
                     errorText: isButtonEnabled ? null : '',
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             actions: <Widget>[
               TextButton(
-                child: Text('Cancel',style: TextStyle(color: MyTheme().secondaryColor),),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+                  child: Text('Cancel',style: TextStyle(color: MyTheme().secondaryColor),),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
               ),
               TextButton(
-                child: Text('Add',),
-                onPressed: isButtonEnabled
+                  onPressed: isButtonEnabled
                     ? () {
                         String playlistName =
                             playlistNameController.text.trim();
@@ -51,6 +50,7 @@ Future<void> showAddPlaylistDialog(BuildContext context) async {
                         );
                       }
                     : null,
+                  child: const Text('Add',),
               ),
             ],
           );
@@ -74,17 +74,17 @@ Future<void> showAddOrEditPlaylistDialog(BuildContext context, {String? initialN
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            title: Text(initialName != null ? 'Edit Playlist' : 'Add Playlist'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: playlistNameController,
-                  onChanged: (text) {
-                    setState(() {
-                      isButtonEnabled = text.trim().isNotEmpty;
-                    });
-                  },
+              title: Text(initialName != null ? 'Edit Playlist' : 'Add Playlist'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: playlistNameController,
+                    onChanged: (text) {
+                      setState(() {
+                        isButtonEnabled = text.trim().isNotEmpty;
+                      });
+                    },
                   decoration: InputDecoration(
                     hintText: 'Enter playlist name',
                     errorText: isButtonEnabled ? null : '',
@@ -94,19 +94,19 @@ Future<void> showAddOrEditPlaylistDialog(BuildContext context, {String? initialN
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+                  child:const Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
               ),
               TextButton(
-                child: Text(initialName != null ? 'Save' : 'Add'),
-                onPressed: isButtonEnabled
+                  onPressed: isButtonEnabled
                     ? () {
                         String newPlaylistName = playlistNameController.text.trim();
                         Navigator.of(context).pop(newPlaylistName);
                       }
                     : null,
+                  child: Text(initialName != null ? 'Save' : 'Add'),
               ),
             ],
           );

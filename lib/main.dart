@@ -4,7 +4,6 @@ import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
 import 'package:beatfusion/screens/splash.dart';
-import 'package:beatfusion/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -17,7 +16,6 @@ Future<void> main() async{
   Hive.registerAdapter(PlaylistAdapter());
   Hive.registerAdapter(SongHistoryAdapter());
   
-  
   await Hive.openBox<Song>('songsbox');
   await Hive.openBox<SongFavorite>('FavouriteSong');
   await Hive.openBox<Playlist>('playlistbox');
@@ -25,8 +23,6 @@ Future<void> main() async{
 
   runApp(const BeatFusion());
 }
-
-
 
 class BeatFusion extends StatelessWidget {
   const BeatFusion({super.key});
@@ -41,8 +37,7 @@ class BeatFusion extends StatelessWidget {
           backgroundColor: MyTheme().primaryColor,
         )
       ),
-      home:  SplashScreen(),
-      // home: const ScreenHome(),
+      home:  const SplashScreen(),
     );
   }
 }

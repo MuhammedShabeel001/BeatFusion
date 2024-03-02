@@ -14,33 +14,33 @@ class _RateUsScreenState extends State<RateUsScreen> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Rate Us"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            "How would you rate our app?",
-            style: TextStyle(fontSize: 18),
-          ),
-          const SizedBox(height: 20,),
-          RatingBar.builder(
-            initialRating: rating,
-            minRating: 1,
-            direction: Axis.horizontal,
-            itemCount: 5,
-            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _)=> const Icon(
-              Icons.star,
-              color: Colors.amber,
+        title: const Text("Rate Us"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+            children: [
+            const Text(
+              "How would you rate our app?",
+              style: TextStyle(fontSize: 18),
             ),
-            onRatingUpdate: (newRating){
-              setState(() {
-                rating = newRating;
-              });
-            }
-          )
-        ],
-      ),
+            const SizedBox(height: 20,),
+            RatingBar.builder(
+              initialRating: rating,
+              minRating: 1,
+              direction: Axis.horizontal,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _)=> const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (newRating){
+                setState(() {
+                  rating = newRating;
+                });
+              }
+            )
+          ],
+        ),
       actions: [
         ElevatedButton(onPressed: (){
           Navigator.of(context).pop();

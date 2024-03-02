@@ -4,9 +4,9 @@ import 'package:beatfusion/database/favorite.dart';
 import 'package:beatfusion/database/history.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/widgets/Library/playlist/MusicplaylistPage.dart';
-import 'package:beatfusion/widgets/Library/playlist/playlistDetails.dart';
-import 'package:beatfusion/widgets/Library/playlist/playlistMusic.dart';
+import 'package:beatfusion/widgets/Library/playlist/musicplaylist_page.dart';
+import 'package:beatfusion/widgets/Library/playlist/playlist_details.dart';
+import 'package:beatfusion/widgets/Library/playlist/playlist_music.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -274,27 +274,6 @@ void PlaylistMenu(BuildContext context,Playlist playlist,VoidCallback refreshScr
     },
   );
 }
-
-void showCompletionDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text('Song Completed'),
-        content: Text('The currently playing song has been completed.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
 
 void showPlaylistBottomSheet(BuildContext context) {
   showModalBottomSheet(

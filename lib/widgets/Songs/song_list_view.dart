@@ -1,7 +1,7 @@
 import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/screens/playing.dart';
+import 'package:beatfusion/screens/Playing/playing.dart';
 import 'package:beatfusion/functions/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -22,10 +22,11 @@ class _SongListViewState extends State<SongListView> {
     Box<Song>? boxsong;
     final AudioPlayer player = AudioPlayer();
   @override
- void initState(){
-  super.initState();
-  openSongs();
-}
+
+  void initState(){
+    super.initState();
+    openSongs();
+  }
   
   void openSongs(){
   boxsong!=Hive.openBox<Song>('songbox');
@@ -49,48 +50,45 @@ class _SongListViewState extends State<SongListView> {
     return ListView.builder(
       itemCount: songBox.length,
       itemBuilder: (context, index) {
-        final song=songBox.getAt(index);
+      final song=songBox.getAt(index);
         return ListTile(
           contentPadding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
 
-          title: SizedBox(
-            height: 18,
-            child: Text(
-              song!.name,
-            style: FontStyles.name,
-            maxLines: 1,),
-          ),
-
-          subtitle: Text( song.artist,
-          style: FontStyles.artist,
-          maxLines: 1,),
-          leading: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
+            title: SizedBox(
+              height: 18,
+              child: Text(
+                song!.name,
+              style: FontStyles.name,
+              maxLines: 1,),
+            ),
+            subtitle: Text( song.artist,
+              style: FontStyles.artist,
+              maxLines: 1,),
+            leading: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
               color: MyTheme().primaryColor
+              ),
+              child: const Icon(Icons.music_note_rounded,
+                color: Colors.white,),
             ),
-            child: const Icon(Icons.music_note_rounded,
-            color: Colors.white,),
-          ),
-
-          trailing: IconButton(
-            onPressed: () => addList(context,song,),
-            icon: Icon(Icons.more_vert,
-            color: MyTheme().iconColor,)),
-
-          onTap: () async {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) =>
-      PlayingScreen(
-        songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
-        audioPlayer: player,
-      ),
-    ),
-  );
-}, 
+            trailing: IconButton(
+              onPressed: () => addList(context,song,),
+              icon: Icon(Icons.more_vert,
+                color: MyTheme().iconColor,)),
+            onTap: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                    PlayingScreen(
+                      songdata: Song(key: song.key, name: song.name, artist: song.artist, duration: song.duration, filePath: song.filePath),
+                      audioPlayer: player,
+                ),
+              ),
+            );
+          }, 
         );
       },
     );

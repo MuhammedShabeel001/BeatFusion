@@ -18,18 +18,18 @@ class _SongsListState extends State<SongsList> {
     return  Scaffold(
       backgroundColor: Colors.transparent,
       
-      body: FutureBuilder<List<SongModel>>(
-        future: OnAudioQuery().querySongs(
-          uriType: UriType.EXTERNAL,
-          ignoreCase: true
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final List<SongModel> songs = snapshot.data!;
+        body: FutureBuilder<List<SongModel>>(
+          future: OnAudioQuery().querySongs(
+            uriType: UriType.EXTERNAL,
+            ignoreCase: true
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              final List<SongModel> songs = snapshot.data!;
             return SongListView(songs: songs);
           }
         },
