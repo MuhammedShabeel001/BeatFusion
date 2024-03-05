@@ -25,6 +25,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme().primaryColor,
+      // backgroundColor: Colors.amber,
         appBar: AppBar(
             leading: IconButton(onPressed: (){
               Navigator.pop(context);
