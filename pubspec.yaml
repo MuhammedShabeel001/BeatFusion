@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_clean_architecture: ^5.0.4
   flutter_rating_bar: ^4.0.1
   flutter_svg: ^2.0.9
   get: ^4.6.6
@@ -46,7 +47,7 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.1
   permission_handler: ^11.3.0
-  rxdart: ^0.27.7
+  rxdart: 0.26.0
   shared_preferences: ^2.2.2
 
 dev_dependencies:

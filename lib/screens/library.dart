@@ -11,7 +11,7 @@ class LibraryScreen extends StatelessWidget {
   final List<String> itemNames = ['Favorite', 'Playlists', 'Recent'];
 
   void onTapFavorite(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteSongsScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoriteSongsScreen()));
   }
 
   void onTapPlaylists(BuildContext context) {

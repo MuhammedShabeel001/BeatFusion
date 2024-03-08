@@ -2,6 +2,8 @@ import 'package:beatfusion/common/theme.dart';
 import 'package:flutter/material.dart';
 
 class MusicContainer extends StatelessWidget {
+  const MusicContainer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -9,6 +9,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:just_audio/just_audio.dart'; 
 
 class FavoriteSongsScreen extends StatefulWidget {
+  const FavoriteSongsScreen({super.key});
+
   
   @override
   State<FavoriteSongsScreen> createState() => _FavoriteSongsScreenState();
@@ -69,7 +71,7 @@ class _FavoriteSongsScreenState extends State<FavoriteSongsScreen> {
                               style: FontStyles.artist,
                               maxLines: 1,),
                             trailing: IconButton(
-                              onPressed: () => FavouriteList(context,song,refreshFavouriteScreen), 
+                              onPressed: () => favouriteList(context,song,refreshFavouriteScreen), 
                                 icon: Icon(Icons.more_vert,
                                 color: MyTheme().iconColor,)),
                             onTap: () {

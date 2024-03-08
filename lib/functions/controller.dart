@@ -32,8 +32,8 @@ void addToHistory(Song song) async {
 
     await historyBox.close();
     
+  // ignore: empty_catches
   } catch (e) {
-    print('Error adding song to history: $e');
   }
 }
 
@@ -109,6 +109,7 @@ void toggleFavorite(BuildContext context, Song song) async {
 
   if (isFavorite) {
     favoriteSongs.removeWhere((s) => s.filePath == song.filePath);
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -126,6 +127,7 @@ void toggleFavorite(BuildContext context, Song song) async {
     );
   } else {
     favoriteSongs.add(song);
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -209,7 +211,7 @@ void addListPlaylist(BuildContext context,Song songdata){
   );
 }
 
-void PlaylistMenu(BuildContext context,Playlist playlist,VoidCallback refreshScreen){
+void playlistMenu(BuildContext context,Playlist playlist,VoidCallback refreshScreen){
   showModalBottomSheet(
     backgroundColor: Colors.transparent,
     context: context,
@@ -283,11 +285,11 @@ void showPlaylistBottomSheet(BuildContext context) {
         future: Hive.openBox<Playlist>('playlists'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No playlists available'));
+            return const Center(child: Text('No playlists available'));
           } else {
             final playlistBox = snapshot.data!;
 
@@ -299,10 +301,9 @@ void showPlaylistBottomSheet(BuildContext context) {
                 return ListTile(
                   title: Text(
                     playlist!.name,
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
                   onTap: () {
-                    print('Tapped on playlist: ${playlist.name}');
                     Navigator.pop(context);
                   },
                 );
@@ -321,9 +322,9 @@ void playlistBottom(BuildContext context,Song songdata) {
     context: context,
     builder: (BuildContext context) {
       return Container(
-        margin: EdgeInsets.only(top: 20),
+        margin:const EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+          borderRadius:const BorderRadius.vertical(top: Radius.circular(30)),
           color: MyTheme().primaryColor,
         ),
         child: Column(
@@ -336,7 +337,7 @@ void playlistBottom(BuildContext context,Song songdata) {
                 ),
             ListTile(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PlaylistScreen(),),
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PlaylistScreen(),),
                 );
                 showAddPlaylistDialog(context);
               },
@@ -353,11 +354,11 @@ void playlistBottom(BuildContext context,Song songdata) {
               future: Hive.openBox<Playlist>('playlists'),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No playlists available'));
+                  return const Center(child: Text('No playlists available'));
                 } else {
                   final playlistBox = snapshot.data!;
 
@@ -436,10 +437,6 @@ void playlistBottom(BuildContext context,Song songdata) {
                   },
                 ),
                 TextButton(
-                  child: Text(
-                    'Rename',
-                    style: TextStyle(color: MyTheme().primaryColor),
-                  ),
                   onPressed: isButtonEnabled
                       ? () async {
                           String newPlaylistName =
@@ -464,12 +461,17 @@ void playlistBottom(BuildContext context,Song songdata) {
                             await playlistBox.close();
                           }
 
+                          // ignore: use_build_context_synchronously
                           Navigator.of(context).pop();
                           refreshScreen();
                           setState(() {
                           });
                         }
                       : null,
+                  child: Text(
+                    'Rename',
+                    style: TextStyle(color: MyTheme().primaryColor),
+                  ),
                 ),
               ],
             );
@@ -484,8 +486,8 @@ void playlistBottom(BuildContext context,Song songdata) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Confirm Deletion'),
-        content: Text('Are you sure you want to delete the playlist "${playlistName}"?'),
+        title: const Text('Confirm Deletion'),
+        content: Text('Are you sure you want to delete the playlist "$playlistName"?'),
         actions: <Widget>[
           TextButton(
             onPressed: () async {
@@ -494,16 +496,17 @@ void playlistBottom(BuildContext context,Song songdata) {
               await playlistBox.close();
 
               refreshScreen();
+              // ignore: use_build_context_synchronously
               Navigator.of(context).pop();
           
             },
-            child: Text('Yes'),
+            child: const Text('Yes'),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('No'),
+            child: const Text('No'),
           ),
         ],
       );
@@ -511,7 +514,7 @@ void playlistBottom(BuildContext context,Song songdata) {
   );
 }
 
-void FavouriteList(BuildContext context,Song songdata,VoidCallback refreshFavouriteScreen){
+void favouriteList(BuildContext context,Song songdata,VoidCallback refreshFavouriteScreen){
   showModalBottomSheet(
     backgroundColor: Colors.transparent,
     context: context,

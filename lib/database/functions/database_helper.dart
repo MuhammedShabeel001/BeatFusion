@@ -24,8 +24,6 @@ Future<void> addSongToDatabase(Song song)async{
 
   if (!songBox.containsKey(song.key)) {
     await songBox.put(song.key, song);
-    print('Song added to database: ${song.name}');
   }else{
-    print('Song with key ${song.key} already exists in the database.');
   }
 }

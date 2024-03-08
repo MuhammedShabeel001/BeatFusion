@@ -96,6 +96,7 @@ void toggleRepeat() async {
     // If repeat is turned off, do nothing and let the current song continue playing
   }
 
+  // ignore: use_build_context_synchronously
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
@@ -209,7 +210,7 @@ void toggleRepeat() async {
             child: Expanded(
                 child: Column(
                   children: [
-                    Flexible(
+                    const Flexible(
                       flex: 6,
                         child: 
                         MusicContainer()
@@ -290,7 +291,7 @@ void toggleRepeat() async {
                                         int currentIndex = findCurrentSongIndex(widget.songdata.filePath);
                                         if (currentIndex != -1 && currentIndex > 0){
                                           playPrev();
-                                        await AudioPlayer();
+                                        AudioPlayer();
                                       }
                                     },
                                     icon: SvgPicture.asset('assets/pics/prev.svg')),

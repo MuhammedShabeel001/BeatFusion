@@ -29,6 +29,7 @@ class _SongListViewState extends State<SongListView> {
   }
   
   void openSongs(){
+  // ignore: unrelated_type_equality_checks
   boxsong!=Hive.openBox<Song>('songbox');
   }
 

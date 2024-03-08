@@ -2,7 +2,7 @@ import 'package:beatfusion/common/text_style.dart';
 import 'package:beatfusion/common/theme.dart';
 import 'package:beatfusion/database/playlist.dart';
 import 'package:beatfusion/database/song.dart';
-import 'package:beatfusion/widgets/Library/playlist/list_of_pLaylist_songs.dart';
+import 'package:beatfusion/widgets/Library/playlist/list_of_playlist_songs.dart';
 import 'package:beatfusion/widgets/Library/playlist/playlist_music.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -50,7 +50,7 @@ class _SongsPlayListState extends State<SongsPlayList> {
 
     await playlistBox.close();
     // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlaylistScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PlaylistScreen()));
     if (widget.onPlaylistAdded != null) {
       widget.onPlaylistAdded!();
     }

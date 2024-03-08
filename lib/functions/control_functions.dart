@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -52,12 +51,6 @@ ConcatenatingAudioSource createPlaylist(List<SongModel>? songs){
       useLazyPreparation: true,
       children: sources);
 }
-
-String _searchText = '';
-
-final TextEditingController _textEditingController = TextEditingController();
-
-final FocusNode _focusNode = FocusNode();
 
 String getTimeOfDay() {
   var now = DateTime.now();

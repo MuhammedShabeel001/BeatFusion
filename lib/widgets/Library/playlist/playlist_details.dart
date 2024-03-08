@@ -77,7 +77,7 @@ class _PlaylistDetailScreenState extends State<PlaylistDetailScreen> {
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
             child: Container(
               height: double.infinity,
               width: double.infinity,

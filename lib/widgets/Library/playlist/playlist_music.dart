@@ -36,7 +36,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          padding: EdgeInsets.all(10),
+          padding:const  EdgeInsets.all(10),
             child: Container(
               height: double.infinity,
               width: double.infinity,
@@ -48,11 +48,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   future: Hive.openBox<Playlist>('playlists'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No playlists available'));
+                    return const Center(child: Text('No playlists available'));
                     } else {
                     final playlistBox = snapshot.data!;
                     return ListView.builder(
@@ -83,9 +83,9 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                               maxLines: 1,),
                             trailing: IconButton(
                               onPressed: (){
-                                PlaylistMenu(context, playlist, refreshScreen11,);
+                                playlistMenu(context, playlist, refreshScreen11,);
                               }, 
-                                icon: Icon(Icons.more_vert),color: MyTheme().iconColor,)
+                                icon: const Icon(Icons.more_vert),color: MyTheme().iconColor,)
                       );
                     },
                   );
@@ -100,7 +100,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             setState(() {});
             showAddPlaylistDialog(context);
           },
-            child: Icon(Icons.add),
+            child:const Icon(Icons.add),
       ),
     );
   }

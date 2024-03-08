@@ -37,7 +37,7 @@ class FontStyles{
     fontWeight: FontWeight.w400
   );
 
-  static TextStyle SelectedArtist = TextStyle(
+  static TextStyle selectedArtist = TextStyle(
     fontFamily: 'Nunito',
     color: MyTheme().selectedTile,
     fontSize: 12,
@@ -58,7 +58,7 @@ class FontStyles{
     fontWeight: FontWeight.w600
   );
 
-  static TextStyle tile = TextStyle(
+  static TextStyle tile = const TextStyle(
     fontFamily: 'Nunito',
     color: Colors.white,
     fontSize: 24,
@@ -87,14 +87,14 @@ class FontStyles{
     fontWeight: FontWeight.w600
   );
 
-  static TextStyle settings= TextStyle(
+  static TextStyle settings= const TextStyle(
     fontFamily: 'Nunito',
     color: Colors.white,
     fontSize: 20,
     fontWeight: FontWeight.w500
   );
 
-  static TextStyle settingsSub= TextStyle(
+  static TextStyle settingsSub= const TextStyle(
     fontFamily: 'Nunito',
     color: Colors.white,
     fontSize: 13,
